@@ -1,0 +1,754 @@
+num,cell,port,function,safe,ccell,disval,rslt,Cell Type
+0,bc_4,*, internal         ,0,,,,cltap repeater
+1,bc_4,*, internal         ,0,,,,cltap repeater
+2,bc_4,*, internal         ,0,,,,delay
+3,bc_1,*, internal         ,1,,,,gpcom3
+4,bc_4,XXPREQ_B, input            , X ,,,,gpcom3
+5,bc_1,*, internal         ,1,,,,gpcom3
+6,bc_4,XXPRDY_B, input            , X ,,,,gpcom3
+7,bc_1,*, control          ,1,,,,gpcom3
+8,bc_8,XXJTAG_MBPB_3, bidir            , X  ,7,1, Z      ),gpcom3
+9,bc_1,*, control          ,1,,,,gpcom3
+10,bc_8,XXJTAG_MBPB_2, bidir            , X  ,9,1, Z      ),gpcom3
+11,bc_1,*, control          ,1,,,,gpcom3
+12,bc_8,XXJTAG_MBPB_1, bidir            , X  ,11,1, Z      ),gpcom3
+13,bc_1,*, control          ,1,,,,gpcom3
+14,bc_8,XXJTAG_MBPB_0, bidir            , X  ,13,1, Z      ),gpcom3
+15,bc_1,*, control          ,1,,,,gpcom3
+16,bc_8,XXVIDALERT_B, bidir            , X  ,15,1, Z      ),gpcom3
+17,bc_1,*, control          ,1,,,,gpcom3
+18,bc_8,XXVIDSCK, bidir            , X  ,17,1, Z      ),gpcom3
+19,bc_1,*, control          ,1,,,,gpcom3
+20,bc_8,XXVIDSOUT, bidir            , X  ,19,1, Z      ),gpcom3
+21,bc_1,*, control          ,1,,,,gpcom3
+22,bc_8,XXPECI, bidir            , X  ,21,1, Z      ),gpcom3
+23,bc_4,*,segment select,1,,,,segment select
+24,bc_4,*, internal         ,0,,,,delay
+25,bc_2,*, internal         ,0,,,,isclk
+26,bc_4,XXCLKOUT_SRC3_N, observe_only     , X ,,,,isclk
+27,bc_2,*, control          ,0,,,,isclk
+28,bc_2,XXCLKOUT_SRC3_P, output3          , X  ,27,0, Z      ),isclk
+29,bc_2,*, internal         ,0,,,,isclk
+30,bc_4,XXCLKOUT_SRC2_N, observe_only     , X ,,,,isclk
+31,bc_2,*, control          ,0,,,,isclk
+32,bc_2,XXCLKOUT_SRC2_P, output3          , X  ,31,0, Z      ),isclk
+33,bc_2,*, internal         ,0,,,,isclk
+34,bc_4,XXCLKOUT_SRC1_N, observe_only     , X ,,,,isclk
+35,bc_2,*, control          ,0,,,,isclk
+36,bc_2,XXCLKOUT_SRC1_P, output3          , X  ,35,0, Z      ),isclk
+37,bc_2,*, internal         ,0,,,,isclk
+38,bc_4,XXCLKOUT_SRC0_N, observe_only     , X ,,,,isclk
+39,bc_2,*, control          ,0,,,,isclk
+40,bc_2,XXCLKOUT_SRC0_P, output3          , X  ,39,0, Z      ),isclk
+41,bc_2,*, internal         ,0,,,,isclk
+42,bc_2,*, internal         , X ,,,,isclk
+43,bc_2,*, internal         ,0,,,,isclk
+44,bc_2,*, internal         , X ,,,,isclk
+45,bc_2,*, internal         ,0,,,,isclk
+46,bc_2,*, internal         , X ,,,,isclk
+47,bc_4,*,segment select,1,,,,segment select
+48,bc_4,*,power,1,,,,power
+49,bc_4,*, internal         ,0,,,,delay
+50,bc_1,*, control          ,1,,,,gpcom1
+51,bc_8,XXGPP_SD_23_AUDOUT, bidir            , X  ,50,1, Z      ),gpcom1
+52,bc_1,*, control          ,1,,,,gpcom1
+53,bc_8,XXGPP_SD_22_AUDIN, bidir            , X  ,52,1, Z      ),gpcom1
+54,bc_1,*, control          ,1,,,,gpcom1
+55,bc_8,XXGPP_SD_21_AUDCLK, bidir            , X  ,54,1, Z      ),gpcom1
+56,bc_1,*, control          ,1,,,,gpcom1
+57,bc_8,XXGPP_SD_20_PMCALERT_B, bidir            , X  ,56,1, Z      ),gpcom1
+58,bc_1,*, control          ,1,,,,gpcom1
+59,bc_8,XXGPP_SD_19, bidir            , X  ,58,1, Z      ),gpcom1
+60,bc_1,*, control          ,1,,,,gpcom1
+61,bc_8,XXGPP_SD_18_BOOTHALT_B, bidir            , X  ,60,1, Z      ),gpcom1
+62,bc_1,*, control          ,1,,,,gpcom1
+63,bc_8,XXGPP_SD_17_PCIE_LNK_DOWN, bidir            , X  ,62,1, Z      ),gpcom1
+64,bc_1,*, control          ,1,,,,gpcom1
+65,bc_8,XXGPP_SD_16_DDSP_HPD2_DISP_MISC2, bidir            , X  ,64,1, Z      ),gpcom1
+66,bc_1,*, control          ,1,,,,gpcom1
+67,bc_8,XXGPP_SD_15_DDSP_HPD1_DISP_MISC1, bidir            , X  ,66,1, Z      ),gpcom1
+68,bc_1,*, control          ,1,,,,gpcom1
+69,bc_8,XXGPP_SD_14_DDSP_HPD4_DISP_MISC4, bidir            , X  ,68,1, Z      ),gpcom1
+70,bc_1,*, control          ,1,,,,gpcom1
+71,bc_8,XXGPP_SD_13_DDSP_HPD3_DISP_MISC3, bidir            , X  ,70,1, Z      ),gpcom1
+72,bc_1,*, control          ,1,,,,gpcom1
+73,bc_8,XXGPP_SD_12_DDSP_HPDA_DISP_MISCA, bidir            , X  ,72,1, Z      ),gpcom1
+74,bc_1,*, control          ,1,,,,gpcom1
+75,bc_8,XXGPP_SD_11_L_BKLTCTL, bidir            , X  ,74,1, Z      ),gpcom1
+76,bc_1,*, control          ,1,,,,gpcom1
+77,bc_8,XXGPP_SD_10_L_BKLTEN, bidir            , X  ,76,1, Z      ),gpcom1
+78,bc_1,*, control          ,1,,,,gpcom1
+79,bc_8,XXGPP_SD_9_L_VDDEN, bidir            , X  ,78,1, Z      ),gpcom1
+80,bc_1,*, control          ,1,,,,gpcom1
+81,bc_8,XXGPP_SD_8, bidir            , X  ,80,1, Z      ),gpcom1
+82,bc_1,*, control          ,1,,,,gpcom1
+83,bc_8,XXGPP_SD_7_SRCCLKREQ3_B, bidir            , X  ,82,1, Z      ),gpcom1
+84,bc_1,*, control          ,1,,,,gpcom1
+85,bc_8,XXGPP_SD_6_SRCCLKREQ2_B, bidir            , X  ,84,1, Z      ),gpcom1
+86,bc_1,*, control          ,1,,,,gpcom1
+87,bc_8,XXGPP_SD_5_DSI_GENLOCK_3, bidir            , X  ,86,1, Z      ),gpcom1
+88,bc_1,*, control          ,1,,,,gpcom1
+89,bc_8,XXGPP_SD_4_DSI_GENLOCK_2, bidir            , X  ,88,1, Z      ),gpcom1
+90,bc_1,*, control          ,1,,,,gpcom1
+91,bc_8,XXGPP_SD_3_DSI_DE_TE_1_DISP_UTILS, bidir            , X  ,90,1, Z      ),gpcom1
+92,bc_1,*, control          ,1,,,,gpcom1
+93,bc_8,XXGPP_SD_2_DSI_DE_TE_2_GENLOCK_REF, bidir            , X  ,92,1, Z      ),gpcom1
+94,bc_1,*, control          ,1,,,,gpcom1
+95,bc_8,XXGPP_SD_1_TIME_SYNC_1, bidir            , X  ,94,1, Z      ),gpcom1
+96,bc_1,*, control          ,1,,,,gpcom1
+97,bc_8,XXGPP_SD_0_TIME_SYNC_0, bidir            , X  ,96,1, Z      ),gpcom1
+98,bc_1,*, control          ,1,,,,gpcom1
+99,bc_8,XXGPP_SB_19_BPKI3C_SCL, bidir            , X  ,98,1, Z      ),gpcom1
+100,bc_1,*, control          ,1,,,,gpcom1
+101,bc_8,XXGPP_SB_18_BPKI3C_SDA, bidir            , X  ,100,1, Z      ),gpcom1
+102,bc_1,*, control          ,1,,,,gpcom1
+103,bc_8,XXGPP_SB_17_PROCHOT_B, bidir            , X  ,102,1, Z      ),gpcom1
+104,bc_1,*, control          ,1,,,,gpcom1
+105,bc_8,XXGPP_SB_16_DDP2_CTRLDATA_TBT_LSX1_B, bidir            , X  ,104,1, Z      ),gpcom1
+106,bc_1,*, control          ,1,,,,gpcom1
+107,bc_8,XXGPP_SB_15_DDP2_CTRLCLK_TBT_LSX1_A, bidir            , X  ,106,1, Z      ),gpcom1
+108,bc_1,*, control          ,1,,,,gpcom1
+109,bc_8,XXGPP_SB_14_SRCCLKREQ1_B, bidir            , X  ,108,1, Z      ),gpcom1
+110,bc_1,*, control          ,1,,,,gpcom1
+111,bc_8,XXGPP_SB_13_DDP1_CTRLDATA_TBT_LSX0_B, bidir            , X  ,110,1, Z      ),gpcom1
+112,bc_1,*, control          ,1,,,,gpcom1
+113,bc_8,XXGPP_SB_12_DDP1_CTRLCLK_IEH_FATAL_ERR2_B_TBT_LSX0_A, bidir            , X  ,112,1, Z      ),gpcom1
+114,bc_1,*, control          ,1,,,,gpcom1
+115,bc_8,XXGPP_SB_11_L_BKLTCTL_2, bidir            , X  ,114,1, Z      ),gpcom1
+116,bc_1,*, control          ,1,,,,gpcom1
+117,bc_8,XXGPP_SB_10_L_BKLTEN_2, bidir            , X  ,116,1, Z      ),gpcom1
+118,bc_1,*, control          ,1,,,,gpcom1
+119,bc_8,XXGPP_SB_9_IOE_SRCCLKREQ1_B, bidir            , X  ,118,1, Z      ),gpcom1
+120,bc_1,*, control          ,1,,,,gpcom1
+121,bc_8,XXGPP_SB_8_IOE_SRCCLKREQ0_B, bidir            , X  ,120,1, Z      ),gpcom1
+122,bc_1,*, control          ,1,,,,gpcom1
+123,bc_8,XXGPP_SB_7_SRCCLKREQ0_B, bidir            , X  ,122,1, Z      ),gpcom1
+124,bc_1,*, control          ,1,,,,gpcom1
+125,bc_8,XXGPP_SB_6_L_VDDEN_2, bidir            , X  ,124,1, Z      ),gpcom1
+126,bc_1,*, control          ,1,,,,gpcom1
+127,bc_8,XXGPP_SB_5_DDP4_CTRLDATA_IEH_NONFATAL_ERR1_B, bidir            , X  ,126,1, Z      ),gpcom1
+128,bc_1,*, control          ,1,,,,gpcom1
+129,bc_8,XXGPP_SB_4_DDP4_CTRLCLK_IEH_CORR_ERR0_B, bidir            , X  ,128,1, Z      ),gpcom1
+130,bc_1,*, control          ,1,,,,gpcom1
+131,bc_8,XXGPP_SB_3_DDP3_CTRLDATA, bidir            , X  ,130,1, Z      ),gpcom1
+132,bc_1,*, control          ,1,,,,gpcom1
+133,bc_8,XXGPP_SB_2_DDP3_CTRLCLK_IEH_FATAL_ERR2_B, bidir            , X  ,132,1, Z      ),gpcom1
+134,bc_1,*, control          ,1,,,,gpcom1
+135,bc_8,XXGPP_SB_1_DDPA_CTRLDATA_IEH_NONFATAL_ERR1_B_SRCCLKREQ3_B_NF5, bidir            , X  ,134,1, Z      ),gpcom1
+136,bc_1,*, control          ,1,,,,gpcom1
+137,bc_8,XXGPP_SB_0_DDPA_CTRLCLK_IEH_CORR_ERR0_B_SRCCLKREQ2_B_NF5, bidir            , X  ,136,1, Z      ),gpcom1
+138,bc_4,*,segment select,1,,,,segment select
+139,bc_4,*, internal         , X ,,,,edp
+140,bc_4,XXDDI_A_TX_2_N, observe_only     , X ,,,,edp
+141,ac_1,XXDDI_A_TX_2_P, output2          ,1,,,,edp
+142,bc_4,*, internal         , X ,,,,edp
+143,bc_4,XXDDI_A_TX_3_N, observe_only     , X ,,,,edp
+144,ac_1,XXDDI_A_TX_3_P, output2          ,1,,,,edp
+145,bc_4,*, internal         , X ,,,,edp
+146,bc_4,XXDDI_A_TX_1_N, observe_only     , X ,,,,edp
+147,ac_1,XXDDI_A_TX_1_P, output2          ,1,,,,edp
+148,bc_4,*, internal         , X ,,,,edp
+149,bc_4,XXDDI_A_TX_0_N, observe_only     , X ,,,,edp
+150,ac_1,XXDDI_A_TX_0_P, output2          ,1,,,,edp
+151,bc_4,*,segment select,1,,,,segment select
+152,bc_1,*, internal         , X ,,,,ddrio
+153,bc_1,*, internal         , X ,,,,ddrio
+154,bc_8,XXDDRDQ_IL511_NIL503_LP11_7, bidir            , X  ,165,0, Z      ),ddrio
+155,bc_8,XXDDRDQ_IL511_NIL503_LP11_6, bidir            , X  ,165,0, Z      ),ddrio
+156,bc_8,XXDDRDQ_IL511_NIL503_LP11_5, bidir            , X  ,165,0, Z      ),ddrio
+157,bc_8,XXDDRDQ_IL511_NIL503_LP11_4, bidir            , X  ,165,0, Z      ),ddrio
+158,bc_0,XXDDRDQSN_IL511_NIL503_LP11, observe_only     , X ,,,,ddrio
+159,bc_0,XXDDRDQSP_IL511_NIL503_LP11, bidir            , X  ,165,0, Z      ),ddrio
+160,bc_8,XXDDRDQ_IL511_NIL503_LP11_0, bidir            , X  ,165,0, Z      ),ddrio
+161,bc_8,XXDDRDQ_IL511_NIL503_LP11_1, bidir            , X  ,165,0, Z      ),ddrio
+162,bc_8,XXDDRDQ_IL511_NIL503_LP11_2, bidir            , X  ,165,0, Z      ),ddrio
+163,bc_8,XXDDRDQ_IL511_NIL503_LP11_3, bidir            , X  ,165,0, Z      ),ddrio
+164,bc_1,*, internal         , X ,,,,ddrio
+165,bc_1,*, control          ,0,,,,ddrio
+166,bc_8,XXDDRDQ_IL501_NIL501_LP01_7, bidir            , X  ,177,0, Z      ),ddrio
+167,bc_8,XXDDRDQ_IL501_NIL501_LP01_6, bidir            , X  ,177,0, Z      ),ddrio
+168,bc_8,XXDDRDQ_IL501_NIL501_LP01_5, bidir            , X  ,177,0, Z      ),ddrio
+169,bc_8,XXDDRDQ_IL501_NIL501_LP01_4, bidir            , X  ,177,0, Z      ),ddrio
+170,bc_0,XXDDRDQSN_IL501_NIL501_LP01, observe_only     , X ,,,,ddrio
+171,bc_0,XXDDRDQSP_IL501_NIL501_LP01, bidir            , X  ,177,0, Z      ),ddrio
+172,bc_8,XXDDRDQ_IL501_NIL501_LP01_0, bidir            , X  ,177,0, Z      ),ddrio
+173,bc_8,XXDDRDQ_IL501_NIL501_LP01_1, bidir            , X  ,177,0, Z      ),ddrio
+174,bc_8,XXDDRDQ_IL501_NIL501_LP01_2, bidir            , X  ,177,0, Z      ),ddrio
+175,bc_8,XXDDRDQ_IL501_NIL501_LP01_3, bidir            , X  ,177,0, Z      ),ddrio
+176,bc_1,*, internal         , X ,,,,ddrio
+177,bc_1,*, control          ,0,,,,ddrio
+178,bc_0,XXDDR_0CLK2P_NC_1WCKP_1WCKP, output3          , X  ,181,0, Z      ),ddrio
+179,bc_0,XXDDR_0CLK2N_NC_1WCKN_1WCKN, observe_only     , X ,,,,ddrio
+180,bc_1,*, internal         , X ,,,,ddrio
+181,bc_1,*, control          ,0,,,,ddrio
+182,bc_0,XXDDR_0CLK3P_NC_0WCKP_0WCKP, output3          , X  ,185,0, Z      ),ddrio
+183,bc_0,XXDDR_0CLK3N_NC_0WCKN_0WCKN, observe_only     , X ,,,,ddrio
+184,bc_1,*, internal         , X ,,,,ddrio
+185,bc_1,*, control          ,0,,,,ddrio
+186,bc_8,XXDDRDQ_IL510_NIL502_LP10_7, bidir            , X  ,197,0, Z      ),ddrio
+187,bc_8,XXDDRDQ_IL510_NIL502_LP10_6, bidir            , X  ,197,0, Z      ),ddrio
+188,bc_8,XXDDRDQ_IL510_NIL502_LP10_5, bidir            , X  ,197,0, Z      ),ddrio
+189,bc_8,XXDDRDQ_IL510_NIL502_LP10_4, bidir            , X  ,197,0, Z      ),ddrio
+190,bc_0,XXDDRDQSN_IL510_NIL502_LP10, observe_only     , X ,,,,ddrio
+191,bc_0,XXDDRDQSP_IL510_NIL502_LP10, bidir            , X  ,197,0, Z      ),ddrio
+192,bc_8,XXDDRDQ_IL510_NIL502_LP10_0, bidir            , X  ,197,0, Z      ),ddrio
+193,bc_8,XXDDRDQ_IL510_NIL502_LP10_1, bidir            , X  ,197,0, Z      ),ddrio
+194,bc_8,XXDDRDQ_IL510_NIL502_LP10_2, bidir            , X  ,197,0, Z      ),ddrio
+195,bc_8,XXDDRDQ_IL510_NIL502_LP10_3, bidir            , X  ,197,0, Z      ),ddrio
+196,bc_1,*, internal         , X ,,,,ddrio
+197,bc_1,*, control          ,0,,,,ddrio
+198,bc_8,XXDDRDQ_IL500_NIL500_LP00_7, bidir            , X  ,209,0, Z      ),ddrio
+199,bc_8,XXDDRDQ_IL500_NIL500_LP00_6, bidir            , X  ,209,0, Z      ),ddrio
+200,bc_8,XXDDRDQ_IL500_NIL500_LP00_5, bidir            , X  ,209,0, Z      ),ddrio
+201,bc_8,XXDDRDQ_IL500_NIL500_LP00_4, bidir            , X  ,209,0, Z      ),ddrio
+202,bc_0,XXDDRDQSN_IL500_NIL500_LP00, observe_only     , X ,,,,ddrio
+203,bc_0,XXDDRDQSP_IL500_NIL500_LP00, bidir            , X  ,209,0, Z      ),ddrio
+204,bc_8,XXDDRDQ_IL500_NIL500_LP00_0, bidir            , X  ,209,0, Z      ),ddrio
+205,bc_8,XXDDRDQ_IL500_NIL500_LP00_1, bidir            , X  ,209,0, Z      ),ddrio
+206,bc_8,XXDDRDQ_IL500_NIL500_LP00_2, bidir            , X  ,209,0, Z      ),ddrio
+207,bc_8,XXDDRDQ_IL500_NIL500_LP00_3, bidir            , X  ,209,0, Z      ),ddrio
+208,bc_1,*, internal         , X ,,,,ddrio
+209,bc_1,*, control          ,0,,,,ddrio
+210,bc_0,XXDDR_NC_NC_0CA6_0CA0, output3          , X  ,222,0, Z      ),ddrio
+211,bc_0,XXDDR_0CS2_NC_0CA3_0CS0, output3          , X  ,222,0, Z      ),ddrio
+212,bc_0,XXDDR_0CA11_NC_0CA2_0CA2, output3          , X  ,222,0, Z      ),ddrio
+213,bc_0,XXDDR_0CA8_NC_0CA1_0CA5, output3          , X  ,222,0, Z      ),ddrio
+214,bc_0,XXDDR_0CLK0P_NC_0CLKP_0CLKP, output3          , X  ,222,0, Z      ),ddrio
+215,bc_0,XXDDR_0CLK0N_NC_0CLKN_0CLKN, observe_only     , X ,,,,ddrio
+216,bc_0,XXDDR_0CA4_NC_0CA0_0CA6, output3          , X  ,222,0, Z      ),ddrio
+217,bc_0,XXDDR_0CA6_NC_0CS1_0CA4, output3          , X  ,222,0, Z      ),ddrio
+218,bc_0,XXDDR_0CA10_NC_0CS0_0CA3, output3          , X  ,222,0, Z      ),ddrio
+219,bc_0,XXDDR_0CA12_NC_0CA5_0CA1, output3          , X  ,222,0, Z      ),ddrio
+220,bc_0,XXDDR_0CS3_NC_0CA4_0CS1, output3          , X  ,222,0, Z      ),ddrio
+221,bc_1,*, internal         , X ,,,,ddrio
+222,bc_1,*, control          ,0,,,,ddrio
+223,bc_0,XXDDR_0CS0_NC_1CA4_1CS1, output3          , X  ,235,0, Z      ),ddrio
+224,bc_0,XXDDR_0CA9_NC_1CA1_1CA5, output3          , X  ,235,0, Z      ),ddrio
+225,bc_0,XXDDR_0CA3_NC_1CS0_1CA3, output3          , X  ,235,0, Z      ),ddrio
+226,bc_0,XXDDR_0CA1_NC_1CA2_1CA2, output3          , X  ,235,0, Z      ),ddrio
+227,bc_0,XXDDR_0CLK1P_NC_1CLKP_1CLKP, output3          , X  ,235,0, Z      ),ddrio
+228,bc_0,XXDDR_0CLK1N_NC_1CLKN_1CLKN, observe_only     , X ,,,,ddrio
+229,bc_0,XXDDR_0CA7_NC_1CA0_1CA6, output3          , X  ,235,0, Z      ),ddrio
+230,bc_0,XXDDR_0CA5_NC_1CA3_1CS0, output3          , X  ,235,0, Z      ),ddrio
+231,bc_0,XXDDR_0CA0_NC_1CA5_1CA1, output3          , X  ,235,0, Z      ),ddrio
+232,bc_0,XXDDR_0CS1_NC_1CA6_1CA0, output3          , X  ,235,0, Z      ),ddrio
+233,bc_0,XXDDR_0CA2_NC_1CS1_1CA4, output3          , X  ,235,0, Z      ),ddrio
+234,bc_1,*, internal         , X ,,,,ddrio
+235,bc_1,*, control          ,0,,,,ddrio
+236,bc_0,XXDDR_1CS2_NC_2CA6_2CA0, output3          , X  ,248,0, Z      ),ddrio
+237,bc_0,XXDDR_1CS0_NC_2CA3_2CS0, output3          , X  ,248,0, Z      ),ddrio
+238,bc_0,XXDDR_1CS1_NC_2CA5_2CA1, output3          , X  ,248,0, Z      ),ddrio
+239,bc_0,XXDDR_1CS3_NC_2CS0_2CA3, output3          , X  ,248,0, Z      ),ddrio
+240,bc_0,XXDDR_1CLK1P_NC_2CLKP_2CLKP, output3          , X  ,248,0, Z      ),ddrio
+241,bc_0,XXDDR_1CLK1N_NC_2CLKN_2CLKN, observe_only     , X ,,,,ddrio
+242,bc_0,XXDDR_1CA1_NC_2CA4_2CS1, output3          , X  ,248,0, Z      ),ddrio
+243,bc_0,XXDDR_1CA2_NC_2CA0_2CA6, output3          , X  ,248,0, Z      ),ddrio
+244,bc_0,XXDDR_1CA3_NC_2CA1_2CA5, output3          , X  ,248,0, Z      ),ddrio
+245,bc_0,XXDDR_1CA5_NC_2CS1_2CA4, output3          , X  ,248,0, Z      ),ddrio
+246,bc_0,XXDDR_1CA0_NC_2CA2_2CA2, output3          , X  ,248,0, Z      ),ddrio
+247,bc_1,*, internal         , X ,,,,ddrio
+248,bc_1,*, control          ,0,,,,ddrio
+249,bc_0,XXDDR_1CLK3P_NC_NC_NC, output3          , X  ,252,0, Z      ),ddrio
+250,bc_0,XXDDR_1CLK3N_NC_NC_NC, observe_only     , X ,,,,ddrio
+251,bc_1,*, internal         , X ,,,,ddrio
+252,bc_1,*, control          ,0,,,,ddrio
+253,bc_0,XXDDR_1CLK2P_NC_NC_NC, output3          , X  ,256,0, Z      ),ddrio
+254,bc_0,XXDDR_1CLK2N_NC_NC_NC, observe_only     , X ,,,,ddrio
+255,bc_1,*, internal         , X ,,,,ddrio
+256,bc_1,*, control          ,0,,,,ddrio
+257,bc_0,XXDDR_1CA11_NC_3CS1_3CA4, output3          , X  ,269,0, Z      ),ddrio
+258,bc_0,XXDDR_1CA12_NC_3CA0_3CA6, output3          , X  ,269,0, Z      ),ddrio
+259,bc_0,XXDDR_1CA8_NC_3CA5_3CA1, output3          , X  ,269,0, Z      ),ddrio
+260,bc_0,XXDDR_1CA7_NC_3CA6_3CA0, output3          , X  ,269,0, Z      ),ddrio
+261,bc_0,XXDDR_1CLK0P_NC_3CLKP_3CLKP, output3          , X  ,269,0, Z      ),ddrio
+262,bc_0,XXDDR_1CLK0N_NC_3CLKN_3CLKN, observe_only     , X ,,,,ddrio
+263,bc_0,XXDDR_1CA4_NC_3CA1_3CA5, output3          , X  ,269,0, Z      ),ddrio
+264,bc_0,XXDDR_1CA10_NC_3CA2_3CA2, output3          , X  ,269,0, Z      ),ddrio
+265,bc_0,XXDDR_NC_NC_3CA4_3CS1, output3          , X  ,269,0, Z      ),ddrio
+266,bc_0,XXDDR_1CA9_NC_3CS0_3CA3, output3          , X  ,269,0, Z      ),ddrio
+267,bc_0,XXDDR_1CA6_NC_3CA3_3CS0, output3          , X  ,269,0, Z      ),ddrio
+268,bc_1,*, internal         , X ,,,,ddrio
+269,bc_1,*, control          ,0,,,,ddrio
+270,bc_1,XXDDR_DRAM_RESET_B, output3          , X  ,271,0, Z      ),ddrio
+271,bc_1,*, control          ,0,,,,ddrio
+272,bc_0,XXDDR_2CA4_NC_4CS0_4CA3, output3          , X  ,284,0, Z      ),ddrio
+273,bc_0,XXDDR_2CA9_NC_4CA2_4CA2, output3          , X  ,284,0, Z      ),ddrio
+274,bc_0,XXDDR_2CA8_NC_4CA4_4CS1, output3          , X  ,284,0, Z      ),ddrio
+275,bc_0,XXDDR_2CA10_NC_4CA3_4CS0, output3          , X  ,284,0, Z      ),ddrio
+276,bc_0,XXDDR_2CLK1P_NC_4CLKP_4CLKP, output3          , X  ,284,0, Z      ),ddrio
+277,bc_0,XXDDR_2CLK1N_NC_4CLKN_4CLKN, observe_only     , X ,,,,ddrio
+278,bc_0,XXDDR_2CA7_NC_4CS1_4CA4, output3          , X  ,284,0, Z      ),ddrio
+279,bc_0,XXDDR_2CA11_NC_4CA5_4CA1, output3          , X  ,284,0, Z      ),ddrio
+280,bc_0,XXDDR_2CA5_NC_4CA1_4CA5, output3          , X  ,284,0, Z      ),ddrio
+281,bc_0,XXDDR_2CA12_NC_4CA6_4CA0, output3          , X  ,284,0, Z      ),ddrio
+282,bc_0,XXDDR_2CA6_NC_4CA0_4CA6, output3          , X  ,284,0, Z      ),ddrio
+283,bc_1,*, internal         , X ,,,,ddrio
+284,bc_1,*, control          ,0,,,,ddrio
+285,bc_0,XXDDR_2CS1_NC_5CA1_5CA5, output3          , X  ,297,0, Z      ),ddrio
+286,bc_0,XXDDR_2CA1_NC_5CA2_5CA2, output3          , X  ,297,0, Z      ),ddrio
+287,bc_0,XXDDR_2CA0_NC_5CA3_5CS0, output3          , X  ,297,0, Z      ),ddrio
+288,bc_0,XXDDR_2CS2_NC_5CS0_5CA3, output3          , X  ,297,0, Z      ),ddrio
+289,bc_0,XXDDR_2CLK0P_NC_5CLKP_5CLKP, output3          , X  ,297,0, Z      ),ddrio
+290,bc_0,XXDDR_2CLK0N_NC_5CLKN_5CLKN, observe_only     , X ,,,,ddrio
+291,bc_0,XXDDR_2CS0_NC_5CA0_5CA6, output3          , X  ,297,0, Z      ),ddrio
+292,bc_0,XXDDR_NC_NC_5CA4_5CS1, output3          , X  ,297,0, Z      ),ddrio
+293,bc_0,XXDDR_2CA2_NC_5CA5_5CA1, output3          , X  ,297,0, Z      ),ddrio
+294,bc_0,XXDDR_2CA3_NC_5CA6_5CA0, output3          , X  ,297,0, Z      ),ddrio
+295,bc_0,XXDDR_2CS3_NC_5CS1_5CA4, output3          , X  ,297,0, Z      ),ddrio
+296,bc_1,*, internal         , X ,,,,ddrio
+297,bc_1,*, control          ,0,,,,ddrio
+298,bc_0,XXDDR_2CLK3P_NC_NC_NC, output3          , X  ,301,0, Z      ),ddrio
+299,bc_0,XXDDR_2CLK3N_NC_NC_NC, observe_only     , X ,,,,ddrio
+300,bc_1,*, internal         , X ,,,,ddrio
+301,bc_1,*, control          ,0,,,,ddrio
+302,bc_0,XXDDR_2CLK2P_NC_NC_NC, output3          , X  ,305,0, Z      ),ddrio
+303,bc_0,XXDDR_2CLK2N_NC_NC_NC, observe_only     , X ,,,,ddrio
+304,bc_1,*, internal         , X ,,,,ddrio
+305,bc_1,*, control          ,0,,,,ddrio
+306,bc_0,XXDDR_3CA8_NC_6CS1_6CA4, output3          , X  ,318,0, Z      ),ddrio
+307,bc_0,XXDDR_3CA10_NC_6CA6_6CA0, output3          , X  ,318,0, Z      ),ddrio
+308,bc_0,XXDDR_3CA12_NC_6CA4_6CS1, output3          , X  ,318,0, Z      ),ddrio
+309,bc_0,XXDDR_NC_NC_6CS0_6CA3, output3          , X  ,318,0, Z      ),ddrio
+310,bc_0,XXDDR_3CLK0P_NC_6CLKP_6CLKP, output3          , X  ,318,0, Z      ),ddrio
+311,bc_0,XXDDR_3CLK0N_NC_6CLKN_6CLKN, observe_only     , X ,,,,ddrio
+312,bc_0,XXDDR_3CA9_NC_6CA2_6CA2, output3          , X  ,318,0, Z      ),ddrio
+313,bc_0,XXDDR_3CA7_NC_6CA1_6CA5, output3          , X  ,318,0, Z      ),ddrio
+314,bc_0,XXDDR_3CA3_NC_6CA0_6CA6, output3          , X  ,318,0, Z      ),ddrio
+315,bc_0,XXDDR_3CA6_NC_6CA3_6CS0, output3          , X  ,318,0, Z      ),ddrio
+316,bc_0,XXDDR_3CA11_NC_6CA5_6CA1, output3          , X  ,318,0, Z      ),ddrio
+317,bc_1,*, internal         , X ,,,,ddrio
+318,bc_1,*, control          ,0,,,,ddrio
+319,bc_0,XXDDR_3CA4_NC_7CA0_7CA6, output3          , X  ,331,0, Z      ),ddrio
+320,bc_0,XXDDR_3CA0_NC_7CA6_7CA0, output3          , X  ,331,0, Z      ),ddrio
+321,bc_0,XXDDR_3CS1_NC_7CA5_7CA1, output3          , X  ,331,0, Z      ),ddrio
+322,bc_0,XXDDR_3CS2_NC_7CS1_7CA4, output3          , X  ,331,0, Z      ),ddrio
+323,bc_0,XXDDR_3CLK1P_NC_7CLKP_7CLKP, output3          , X  ,331,0, Z      ),ddrio
+324,bc_0,XXDDR_3CLK1N_NC_7CLKN_7CLKN, observe_only     , X ,,,,ddrio
+325,bc_0,XXDDR_3CS3_NC_7CS0_7CA3, output3          , X  ,331,0, Z      ),ddrio
+326,bc_0,XXDDR_3CA5_NC_7CA1_7CA5, output3          , X  ,331,0, Z      ),ddrio
+327,bc_0,XXDDR_3CS0_NC_7CA4_7CS1, output3          , X  ,331,0, Z      ),ddrio
+328,bc_0,XXDDR_3CA2_NC_7CA2_7CA2, output3          , X  ,331,0, Z      ),ddrio
+329,bc_0,XXDDR_3CA1_NC_7CA3_7CS0, output3          , X  ,331,0, Z      ),ddrio
+330,bc_1,*, internal         , X ,,,,ddrio
+331,bc_1,*, control          ,0,,,,ddrio
+332,bc_8,XXDDRDQ_IL533_NIL533_LP71_7, bidir            , X  ,343,0, Z      ),ddrio
+333,bc_8,XXDDRDQ_IL533_NIL533_LP71_6, bidir            , X  ,343,0, Z      ),ddrio
+334,bc_8,XXDDRDQ_IL533_NIL533_LP71_5, bidir            , X  ,343,0, Z      ),ddrio
+335,bc_8,XXDDRDQ_IL533_NIL533_LP71_4, bidir            , X  ,343,0, Z      ),ddrio
+336,bc_0,XXDDRDQSN_IL533_NIL533_LP71, observe_only     , X ,,,,ddrio
+337,bc_0,XXDDRDQSP_IL533_NIL533_LP71, bidir            , X  ,343,0, Z      ),ddrio
+338,bc_8,XXDDRDQ_IL533_NIL533_LP71_0, bidir            , X  ,343,0, Z      ),ddrio
+339,bc_8,XXDDRDQ_IL533_NIL533_LP71_1, bidir            , X  ,343,0, Z      ),ddrio
+340,bc_8,XXDDRDQ_IL533_NIL533_LP71_2, bidir            , X  ,343,0, Z      ),ddrio
+341,bc_8,XXDDRDQ_IL533_NIL533_LP71_3, bidir            , X  ,343,0, Z      ),ddrio
+342,bc_1,*, internal         , X ,,,,ddrio
+343,bc_1,*, control          ,0,,,,ddrio
+344,bc_8,XXDDRDQ_IL523_NIL531_LP61_7, bidir            , X  ,355,0, Z      ),ddrio
+345,bc_8,XXDDRDQ_IL523_NIL531_LP61_6, bidir            , X  ,355,0, Z      ),ddrio
+346,bc_8,XXDDRDQ_IL523_NIL531_LP61_5, bidir            , X  ,355,0, Z      ),ddrio
+347,bc_8,XXDDRDQ_IL523_NIL531_LP61_4, bidir            , X  ,355,0, Z      ),ddrio
+348,bc_0,XXDDRDQSN_IL523_NIL531_LP61, observe_only     , X ,,,,ddrio
+349,bc_0,XXDDRDQSP_IL523_NIL531_LP61, bidir            , X  ,355,0, Z      ),ddrio
+350,bc_8,XXDDRDQ_IL523_NIL531_LP61_0, bidir            , X  ,355,0, Z      ),ddrio
+351,bc_8,XXDDRDQ_IL523_NIL531_LP61_1, bidir            , X  ,355,0, Z      ),ddrio
+352,bc_8,XXDDRDQ_IL523_NIL531_LP61_2, bidir            , X  ,355,0, Z      ),ddrio
+353,bc_8,XXDDRDQ_IL523_NIL531_LP61_3, bidir            , X  ,355,0, Z      ),ddrio
+354,bc_1,*, internal         , X ,,,,ddrio
+355,bc_1,*, control          ,0,,,,ddrio
+356,bc_0,XXDDR_3CLK3P_NC_7WCKP_7WCKP, output3          , X  ,359,0, Z      ),ddrio
+357,bc_0,XXDDR_3CLK3N_NC_7WCKN_7WCKN, observe_only     , X ,,,,ddrio
+358,bc_1,*, internal         , X ,,,,ddrio
+359,bc_1,*, control          ,0,,,,ddrio
+360,bc_0,XXDDR_3CLK2P_NC_6WCKP_6WCKP, output3          , X  ,363,0, Z      ),ddrio
+361,bc_0,XXDDR_3CLK2N_NC_6WCKN_6WCKN, observe_only     , X ,,,,ddrio
+362,bc_1,*, internal         , X ,,,,ddrio
+363,bc_1,*, control          ,0,,,,ddrio
+364,bc_8,XXDDRDQ_IL532_NIL532_LP70_7, bidir            , X  ,375,0, Z      ),ddrio
+365,bc_8,XXDDRDQ_IL532_NIL532_LP70_6, bidir            , X  ,375,0, Z      ),ddrio
+366,bc_8,XXDDRDQ_IL532_NIL532_LP70_5, bidir            , X  ,375,0, Z      ),ddrio
+367,bc_8,XXDDRDQ_IL532_NIL532_LP70_4, bidir            , X  ,375,0, Z      ),ddrio
+368,bc_0,XXDDRDQSN_IL532_NIL532_LP70, observe_only     , X ,,,,ddrio
+369,bc_0,XXDDRDQSP_IL532_NIL532_LP70, bidir            , X  ,375,0, Z      ),ddrio
+370,bc_8,XXDDRDQ_IL532_NIL532_LP70_0, bidir            , X  ,375,0, Z      ),ddrio
+371,bc_8,XXDDRDQ_IL532_NIL532_LP70_1, bidir            , X  ,375,0, Z      ),ddrio
+372,bc_8,XXDDRDQ_IL532_NIL532_LP70_2, bidir            , X  ,375,0, Z      ),ddrio
+373,bc_8,XXDDRDQ_IL532_NIL532_LP70_3, bidir            , X  ,375,0, Z      ),ddrio
+374,bc_1,*, internal         , X ,,,,ddrio
+375,bc_1,*, control          ,0,,,,ddrio
+376,bc_8,XXDDRDQ_IL522_NIL530_LP60_7, bidir            , X  ,387,0, Z      ),ddrio
+377,bc_8,XXDDRDQ_IL522_NIL530_LP60_6, bidir            , X  ,387,0, Z      ),ddrio
+378,bc_8,XXDDRDQ_IL522_NIL530_LP60_5, bidir            , X  ,387,0, Z      ),ddrio
+379,bc_8,XXDDRDQ_IL522_NIL530_LP60_4, bidir            , X  ,387,0, Z      ),ddrio
+380,bc_0,XXDDRDQSN_IL522_NIL530_LP60, observe_only     , X ,,,,ddrio
+381,bc_0,XXDDRDQSP_IL522_NIL530_LP60, bidir            , X  ,387,0, Z      ),ddrio
+382,bc_8,XXDDRDQ_IL522_NIL530_LP60_0, bidir            , X  ,387,0, Z      ),ddrio
+383,bc_8,XXDDRDQ_IL522_NIL530_LP60_1, bidir            , X  ,387,0, Z      ),ddrio
+384,bc_8,XXDDRDQ_IL522_NIL530_LP60_2, bidir            , X  ,387,0, Z      ),ddrio
+385,bc_8,XXDDRDQ_IL522_NIL530_LP60_3, bidir            , X  ,387,0, Z      ),ddrio
+386,bc_1,*, internal         , X ,,,,ddrio
+387,bc_1,*, control          ,0,,,,ddrio
+388,bc_8,XXDDRDQ_IL531_NIL523_LP51_7, bidir            , X  ,399,0, Z      ),ddrio
+389,bc_8,XXDDRDQ_IL531_NIL523_LP51_6, bidir            , X  ,399,0, Z      ),ddrio
+390,bc_8,XXDDRDQ_IL531_NIL523_LP51_5, bidir            , X  ,399,0, Z      ),ddrio
+391,bc_8,XXDDRDQ_IL531_NIL523_LP51_4, bidir            , X  ,399,0, Z      ),ddrio
+392,bc_0,XXDDRDQSN_IL531_NIL523_LP51, observe_only     , X ,,,,ddrio
+393,bc_0,XXDDRDQSP_IL531_NIL523_LP51, bidir            , X  ,399,0, Z      ),ddrio
+394,bc_8,XXDDRDQ_IL531_NIL523_LP51_0, bidir            , X  ,399,0, Z      ),ddrio
+395,bc_8,XXDDRDQ_IL531_NIL523_LP51_1, bidir            , X  ,399,0, Z      ),ddrio
+396,bc_8,XXDDRDQ_IL531_NIL523_LP51_2, bidir            , X  ,399,0, Z      ),ddrio
+397,bc_8,XXDDRDQ_IL531_NIL523_LP51_3, bidir            , X  ,399,0, Z      ),ddrio
+398,bc_1,*, internal         , X ,,,,ddrio
+399,bc_1,*, control          ,0,,,,ddrio
+400,bc_8,XXDDRDQ_IL521_NIL521_LP41_7, bidir            , X  ,411,0, Z      ),ddrio
+401,bc_8,XXDDRDQ_IL521_NIL521_LP41_6, bidir            , X  ,411,0, Z      ),ddrio
+402,bc_8,XXDDRDQ_IL521_NIL521_LP41_5, bidir            , X  ,411,0, Z      ),ddrio
+403,bc_8,XXDDRDQ_IL521_NIL521_LP41_4, bidir            , X  ,411,0, Z      ),ddrio
+404,bc_0,XXDDRDQSN_IL521_NIL521_LP41, observe_only     , X ,,,,ddrio
+405,bc_0,XXDDRDQSP_IL521_NIL521_LP41, bidir            , X  ,411,0, Z      ),ddrio
+406,bc_8,XXDDRDQ_IL521_NIL521_LP41_0, bidir            , X  ,411,0, Z      ),ddrio
+407,bc_8,XXDDRDQ_IL521_NIL521_LP41_1, bidir            , X  ,411,0, Z      ),ddrio
+408,bc_8,XXDDRDQ_IL521_NIL521_LP41_2, bidir            , X  ,411,0, Z      ),ddrio
+409,bc_8,XXDDRDQ_IL521_NIL521_LP41_3, bidir            , X  ,411,0, Z      ),ddrio
+410,bc_1,*, internal         , X ,,,,ddrio
+411,bc_1,*, control          ,0,,,,ddrio
+412,bc_0,XXDDR_NC_NC_5WCKP_5WCKP, output3          , X  ,415,0, Z      ),ddrio
+413,bc_0,XXDDR_NC_NC_5WCKN_5WCKN, observe_only     , X ,,,,ddrio
+414,bc_1,*, internal         , X ,,,,ddrio
+415,bc_1,*, control          ,0,,,,ddrio
+416,bc_0,XXDDR_NC_NC_4WCKP_4WCKP, output3          , X  ,419,0, Z      ),ddrio
+417,bc_0,XXDDR_NC_NC_4WCKN_4WCKN, observe_only     , X ,,,,ddrio
+418,bc_1,*, internal         , X ,,,,ddrio
+419,bc_1,*, control          ,0,,,,ddrio
+420,bc_8,XXDDRDQ_IL530_NIL522_LP50_7, bidir            , X  ,431,0, Z      ),ddrio
+421,bc_8,XXDDRDQ_IL530_NIL522_LP50_6, bidir            , X  ,431,0, Z      ),ddrio
+422,bc_8,XXDDRDQ_IL530_NIL522_LP50_5, bidir            , X  ,431,0, Z      ),ddrio
+423,bc_8,XXDDRDQ_IL530_NIL522_LP50_4, bidir            , X  ,431,0, Z      ),ddrio
+424,bc_0,XXDDRDQSN_IL530_NIL522_LP50, observe_only     , X ,,,,ddrio
+425,bc_0,XXDDRDQSP_IL530_NIL522_LP50, bidir            , X  ,431,0, Z      ),ddrio
+426,bc_8,XXDDRDQ_IL530_NIL522_LP50_0, bidir            , X  ,431,0, Z      ),ddrio
+427,bc_8,XXDDRDQ_IL530_NIL522_LP50_1, bidir            , X  ,431,0, Z      ),ddrio
+428,bc_8,XXDDRDQ_IL530_NIL522_LP50_2, bidir            , X  ,431,0, Z      ),ddrio
+429,bc_8,XXDDRDQ_IL530_NIL522_LP50_3, bidir            , X  ,431,0, Z      ),ddrio
+430,bc_1,*, internal         , X ,,,,ddrio
+431,bc_1,*, control          ,0,,,,ddrio
+432,bc_8,XXDDRDQ_IL520_NIL520_LP40_7, bidir            , X  ,443,0, Z      ),ddrio
+433,bc_8,XXDDRDQ_IL520_NIL520_LP40_6, bidir            , X  ,443,0, Z      ),ddrio
+434,bc_8,XXDDRDQ_IL520_NIL520_LP40_5, bidir            , X  ,443,0, Z      ),ddrio
+435,bc_8,XXDDRDQ_IL520_NIL520_LP40_4, bidir            , X  ,443,0, Z      ),ddrio
+436,bc_0,XXDDRDQSN_IL520_NIL520_LP40, observe_only     , X ,,,,ddrio
+437,bc_0,XXDDRDQSP_IL520_NIL520_LP40, bidir            , X  ,443,0, Z      ),ddrio
+438,bc_8,XXDDRDQ_IL520_NIL520_LP40_0, bidir            , X  ,443,0, Z      ),ddrio
+439,bc_8,XXDDRDQ_IL520_NIL520_LP40_1, bidir            , X  ,443,0, Z      ),ddrio
+440,bc_8,XXDDRDQ_IL520_NIL520_LP40_2, bidir            , X  ,443,0, Z      ),ddrio
+441,bc_8,XXDDRDQ_IL520_NIL520_LP40_3, bidir            , X  ,443,0, Z      ),ddrio
+442,bc_1,*, internal         , X ,,,,ddrio
+443,bc_1,*, control          ,0,,,,ddrio
+444,bc_8,XXDDRDQ_IL534NC_NIL5NC_LPNC_7, bidir            , X  ,455,0, Z      ),ddrio
+445,bc_8,XXDDRDQ_IL534NC_NIL5NC_LPNC_6, bidir            , X  ,455,0, Z      ),ddrio
+446,bc_8,XXDDRDQ_IL534NC_NIL5NC_LPNC_5, bidir            , X  ,455,0, Z      ),ddrio
+447,bc_8,XXDDRDQ_IL534NC_NIL5NC_LPNC_4, bidir            , X  ,455,0, Z      ),ddrio
+448,bc_0,XXDDRDQSN_IL534_NIL5NC_LPNC, observe_only     , X ,,,,ddrio
+449,bc_0,XXDDRDQSP_IL534_NIL5NC_LPNC, bidir            , X  ,455,0, Z      ),ddrio
+450,bc_8,XXDDRDQ_IL534_NIL5NC_LPNC_0, bidir            , X  ,455,0, Z      ),ddrio
+451,bc_8,XXDDRDQ_IL534_NIL5NC_LPNC_1, bidir            , X  ,455,0, Z      ),ddrio
+452,bc_8,XXDDRDQ_IL534_NIL5NC_LPNC_2, bidir            , X  ,455,0, Z      ),ddrio
+453,bc_8,XXDDRDQ_IL534_NIL5NC_LPNC_3, bidir            , X  ,455,0, Z      ),ddrio
+454,bc_1,*, internal         , X ,,,,ddrio
+455,bc_1,*, control          ,0,,,,ddrio
+456,bc_8,XXDDRDQ_IL524NC_NIL5NC_LPNC_7, bidir            , X  ,467,0, Z      ),ddrio
+457,bc_8,XXDDRDQ_IL524NC_NIL5NC_LPNC_6, bidir            , X  ,467,0, Z      ),ddrio
+458,bc_8,XXDDRDQ_IL524NC_NIL5NC_LPNC_5, bidir            , X  ,467,0, Z      ),ddrio
+459,bc_8,XXDDRDQ_IL524NC_NIL5NC_LPNC_4, bidir            , X  ,467,0, Z      ),ddrio
+460,bc_0,XXDDRDQSN_IL524_NIL5NC_LPNC, observe_only     , X ,,,,ddrio
+461,bc_0,XXDDRDQSP_IL524_NIL5NC_LPNC, bidir            , X  ,467,0, Z      ),ddrio
+462,bc_8,XXDDRDQ_IL524_NIL5NC_LPNC_0, bidir            , X  ,467,0, Z      ),ddrio
+463,bc_8,XXDDRDQ_IL524_NIL5NC_LPNC_1, bidir            , X  ,467,0, Z      ),ddrio
+464,bc_8,XXDDRDQ_IL524_NIL5NC_LPNC_2, bidir            , X  ,467,0, Z      ),ddrio
+465,bc_8,XXDDRDQ_IL524_NIL5NC_LPNC_3, bidir            , X  ,467,0, Z      ),ddrio
+466,bc_1,*, internal         , X ,,,,ddrio
+467,bc_1,*, control          ,0,,,,ddrio
+468,bc_8,XXDDRDQ_IL514_NIL5NC_LPNC_7, bidir            , X  ,479,0, Z      ),ddrio
+469,bc_8,XXDDRDQ_IL514_NIL5NC_LPNC_6, bidir            , X  ,479,0, Z      ),ddrio
+470,bc_8,XXDDRDQ_IL514_NIL5NC_LPNC_5, bidir            , X  ,479,0, Z      ),ddrio
+471,bc_8,XXDDRDQ_IL514_NIL5NC_LPNC_4, bidir            , X  ,479,0, Z      ),ddrio
+472,bc_0,XXDDRDQSN_IL514_NIL5NC_LPNC, observe_only     , X ,,,,ddrio
+473,bc_0,XXDDRDQSP_IL514_NIL5NC_LPNC, bidir            , X  ,479,0, Z      ),ddrio
+474,bc_8,XXDDRDQ_IL514NC_NIL5NC_LPNC_0, bidir            , X  ,479,0, Z      ),ddrio
+475,bc_8,XXDDRDQ_IL514NC_NIL5NC_LPNC_1, bidir            , X  ,479,0, Z      ),ddrio
+476,bc_8,XXDDRDQ_IL514NC_NIL5NC_LPNC_2, bidir            , X  ,479,0, Z      ),ddrio
+477,bc_8,XXDDRDQ_IL514NC_NIL5NC_LPNC_3, bidir            , X  ,479,0, Z      ),ddrio
+478,bc_1,*, internal         , X ,,,,ddrio
+479,bc_1,*, control          ,0,,,,ddrio
+480,bc_8,XXDDRDQ_IL504_NIL5NC_LPNC_7, bidir            , X  ,491,0, Z      ),ddrio
+481,bc_8,XXDDRDQ_IL504_NIL5NC_LPNC_6, bidir            , X  ,491,0, Z      ),ddrio
+482,bc_8,XXDDRDQ_IL504_NIL5NC_LPNC_5, bidir            , X  ,491,0, Z      ),ddrio
+483,bc_8,XXDDRDQ_IL504_NIL5NC_LPNC_4, bidir            , X  ,491,0, Z      ),ddrio
+484,bc_0,XXDDRDQSN_IL504_NIL5NC_LPNC, observe_only     , X ,,,,ddrio
+485,bc_0,XXDDRDQSP_IL504_NIL5NC_LPNC, bidir            , X  ,491,0, Z      ),ddrio
+486,bc_8,XXDDRDQ_IL504NC_NIL5NC_LPNC_0, bidir            , X  ,491,0, Z      ),ddrio
+487,bc_8,XXDDRDQ_IL504NC_NIL5NC_LPNC_1, bidir            , X  ,491,0, Z      ),ddrio
+488,bc_8,XXDDRDQ_IL504NC_NIL5NC_LPNC_2, bidir            , X  ,491,0, Z      ),ddrio
+489,bc_8,XXDDRDQ_IL504NC_NIL5NC_LPNC_3, bidir            , X  ,491,0, Z      ),ddrio
+490,bc_1,*, internal         , X ,,,,ddrio
+491,bc_1,*, control          ,0,,,,ddrio
+492,bc_8,XXDDRDQ_IL513_NIL513_LP31_7, bidir            , X  ,503,0, Z      ),ddrio
+493,bc_8,XXDDRDQ_IL513_NIL513_LP31_6, bidir            , X  ,503,0, Z      ),ddrio
+494,bc_8,XXDDRDQ_IL513_NIL513_LP31_5, bidir            , X  ,503,0, Z      ),ddrio
+495,bc_8,XXDDRDQ_IL513_NIL513_LP31_4, bidir            , X  ,503,0, Z      ),ddrio
+496,bc_0,XXDDRDQSN_IL513_NIL513_LP31, observe_only     , X ,,,,ddrio
+497,bc_0,XXDDRDQSP_IL513_NIL513_LP31, bidir            , X  ,503,0, Z      ),ddrio
+498,bc_8,XXDDRDQ_IL513_NIL513_LP31_0, bidir            , X  ,503,0, Z      ),ddrio
+499,bc_8,XXDDRDQ_IL513_NIL513_LP31_1, bidir            , X  ,503,0, Z      ),ddrio
+500,bc_8,XXDDRDQ_IL513_NIL513_LP31_2, bidir            , X  ,503,0, Z      ),ddrio
+501,bc_8,XXDDRDQ_IL513_NIL513_LP31_3, bidir            , X  ,503,0, Z      ),ddrio
+502,bc_1,*, internal         , X ,,,,ddrio
+503,bc_1,*, control          ,0,,,,ddrio
+504,bc_8,XXDDRDQ_IL503_NIL511_LP21_7, bidir            , X  ,515,0, Z      ),ddrio
+505,bc_8,XXDDRDQ_IL503_NIL511_LP21_6, bidir            , X  ,515,0, Z      ),ddrio
+506,bc_8,XXDDRDQ_IL503_NIL511_LP21_5, bidir            , X  ,515,0, Z      ),ddrio
+507,bc_8,XXDDRDQ_IL503_NIL511_LP21_4, bidir            , X  ,515,0, Z      ),ddrio
+508,bc_0,XXDDRDQSN_IL503_NIL511_LP21, observe_only     , X ,,,,ddrio
+509,bc_0,XXDDRDQSP_IL503_NIL511_LP21, bidir            , X  ,515,0, Z      ),ddrio
+510,bc_8,XXDDRDQ_IL503_NIL511_LP21_0, bidir            , X  ,515,0, Z      ),ddrio
+511,bc_8,XXDDRDQ_IL503_NIL511_LP21_1, bidir            , X  ,515,0, Z      ),ddrio
+512,bc_8,XXDDRDQ_IL503_NIL511_LP21_2, bidir            , X  ,515,0, Z      ),ddrio
+513,bc_8,XXDDRDQ_IL503_NIL511_LP21_3, bidir            , X  ,515,0, Z      ),ddrio
+514,bc_1,*, internal         , X ,,,,ddrio
+515,bc_1,*, control          ,0,,,,ddrio
+516,bc_0,XXDDR_NC_NC_3WCKP_3WCKP, output3          , X  ,519,0, Z      ),ddrio
+517,bc_0,XXDDR_NC_NC_3WCKN_3WCKN, observe_only     , X ,,,,ddrio
+518,bc_1,*, internal         , X ,,,,ddrio
+519,bc_1,*, control          ,0,,,,ddrio
+520,bc_0,XXDDR_NC_NC_2WCKP_2WCKP, output3          , X  ,523,0, Z      ),ddrio
+521,bc_0,XXDDR_NC_NC_2WCKN_2WCKN, observe_only     , X ,,,,ddrio
+522,bc_1,*, internal         , X ,,,,ddrio
+523,bc_1,*, control          ,0,,,,ddrio
+524,bc_8,XXDDRDQ_IL512_NIL512_LP30_7, bidir            , X  ,535,0, Z      ),ddrio
+525,bc_8,XXDDRDQ_IL512_NIL512_LP30_6, bidir            , X  ,535,0, Z      ),ddrio
+526,bc_8,XXDDRDQ_IL512_NIL512_LP30_5, bidir            , X  ,535,0, Z      ),ddrio
+527,bc_8,XXDDRDQ_IL512_NIL512_LP30_4, bidir            , X  ,535,0, Z      ),ddrio
+528,bc_0,XXDDRDQSN_IL512_NIL512_LP30, observe_only     , X ,,,,ddrio
+529,bc_0,XXDDRDQSP_IL512_NIL512_LP30, bidir            , X  ,535,0, Z      ),ddrio
+530,bc_8,XXDDRDQ_IL512_NIL512_LP30_0, bidir            , X  ,535,0, Z      ),ddrio
+531,bc_8,XXDDRDQ_IL512_NIL512_LP30_1, bidir            , X  ,535,0, Z      ),ddrio
+532,bc_8,XXDDRDQ_IL512_NIL512_LP30_2, bidir            , X  ,535,0, Z      ),ddrio
+533,bc_8,XXDDRDQ_IL512_NIL512_LP30_3, bidir            , X  ,535,0, Z      ),ddrio
+534,bc_1,*, internal         , X ,,,,ddrio
+535,bc_1,*, control          ,0,,,,ddrio
+536,bc_8,XXDDRDQ_IL502_NIL510_LP20_7, bidir            , X  ,547,0, Z      ),ddrio
+537,bc_8,XXDDRDQ_IL502_NIL510_LP20_6, bidir            , X  ,547,0, Z      ),ddrio
+538,bc_8,XXDDRDQ_IL502_NIL510_LP20_5, bidir            , X  ,547,0, Z      ),ddrio
+539,bc_8,XXDDRDQ_IL502_NIL510_LP20_4, bidir            , X  ,547,0, Z      ),ddrio
+540,bc_0,XXDDRDQSN_IL502_NIL510_LP20, observe_only     , X ,,,,ddrio
+541,bc_0,XXDDRDQSP_IL502_NIL510_LP20, bidir            , X  ,547,0, Z      ),ddrio
+542,bc_8,XXDDRDQ_IL502_NIL510_LP20_0, bidir            , X  ,547,0, Z      ),ddrio
+543,bc_8,XXDDRDQ_IL502_NIL510_LP20_1, bidir            , X  ,547,0, Z      ),ddrio
+544,bc_8,XXDDRDQ_IL502_NIL510_LP20_2, bidir            , X  ,547,0, Z      ),ddrio
+545,bc_8,XXDDRDQ_IL502_NIL510_LP20_3, bidir            , X  ,547,0, Z      ),ddrio
+546,bc_1,*, internal         , X ,,,,ddrio
+547,bc_1,*, control          ,0,,,,ddrio
+548,bc_1,*, internal         , X ,,,,ddrio
+549,bc_1,*, internal         , X ,,,,ddrio
+550,bc_4,*,segment select,1,,,,segment select
+551,bc_4,*, internal         ,0,,,,delay
+552,bc_4,*, internal         ,1,,,,smb
+553,bc_4,XXINTRUDER_B, input            , X ,,,,smb
+554,bc_4,*,segment select,1,,,,segment select
+555,bc_4,*, internal         ,0,,,,delay
+556,bc_4,*, internal         ,1,,,,pmcrtc
+557,bc_4,XXRTEST_B, input            , X ,,,,pmcrtc
+558,bc_4,*, internal         ,1,,,,pmcrtc
+559,bc_4,XXRSMRST_SOC_B, input            , X ,,,,pmcrtc
+560,bc_4,*,segment select,1,,,,segment select
+561,bc_4,*, internal         ,0,,,,delay
+562,bc_1,*, control          ,1,,,,gpcom0
+563,bc_8,XXGPP_SC_26, bidir            , X  ,562,1, Z      ),gpcom0
+564,bc_1,*, control          ,1,,,,gpcom0
+565,bc_8,XXGPP_SC_25, bidir            , X  ,564,1, Z      ),gpcom0
+566,bc_1,*, control          ,1,,,,gpcom0
+567,bc_8,XXGPP_SC_24, bidir            , X  ,566,1, Z      ),gpcom0
+568,bc_1,*, control          ,1,,,,gpcom0
+569,bc_8,XXGPP_SC_23, bidir            , X  ,568,1, Z      ),gpcom0
+570,bc_1,*, control          ,1,,,,gpcom0
+571,bc_8,XXGPP_SC_22, bidir            , X  ,570,1, Z      ),gpcom0
+572,bc_1,*, control          ,1,,,,gpcom0
+573,bc_8,XXGPP_SC_21, bidir            , X  ,572,1, Z      ),gpcom0
+574,bc_1,*, control          ,1,,,,gpcom0
+575,bc_8,XXGPP_SC_20, bidir            , X  ,574,1, Z      ),gpcom0
+576,bc_1,*, control          ,1,,,,gpcom0
+577,bc_8,XXGPP_SC_19, bidir            , X  ,576,1, Z      ),gpcom0
+578,bc_1,*, control          ,1,,,,gpcom0
+579,bc_8,XXGPP_SC_18, bidir            , X  ,578,1, Z      ),gpcom0
+580,bc_1,*, control          ,1,,,,gpcom0
+581,bc_8,XXGPP_SC_17, bidir            , X  ,580,1, Z      ),gpcom0
+582,bc_1,*, control          ,1,,,,gpcom0
+583,bc_8,XXGPP_SC_16, bidir            , X  ,582,1, Z      ),gpcom0
+584,bc_1,*, control          ,1,,,,gpcom0
+585,bc_8,XXGPP_SC_15, bidir            , X  ,584,1, Z      ),gpcom0
+586,bc_1,*, control          ,1,,,,gpcom0
+587,bc_8,XXGPP_SC_14, bidir            , X  ,586,1, Z      ),gpcom0
+588,bc_1,*, control          ,1,,,,gpcom0
+589,bc_8,XXGPP_SC_13, bidir            , X  ,588,1, Z      ),gpcom0
+590,bc_1,*, control          ,1,,,,gpcom0
+591,bc_8,XXGPP_SC_12, bidir            , X  ,590,1, Z      ),gpcom0
+592,bc_1,*, control          ,1,,,,gpcom0
+593,bc_8,XXGPP_SC_11, bidir            , X  ,592,1, Z      ),gpcom0
+594,bc_1,*, control          ,1,,,,gpcom0
+595,bc_8,XXGPP_SC_10, bidir            , X  ,594,1, Z      ),gpcom0
+596,bc_1,*, control          ,1,,,,gpcom0
+597,bc_8,XXGPP_SC_9, bidir            , X  ,596,1, Z      ),gpcom0
+598,bc_1,*, control          ,1,,,,gpcom0
+599,bc_8,XXGPP_SC_8, bidir            , X  ,598,1, Z      ),gpcom0
+600,bc_1,*, control          ,1,,,,gpcom0
+601,bc_8,XXGPP_SC_7, bidir            , X  ,600,1, Z      ),gpcom0
+602,bc_1,*, control          ,1,,,,gpcom0
+603,bc_8,XXGPP_SC_6, bidir            , X  ,602,1, Z      ),gpcom0
+604,bc_1,*, control          ,1,,,,gpcom0
+605,bc_8,XXGPP_SC_5, bidir            , X  ,604,1, Z      ),gpcom0
+606,bc_1,*, control          ,1,,,,gpcom0
+607,bc_8,XXGPP_SC_4, bidir            , X  ,606,1, Z      ),gpcom0
+608,bc_1,*, control          ,1,,,,gpcom0
+609,bc_8,XXGPP_SC_3, bidir            , X  ,608,1, Z      ),gpcom0
+610,bc_1,*, control          ,1,,,,gpcom0
+611,bc_8,XXGPP_SC_2, bidir            , X  ,610,1, Z      ),gpcom0
+612,bc_1,*, control          ,1,,,,gpcom0
+613,bc_8,XXGPP_SC_1, bidir            , X  ,612,1, Z      ),gpcom0
+614,bc_1,*, control          ,1,,,,gpcom0
+615,bc_8,XXGPP_SC_0, bidir            , X  ,614,1, Z      ),gpcom0
+616,bc_1,*, internal         ,1,,,,gpcom0
+617,bc_4,XXPCH_PWROK, input            , X ,,,,gpcom0
+618,bc_1,*, control          ,1,,,,gpcom0
+619,bc_8,XXRESET_SYNC_B, bidir            , X  ,618,1, Z      ),gpcom0
+620,bc_1,*, internal         ,1,,,,gpcom0
+621,bc_4,XXRTCCLKIN, input            , X ,,,,gpcom0
+622,bc_1,*, control          ,1,,,,gpcom0
+623,bc_8,XXGPP_SA_23_FUSA_DIAGTEST_MODE_L_BKLTCTL_NF5, bidir            , X  ,622,1, Z      ),gpcom0
+624,bc_1,*, control          ,1,,,,gpcom0
+625,bc_8,XXGPP_SA_22_FUSA_DIAGTEST_EN_L_BKLTEN_SRCCLKREQ3_B_NF5, bidir            , X  ,624,1, Z      ),gpcom0
+626,bc_1,*, control          ,1,,,,gpcom0
+627,bc_8,XXGPP_SA_21_PCIE_LNK_DOWN_L_VDDEN_SRCCLKREQ2_B_IEH_FATAL_ERR2_B_NF5, bidir            , X  ,626,1, Z      ),gpcom0
+628,bc_1,*, control          ,1,,,,gpcom0
+629,bc_8,XXGPP_SA_20, bidir            , X  ,628,1, Z      ),gpcom0
+630,bc_1,*, control          ,1,,,,gpcom0
+631,bc_8,XXGPP_SA_19, bidir            , X  ,630,1, Z      ),gpcom0
+632,bc_1,*, control          ,1,,,,gpcom0
+633,bc_8,XXGPP_SA_18_DDSP_HPD2_DISP_MISC2, bidir            , X  ,632,1, Z      ),gpcom0
+634,bc_1,*, control          ,1,,,,gpcom0
+635,bc_8,XXGPP_SA_17_DDSP_HPD1_DISP_MISC1, bidir            , X  ,634,1, Z      ),gpcom0
+636,bc_1,*, control          ,1,,,,gpcom0
+637,bc_8,XXGPP_SA_16_DDSP_HPD4_DISP_MISC4, bidir            , X  ,636,1, Z      ),gpcom0
+638,bc_1,*, control          ,1,,,,gpcom0
+639,bc_8,XXGPP_SA_15_DDSP_HPD3_DISP_MISC3, bidir            , X  ,638,1, Z      ),gpcom0
+640,bc_1,*, control          ,1,,,,gpcom0
+641,bc_8,XXGPP_SA_14_DDSP_HPDA_DISP_MISCA_NF5, bidir            , X  ,640,1, Z      ),gpcom0
+642,bc_1,*, control          ,1,,,,gpcom0
+643,bc_8,XXGPP_SA_13_PS_ONB, bidir            , X  ,642,1, Z      ),gpcom0
+644,bc_1,*, control          ,1,,,,gpcom0
+645,bc_8,XXGPP_SA_12_CPU_C10_GATE_B, bidir            , X  ,644,1, Z      ),gpcom0
+646,bc_1,*, control          ,1,,,,gpcom0
+647,bc_8,XXGPP_SA_11_THERMTRIP_B, bidir            , X  ,646,1, Z      ),gpcom0
+648,bc_1,*, control          ,1,,,,gpcom0
+649,bc_8,XXGPP_SA_10_CATERR_B, bidir            , X  ,648,1, Z      ),gpcom0
+650,bc_1,*, control          ,1,,,,gpcom0
+651,bc_8,XXGPP_SA_9_DMI_PERSTB, bidir            , X  ,650,1, Z      ),gpcom0
+652,bc_1,*, control          ,1,,,,gpcom0
+653,bc_8,XXGPP_SA_8_SLP_S0_B, bidir            , X  ,652,1, Z      ),gpcom0
+654,bc_1,*, control          ,1,,,,gpcom0
+655,bc_8,XXGPP_SA_7_DIR_ESPI_RESET_B, bidir            , X  ,654,1, Z      ),gpcom0
+656,bc_1,*, control          ,1,,,,gpcom0
+657,bc_8,XXGPP_SA_6_DIR_ESPI_RCLK, bidir            , X  ,656,1, Z      ),gpcom0
+658,bc_1,*, control          ,1,,,,gpcom0
+659,bc_8,XXGPP_SA_5_DIR_ESPI_CLK, bidir            , X  ,658,1, Z      ),gpcom0
+660,bc_1,*, control          ,1,,,,gpcom0
+661,bc_8,XXGPP_SA_4_DIR_ESPI_CS0_B, bidir            , X  ,660,1, Z      ),gpcom0
+662,bc_1,*, control          ,1,,,,gpcom0
+663,bc_8,XXGPP_SA_3_DIR_ESPI_IO_3, bidir            , X  ,662,1, Z      ),gpcom0
+664,bc_1,*, control          ,1,,,,gpcom0
+665,bc_8,XXGPP_SA_2_DIR_ESPI_IO_2, bidir            , X  ,664,1, Z      ),gpcom0
+666,bc_1,*, control          ,1,,,,gpcom0
+667,bc_8,XXGPP_SA_1_DIR_ESPI_IO_1, bidir            , X  ,666,1, Z      ),gpcom0
+668,bc_1,*, control          ,1,,,,gpcom0
+669,bc_8,XXGPP_SA_0_DIR_ESPI_IO_0, bidir            , X  ,668,1, Z      ),gpcom0
+670,bc_4,*,segment select,1,,,,segment select
+671,bc_4,*, internal         ,0,,,,delay
+672,bc_4,XXDMI_7_RX_N, observe_only     ,1,,,,pcie2
+673,bc_4,XXDMI_7_RX_P, observe_only     ,1,,,,pcie2
+674,AC_1,XXDMI_7_TX_P, output2          ,1,,,,pcie2
+675,bc_4,XXDMI_6_RX_N, observe_only     ,1,,,,pcie2
+676,bc_4,XXDMI_6_RX_P, observe_only     ,1,,,,pcie2
+677,AC_1,XXDMI_6_TX_P, output2          ,1,,,,pcie2
+678,bc_4,XXDMI_5_RX_N, observe_only     ,1,,,,pcie2
+679,bc_4,XXDMI_5_RX_P, observe_only     ,1,,,,pcie2
+680,AC_1,XXDMI_5_TX_P, output2          ,1,,,,pcie2
+681,bc_4,XXDMI_4_RX_N, observe_only     ,1,,,,pcie2
+682,bc_4,XXDMI_4_RX_P, observe_only     ,1,,,,pcie2
+683,AC_1,XXDMI_4_TX_P, output2          ,1,,,,pcie2
+684,bc_4,XXDMI_3_RX_N, observe_only     ,1,,,,pcie2
+685,bc_4,XXDMI_3_RX_P, observe_only     ,1,,,,pcie2
+686,AC_1,XXDMI_3_TX_P, output2          ,1,,,,pcie2
+687,bc_4,XXDMI_2_RX_N, observe_only     ,1,,,,pcie2
+688,bc_4,XXDMI_2_RX_P, observe_only     ,1,,,,pcie2
+689,AC_1,XXDMI_2_TX_P, output2          ,1,,,,pcie2
+690,bc_4,XXDMI_1_RX_N, observe_only     ,1,,,,pcie2
+691,bc_4,XXDMI_1_RX_P, observe_only     ,1,,,,pcie2
+692,AC_1,XXDMI_1_TX_P, output2          ,1,,,,pcie2
+693,bc_4,XXDMI_0_RX_N, observe_only     ,1,,,,pcie2
+694,bc_4,XXDMI_0_RX_P, observe_only     ,1,,,,pcie2
+695,AC_1,XXDMI_0_TX_P, output2          ,1,,,,pcie2
+696,bc_4,*,segment select,1,,,,segment select
+697,bc_4,*,power,1,,,,power
+698,bc_4,*, internal         ,0,,,,delay
+699,bc_4,XXPCIE_A_15_RX_N, observe_only     ,1,,,,pcie1
+700,bc_4,XXPCIE_A_15_RX_P, observe_only     ,1,,,,pcie1
+701,AC_1,XXPCIE_A_15_TX_P, output2          ,1,,,,pcie1
+702,bc_4,XXPCIE_A_14_RX_N, observe_only     ,1,,,,pcie1
+703,bc_4,XXPCIE_A_14_RX_P, observe_only     ,1,,,,pcie1
+704,AC_1,XXPCIE_A_14_TX_P, output2          ,1,,,,pcie1
+705,bc_4,XXPCIE_A_13_RX_N, observe_only     ,1,,,,pcie1
+706,bc_4,XXPCIE_A_13_RX_P, observe_only     ,1,,,,pcie1
+707,AC_1,XXPCIE_A_13_TX_P, output2          ,1,,,,pcie1
+708,bc_4,XXPCIE_A_12_RX_N, observe_only     ,1,,,,pcie1
+709,bc_4,XXPCIE_A_12_RX_P, observe_only     ,1,,,,pcie1
+710,AC_1,XXPCIE_A_12_TX_P, output2          ,1,,,,pcie1
+711,bc_4,XXPCIE_A_11_RX_N, observe_only     ,1,,,,pcie1
+712,bc_4,XXPCIE_A_11_RX_P, observe_only     ,1,,,,pcie1
+713,AC_1,XXPCIE_A_11_TX_P, output2          ,1,,,,pcie1
+714,bc_4,XXPCIE_A_10_RX_N, observe_only     ,1,,,,pcie1
+715,bc_4,XXPCIE_A_10_RX_P, observe_only     ,1,,,,pcie1
+716,AC_1,XXPCIE_A_10_TX_P, output2          ,1,,,,pcie1
+717,bc_4,XXPCIE_A_9_RX_N, observe_only     ,1,,,,pcie1
+718,bc_4,XXPCIE_A_9_RX_P, observe_only     ,1,,,,pcie1
+719,AC_1,XXPCIE_A_9_TX_P, output2          ,1,,,,pcie1
+720,bc_4,XXPCIE_A_8_RX_N, observe_only     ,1,,,,pcie1
+721,bc_4,XXPCIE_A_8_RX_P, observe_only     ,1,,,,pcie1
+722,AC_1,XXPCIE_A_8_TX_P, output2          ,1,,,,pcie1
+723,bc_4,*,segment select,1,,,,segment select
+724,bc_4,*,power,1,,,,power
+725,bc_4,*, internal         ,0,,,,delay
+726,bc_4,XXPCIE_A_7_RX_N, observe_only     ,1,,,,pcie0
+727,bc_4,XXPCIE_A_7_RX_P, observe_only     ,1,,,,pcie0
+728,AC_1,XXPCIE_A_7_TX_P, output2          ,1,,,,pcie0
+729,bc_4,XXPCIE_A_6_RX_N, observe_only     ,1,,,,pcie0
+730,bc_4,XXPCIE_A_6_RX_P, observe_only     ,1,,,,pcie0
+731,AC_1,XXPCIE_A_6_TX_P, output2          ,1,,,,pcie0
+732,bc_4,XXPCIE_A_5_RX_N, observe_only     ,1,,,,pcie0
+733,bc_4,XXPCIE_A_5_RX_P, observe_only     ,1,,,,pcie0
+734,AC_1,XXPCIE_A_5_TX_P, output2          ,1,,,,pcie0
+735,bc_4,XXPCIE_A_4_RX_N, observe_only     ,1,,,,pcie0
+736,bc_4,XXPCIE_A_4_RX_P, observe_only     ,1,,,,pcie0
+737,AC_1,XXPCIE_A_4_TX_P, output2          ,1,,,,pcie0
+738,bc_4,XXPCIE_A_3_RX_N, observe_only     ,1,,,,pcie0
+739,bc_4,XXPCIE_A_3_RX_P, observe_only     ,1,,,,pcie0
+740,AC_1,XXPCIE_A_3_TX_P, output2          ,1,,,,pcie0
+741,bc_4,XXPCIE_A_2_RX_N, observe_only     ,1,,,,pcie0
+742,bc_4,XXPCIE_A_2_RX_P, observe_only     ,1,,,,pcie0
+743,AC_1,XXPCIE_A_2_TX_P, output2          ,1,,,,pcie0
+744,bc_4,XXPCIE_A_1_RX_N, observe_only     ,1,,,,pcie0
+745,bc_4,XXPCIE_A_1_RX_P, observe_only     ,1,,,,pcie0
+746,AC_1,XXPCIE_A_1_TX_P, output2          ,1,,,,pcie0
+747,bc_4,XXPCIE_A_0_RX_N, observe_only     ,1,,,,pcie0
+748,bc_4,XXPCIE_A_0_RX_P, observe_only     ,1,,,,pcie0
+749,AC_1,XXPCIE_A_0_TX_P, output2          ,1,,,,pcie0
+750,bc_4,*,segment select,1,,,,segment select
+751,bc_4,*,power,1,,,,power
+752,bc_4,*, internal         ,0,,,,cltap repeater

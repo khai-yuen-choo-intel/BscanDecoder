@@ -1,0 +1,148 @@
+#pass itpp "expandata: xxtck, 4;";
+#@set tap_incremental_mode on;
+#pass itpp "label: Start_Boundary_Scan_test;";
+#pass itpp "label: Test_mode_ALL0;";
+#pass itpp "label: Test_Feature_CON;";
+
+pass itpp "label: EXPANDATA_RATIO_32;";
+pass itpp "expandata: xxjtag_tck, 32; ";
+cycle 10;
+
+focus_tap CLTAP;
+label "Reset_and_Bscan_mode_enable";
+set TAPCR->RST_AND_ISOLATION_EN = 'h1;
+set TAPCR->BSCANMODEOVR = 'h1;
+flush;
+
+cycle 50;
+#set BRANCH_SELECT->GROUP1 = 'h1;
+#set BRANCH_SELECT->GROUP3 = 'h1;
+#set BRANCH_SELECT->GROUP2 = 'h0;
+
+focus_tap CLTAP;
+label "Bypass_IOE_and_CPU_chain";
+set BSCANBYPASS->MTL_S_DFX_PARGPCOM3_CPU_TDO_REPEATER = 'h1;
+set BSCANBYPASS->MTL_S_DFX_PARGPCOM3_IOE_TDO_REPEATER = 'h1;
+flush;
+
+cycle 50;
+
+focus_tap CLTAP;
+label "preload_full_chain";
+tap_raw_shift : 
+ir_tdi = PRELOAD,
+dr_tdi = 'b011011011010101011101101000,
+dr_tdo = 'bXXXXXXXXXXXXXXXXXXXXXXXXXXX;
+flush;
+
+cycle 50;
+
+focus_tap CLTAP;
+label "full_chain_samplepre_all0";
+tap_raw_shift : 
+ir_tdi = SAMPLEPRE,
+dr_tdi = 'b011100100100100100100100100011100100100100100100100100011100100100100100100100100011010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010100101010101010010111110111110111110111110011001101111101111101111101111101111101111101111101111101111101111101111101111101111101111101111101111100110011011111011111011111011111011111011111011111011111001100110111110111110111110111110111110111111011111011111100110011011111011111101111101111111101111101111110011001101111101111110111110111111011111011111101111101111101111101111100110011011111011111011111011110011001001001001101010101010101010101010101010101010101010101010101010101010101010101010101010101010101001100000011001100110011000110101010101010101010000, 
+dr_tdo = 'bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;
+flush;
+
+cycle 50;
+
+label "assert_train_opcode";
+execute EXTEST_TRAIN;
+flush;
+
+label "check_pads";
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 85 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(L) xxpcie_a_1_tx_n(H) xxdmi_7_rx_p(L) xxdmi_7_rx_n(H), 1 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 42 ;";
+
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 85 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(H) xxpcie_a_1_tx_n(L) xxdmi_7_rx_p(H) xxdmi_7_rx_n(L), 1 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 42 ;";
+
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 85 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(L) xxpcie_a_1_tx_n(H) xxdmi_7_rx_p(L) xxdmi_7_rx_n(H), 1 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 42 ;";
+
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 85 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(H) xxpcie_a_1_tx_n(L) xxdmi_7_rx_p(H) xxdmi_7_rx_n(L), 1 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 42 ;";
+
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 85 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(L) xxpcie_a_1_tx_n(H) xxdmi_7_rx_p(L) xxdmi_7_rx_n(H), 1 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 42 ;";
+
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 85 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(H) xxpcie_a_1_tx_n(L) xxdmi_7_rx_p(H) xxdmi_7_rx_n(L), 1 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 42 ;";
+
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 85 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(L) xxpcie_a_1_tx_n(H) xxdmi_7_rx_p(L) xxdmi_7_rx_n(H), 1 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 42 ;";
+
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 85 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(H) xxpcie_a_1_tx_n(L) xxdmi_7_rx_p(H) xxdmi_7_rx_n(L), 1 ;";
+pass itpp "vector: xxpcie_a_1_tx_p(X) xxpcie_a_1_tx_n(X) xxdmi_7_rx_p(X) xxdmi_7_rx_n(X), 42 ;";
+
+cycle 50;
+
+pass itpp "label:Pin_XXPCIE_A_0_RX_P@748;";
+pass itpp "label:Pin_XXPCIE_A_0_RX_N@747;";
+pass itpp "label:Pin_XXPCIE_A_1_RX_P@745;";
+pass itpp "label:Pin_XXPCIE_A_1_RX_N@744;";
+pass itpp "label:Pin_XXPCIE_A_2_RX_P@742;";
+pass itpp "label:Pin_XXPCIE_A_2_RX_N@741;";
+pass itpp "label:Pin_XXPCIE_A_3_RX_P@739;";
+pass itpp "label:Pin_XXPCIE_A_3_RX_N@738;";
+pass itpp "label:Pin_XXPCIE_A_4_RX_P@736;";
+pass itpp "label:Pin_XXPCIE_A_4_RX_N@735;";
+pass itpp "label:Pin_XXPCIE_A_5_RX_P@733;";
+pass itpp "label:Pin_XXPCIE_A_5_RX_N@732;";
+pass itpp "label:Pin_XXPCIE_A_6_RX_P@730;";
+pass itpp "label:Pin_XXPCIE_A_6_RX_N@729;";
+pass itpp "label:Pin_XXPCIE_A_7_RX_P@727;";
+pass itpp "label:Pin_XXPCIE_A_7_RX_N@726;";
+pass itpp "label:Pin_XXPCIE_A_8_RX_P@721;";
+pass itpp "label:Pin_XXPCIE_A_8_RX_N@720;";
+pass itpp "label:Pin_XXPCIE_A_9_RX_P@718;";
+pass itpp "label:Pin_XXPCIE_A_9_RX_N@717;";
+pass itpp "label:Pin_XXPCIE_A_10_RX_P@715;";
+pass itpp "label:Pin_XXPCIE_A_10_RX_N@714;";
+pass itpp "label:Pin_XXPCIE_A_11_RX_P@712;";
+pass itpp "label:Pin_XXPCIE_A_11_RX_N@711;";
+pass itpp "label:Pin_XXPCIE_A_12_RX_P@709;";
+pass itpp "label:Pin_XXPCIE_A_12_RX_N@708;";
+pass itpp "label:Pin_XXPCIE_A_13_RX_P@706;";
+pass itpp "label:Pin_XXPCIE_A_13_RX_N@705;";
+pass itpp "label:Pin_XXPCIE_A_14_RX_P@703;";
+pass itpp "label:Pin_XXPCIE_A_14_RX_N@702;";
+pass itpp "label:Pin_XXPCIE_A_15_RX_P@700;";
+pass itpp "label:Pin_XXPCIE_A_15_RX_N@699;";
+pass itpp "label:Pin_XXDMI_0_RX_P@694;";
+pass itpp "label:Pin_XXDMI_0_RX_N@693;";
+pass itpp "label:Pin_XXDMI_1_RX_P@691;";
+pass itpp "label:Pin_XXDMI_1_RX_N@690;";
+pass itpp "label:Pin_XXDMI_2_RX_P@688;";
+pass itpp "label:Pin_XXDMI_2_RX_N@687;";
+pass itpp "label:Pin_XXDMI_3_RX_P@685;";
+pass itpp "label:Pin_XXDMI_3_RX_N@684;";
+pass itpp "label:Pin_XXDMI_4_RX_P@682;";
+pass itpp "label:Pin_XXDMI_4_RX_N@681;";
+pass itpp "label:Pin_XXDMI_5_RX_P@679;";
+pass itpp "label:Pin_XXDMI_5_RX_N@678;";
+pass itpp "label:Pin_XXDMI_6_RX_P@676;";
+pass itpp "label:Pin_XXDMI_6_RX_N@675;";
+pass itpp "label:Pin_XXDMI_7_RX_P@673;";
+pass itpp "label:Pin_XXDMI_7_RX_N@672;";
+
+label "extest_train_all1_loopback";
+tap_raw_shift : 
+ir_tdi = EXTEST_TRAIN,
+dr_tdi = 'b011100100100100100100100100011100100100100100100100100011100100100100100100100100011010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010100101010101010010111110111110111110111110011001101111101111101111101111101111101111101111101111101111101111101111101111101111101111101111101111100110011011111011111011111011111011111011111011111011111001100110111110111110111110111110111110111111011111011111100110011011111011111101111101111111101111101111110011001101111101111110111110111111011111011111101111101111101111101111100110011011111011111011111011110011001001001001101010101010101010101010101010101010101010101010101010101010101010101010101010101010101001100000011001100110011000110101010101010101010000,
+dr_tdo = 'bXXXX01X01X01X01X01X01X01X01XXXX01X01X01X01X01X01X01X01XXXX01X01X01X01X01X01X01X01XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;
+flush;
+
+cycle 50;
+
+label "test_completed";
+cycle 10;
