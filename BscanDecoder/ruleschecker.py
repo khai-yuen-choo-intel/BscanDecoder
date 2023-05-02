@@ -127,7 +127,7 @@ class conditionalBscanRule:
     def Rule1_2(self):
         rulesFieldList = []
         if (self.bidir_strobe_pincount + self.input_strobe_pincount) != self.vectorforce_count:
-            self.rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.2", category = "ERROR", desc = self.format_violation("Input Pin Strobe count ({}) and Vector Forcing Pin count ({}) mismatch.".format(self.bidir_strobe_pincount + self.input_strobe_pincount,self.vectorforce_count))))
+            rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.2", category = "ERROR", desc = self.format_violation("Input Pin Strobe count ({}) and Vector Forcing Pin count ({}) mismatch.".format(self.bidir_strobe_pincount + self.input_strobe_pincount,self.vectorforce_count))))
             
             for vectorforce in self.vectorforcelowlist + self.vectorforcehighlist:
                 if vectorforce not in self.bidir_strobe_list + self.input_strobe_list:

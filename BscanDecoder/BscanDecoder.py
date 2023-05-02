@@ -28,11 +28,15 @@ def getFirstWord(text):
 def getuserinput():
     
     prodlist = []
-    for item in os.listdir("{}\\SPF".format(workdir)):
-        if os.path.isdir("{}\\SPF\\{}".format(workdir, item)):
+
+    spfFolder = "{}\\SPF".format(workdir)
+    itppFolder = "{}\\ITPP".format(workdir)
+
+    for item in list(set(os.listdir(spfFolder) + os.listdir(itppFolder))):
+        if os.path.isdir("{}\\{}".format(spfFolder, item)) or os.path.isdir("{}\\{}".format(itppFolder, item)):
             prodlist.append(item)
 
-    for item in os.listdir("{}\\ITPP".format(workdir)):
+    for item in os.listdir():
         if os.path.isdir("{}\\ITPP\\{}".format(workdir, item)):
             prodlist.append(item)
 
@@ -503,7 +507,7 @@ def generateSPFExcel(DF):
     print("Generating decoded file. Please wait......")
     outputFilePath = "{}\\DECODED\\{}".format(workdir, prod)
     outputFile = os.path.splitext(testName)[0]
-    outputFile_full = outputFilePath + "\\" + outputFile + "_decoded.xlsx"
+    outputFile_full = outputFilePath + "\\" + outputFile + "_spf_decoded.xlsx"
 
     if not os.path.exists(outputFilePath):
         os.makedirs(outputFilePath)
@@ -523,10 +527,11 @@ def generateSPFExcel(DF):
     print("Decoded SPF generated: {}\n\n".format(outputFile_full))
 
 def generateITPPExcel(DF):
+    groupdatalist = ['bsdlmapped','vector']
     print("Generating decoded file. Please wait......")
     outputFilePath = "{}\\DECODED\\{}".format(workdir, prod)
     outputFile = os.path.splitext(testName)[0]
-    outputFile_full = outputFilePath + "\\" + outputFile + "_decoded.xlsx"
+    outputFile_full = outputFilePath + "\\" + outputFile + "_itpp_decoded.xlsx"
 
     if not os.path.exists(outputFilePath):
         os.makedirs(outputFilePath)
