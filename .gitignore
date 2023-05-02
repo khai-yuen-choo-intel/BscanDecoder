@@ -361,3 +361,17 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Project-specific
+COLLATERAL/
+ITPP/
+SPF/
+DECODED/
+dist/
+build/
+REPORT/
+
+!COLLATERAL/COMMON
+!SPF/SAMPLE
+!ITPP/SAMPLE
+!dist/*.exe
