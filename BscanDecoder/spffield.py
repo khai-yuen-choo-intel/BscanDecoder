@@ -12,14 +12,16 @@ class SpfField:
         self.write = write
         self.read = read
         self.rpt = rpt
+        self.pinmap = field
 
     def __repr__(self):
-       return "Type:{}, Tap:{}, Reg:{}, Field:{}, Cell:{}, Function:{}, Write:{}, Read:{}".format(self.configurationType,self.focus_tap,self.register,self.field,self.cell,self.function,self.write,self.read)
-    
+       return "Type:{}, Tap:{}, Reg:{}, Field:{}, Cell:{}, Function:{}, Write:{}, Read:{}\n".format(self.configurationType,self.focus_tap,self.register,self.field,self.cell,self.function,self.write,self.read)
+
     def is_cyclemorethan1000(self):
         if self.configurationType == "cycle":
-            delay = int(self.write)
-            return delay if delay > 1000 else 0
+            if self.write.isdigit():
+                delay = int(self.write)
+                return delay if delay > 1000 else 0
         else:
             return 0
 
@@ -66,7 +68,7 @@ class SpfField:
         return 0
 
     def is_segmentselnotsafe(self):
-        if self.function == "segment_select":
+        if self.function == "segment select":
             return 1 if self.write != self.safe else 0
         return 0
 
@@ -81,9 +83,20 @@ class SpfField:
         return 0
 
     def is_acrxstrobe(self):
-        if "input" in self.function or "observe" in self.function:
-            return 1 if self.read in self.strobe_charlist else 0
-        return 0
+        if "ac" in self.cell.lower():
+            if "input" in self.function or "observe" in self.function:
+                return 1 if self.read in self.strobe_charlist else 0
+            return 0
+        else:
+            return 0
+
+    def is_actxstrobe(self):
+        if "ac" in self.cell.lower():
+            if "output" in self.function or "observe" in self.function:
+                return 1 if self.write in ['H','L'] else 0
+            return 0
+        else:
+            return 0
 
     def is_vectorforcehigh(self):
         if self.configurationType == "vector":
@@ -104,3 +117,19 @@ class SpfField:
         if self.configurationType == "vector":
             return 1 if self.write == "L" else 0
         return 0
+
+    def is_vectorstroberptcountmorethan10(self):
+        if self.is_vectorstrobehigh() or self.is_vectorstrobelow():
+            if self.rpt.isdigit():
+                rptcount = int(self.rpt)
+                return 1 if rptcount >= 10 else 0
+            else:
+                return 0
+        else:
+            return 1
+
+    def is_scani(self):
+        return 1 if self.configurationType == "scani" else 0
+
+    def is_irtdi(self):
+        return 1 if self.configurationType == "ir_tdi" else 0

@@ -1,5 +1,5 @@
 import os
-from unicodedata import bidirectional
+import re
 import pandas as pd
 import spffield as sF
 import bsdl_lib as bL
@@ -10,22 +10,8 @@ workdir = os.getcwd()
 def format_violation(text):
     return "Bscan Rules Violation:[{}]".format(text)
 
-def getSpfPath(prod = ""):
-    spfpathList = []
-    spfpath = "{}\\SPF{}".format(workdir,prod)
-    print("Searching for SPF in Directory: {}\n".format(spfpath))
-    for file in os.listdir(spfpath):
-        if file.endswith(".spf"):
-            print("SPF File detected: {}\n".format(file))
-            spfpathList.append(os.path.join(spfpath, file))
-
-    return spfpathList
-
-def readSpfFile(readfilepath):
-
-    print("Reading SPF from path: \n{}\n".format(readfilepath))
-    readSpf = open(readfilepath, "r")
-    return readSpf
+def collateral_violation(text):
+    return "Collateral Violation:[{}]".format(text)
 
 def removeSymbol(text):
     unwantedSym_list = [";","->","\n","\t","\"",",","=",":"]
@@ -35,16 +21,140 @@ def removeSymbol(text):
     return text
 
 def getFirstWord(text):
-    if " " in text: 
-        text = text.split(" ")
-        return text[0]
+    text = text.lstrip()
+    firstword = text.split(" ")[0]
+    return firstword
+
+def getuserinput():
+    
+    prodlist = []
+    for item in os.listdir("{}\\SPF".format(workdir)):
+        if os.path.isdir("{}\\SPF\\{}".format(workdir, item)):
+            prodlist.append(item)
+
+    for item in os.listdir("{}\\ITPP".format(workdir)):
+        if os.path.isdir("{}\\ITPP\\{}".format(workdir, item)):
+            prodlist.append(item)
+
+    for option in prodlist:
+        print ("{}--{}".format(prodlist.index(option),option))
+    
+    while(True):
+        try:
+            option = int(input('Enter your choice: '))
+            prod = prodlist[option]
+            return prod
+        except:
+            print('Wrong input. Please enter a number in the options ...')
+
+def getSpfPath():
+    spfpathList = []
+
+    spfpath = "{}\\SPF\\{}".format(workdir,prod)
+    if os.path.isdir(spfpath):
+        print("Searching for SPF in Directory: {}\n".format(spfpath))
+        for file in os.listdir(spfpath):
+            if file.endswith(".spf"):
+                print("SPF File detected: {}".format(file))
+                spfpathList.append(os.path.join(spfpath, file))
+    
+        if len(spfpathList) < 1:
+            print("No SPF Detected!!!!")
+
     else:
-        return text
+        print("SPF Directory ({}) not found !!! \n".format(spfpath))
+    print("Total {} SPF detected.\n".format(len(spfpathList)))
+    return spfpathList
+
+def getITPPPath():
+    itpppathList = []
+    itpppath = "{}\\ITPP\\{}".format(workdir,prod)
+
+    if os.path.isdir(itpppath):
+        print("Searching for ITPP in Directory: {}\n".format(itpppath))
+        if os.path.isdir(itpppath):
+            for file in os.listdir(itpppath):
+                if file.endswith(".itpp"):
+                    print("ITPP File detected: {}".format(file))
+                    itpppathList.append(os.path.join(itpppath, file))
+    
+        if len(itpppathList) < 1:
+            print("No ITPP Detected!!!!")
+
+    else:
+        print("ITPP Directory ({}) not found !!! \n".format(itpppath))
+    print("Total {} ITPP detected.\n".format(len(itpppathList)))
+    return itpppathList
+
+def checkCollateralPath():
+
+    commonCollateral_path = "{}\\COLLATERAL\\COMMON".format(workdir)
+    customCollateral_path = "{}\\COLLATERAL\\{}".format(workdir,prod)
+
+    collateralPath_list = [commonCollateral_path, customCollateral_path]
+    print("Searching for collateral files:")
+
+    collateral_filelist = ['bsdl_spreadsheet.csv','bscan_opcode_table.csv','pinfile.csv','rulesfile.csv']
+    compulsory_filelist = ['bsdl_spreadsheet.csv','bscan_opcode_table.csv','rulesfile.csv']
+    
+    for collateral_file in collateral_filelist:
+        file_found = False
+        for collateral_path in collateralPath_list:
+            collateral_filepath = "{}\\{}".format(collateral_path, collateral_file)
+            if os.path.exists(collateral_filepath):
+                file_found = True
+        
+        if file_found == True:
+            print("{:<30} ---------------------------- OK".format(collateral_file))
+        else:
+            print("{:<30} ---------------------------- Not Found".format(collateral_file))
+            if collateral_file in compulsory_filelist:
+                print("Compulsory file ({}) not found!!!! Program Exiting.....".format(collateral_file))
+                quit()
+
+    print("\n")
+
+def getBsdl():
+
+    bsdlpath = "{}\\COLLATERAL\\{}\\bsdl_spreadsheet.csv".format(workdir,prod)
+    return bsdlpath
+
+
+def getOpcode():
+
+    opcodefilepath = "{}\\COLLATERAL\\{}\\bscan_opcode_table.csv".format(workdir,prod)
+
+    opcodefilepath = opcodefilepath if os.path.exists(opcodefilepath) else "{}\\COLLATERAL\\COMMON\\bscan_opcode_table.csv".format(workdir)
+
+    df_opcode = pd.read_csv(opcodefilepath, index_col = 0)
+    df_opcode = df_opcode.fillna('')
+    df_dict = df_opcode.to_dict()
+    return df_dict['OPCODE']
+
+def mapPinName(ObjList):
+
+    pinMapPath = "{}\\COLLATERAL\\{}\\pinfile.csv".format(workdir,prod)
+    if os.path.exists(pinMapPath):
+
+        pinMap_df = pd.read_csv(pinMapPath, header = None)
+        bsdl_pinlist = pinMap_df[0].to_list()
+        reference_pinlist = pinMap_df[1].to_list()
+
+        for obj in ObjList:
+            for reference_pin in reference_pinlist:
+                if obj.field.lower() == reference_pin.lower():
+                    map_pin = bsdl_pinlist[reference_pinlist.index(reference_pin)]
+                    obj.pinmap = map_pin              
+
+def readFile(readfilepath):
+
+    print("Reading {} from path: {}\n".format(os.path.basename(readfilepath), os.path.abspath(readfilepath)))
+    readfile = open(readfilepath, "r")
+    return readfile
 
 def processSpf(spffile):
     processSpflist = []
     focus_tap = ""
-    print("Running processSpf()")
     for line in spffile:
         #print("Processing line: " + line)
         if line.isspace():
@@ -64,7 +174,7 @@ def processSpf(spffile):
         elif getFirstWord(line) == "execute":
             temp_line = removeSymbol(line).split(" ")
             temp_line = [item for item in temp_line if item]
-            processSpflist.append(sF.SpfField(configurationType="ir_tdi",focus_tap=focus_tap,register=temp_line[1]))
+            processSpflist.append(sF.SpfField(configurationType="execute",focus_tap=focus_tap,register=temp_line[1]))
         elif getFirstWord(line) == "ir_tdi":
             temp_line = removeSymbol(line).split(" ")
             temp_line = [item for item in temp_line if item]
@@ -87,63 +197,122 @@ def processSpf(spffile):
             processSpflist.append(sF.SpfField(configurationType="label",write=temp_line[1]))
         elif "flush" in line:
             processSpflist.append(sF.SpfField(configurationType="flush"))
-        elif "vector" in line:
-            vectorlist = []
-            temp_line = line.split(",")
-            vector_line = removeSymbol(temp_line[0]).split(" ")
-            try:
-                vector_rpt = removeSymbol(temp_line[1]).strip()
-            except:
-                vector_rpt = "1"
-            vector_line = [item for item in vector_line if item]
-            vectorlist = vector_line[vector_line.index("vector") + 1:]
-            for vector in vectorlist:
-                pinvector = vector.split("(")[0]
-                vectorvalue = vector.split("(")[1].rstrip(")")
-                processSpflist.append(sF.SpfField(configurationType="vector",field = pinvector, write=vectorvalue, rpt=vector_rpt))
-        elif getFirstWord(line) == "pass":
-            temp_line = line.split("\"")[1]
-            if "label:Pin" in temp_line.replace(" ",""):
-                processSpflist.append(sF.SpfField(configurationType="pin_label",write = temp_line.rstrip(";")))
-            elif "expandata" in temp_line.replace(" ",""):
-                scale = removeSymbol(temp_line.split(",")[1].replace(" ",""))
-                processSpflist.append(sF.SpfField(configurationType="expandata", write = scale))
+        elif "pass itpp" in line:
+            itppline = line[line.find("\"")+1:line.find(";")]
+            itppcmd = itppline.split(":")[0].strip()
+            itppval = itppline.split(":")[1].strip()
+
+            if itppcmd.lower() == "label" and "Pin_" in itppval:
+                pinName = itppval[itppval.find("_")+1:itppval.find("@")]
+                processSpflist.append(sF.SpfField(configurationType="pin_label", field = pinName, write = itppval))
+            elif "expandata" in itppcmd:
+                expandpin = itppval[:itppval.find(",")].strip()
+                expandscale = itppval[itppval.find(",")+1:].strip()
+                processSpflist.append(sF.SpfField(configurationType="expandata", register = expandpin, write = expandscale))
+            elif itppcmd == "scani" :
+                processSpflist.append(sF.SpfField(configurationType="scani", register = itppval))
+            elif itppcmd == "to_state" :
+                processSpflist.append(sF.SpfField(configurationType="to_state", register = itppval))
+            elif itppcmd == "scand" :
+                tdilist = itppval[:itppval.find(",")].strip()
+                tdolist = itppval[itppval.find(",")+1:].strip()
+                processSpflist.append(sF.SpfField(configurationType="scand", write= tdilist, read = tdolist))
+            elif itppcmd == "vector":
+                pinvectorlist = (itppval.split(",")[0]).split(" ")
+                try:
+                    vector_rpt = itppval.split(",")[1].strip()
+                except:
+                    vector_rpt = "1"
+                for vector in pinvectorlist:
+                    pinvector = vector.split("(")[0]
+                    vectorvalue = vector[vector.find("(")+1:vector.find(")")]
+                    processSpflist.append(sF.SpfField(configurationType="vector",field = pinvector, write=vectorvalue, rpt=vector_rpt))
+
 
     return processSpflist
 
-def getOpcode(filepath):
-    df_opcode = pd.read_csv(filepath)
-    return list(df_opcode["OPCODE"])
+def processItpp(itppfile):
+    processItpplist = []
 
-def bsdl2dict(filepath):
-    df_bsdl = pd.read_csv(filepath)
-    return df_bsdl.to_dict()
+    for line in itppfile:
+        if line.isspace():
+            continue
+        elif line.lstrip()[0] == "#":
+            continue
+        elif getFirstWord(line) == "label:":
+            if "Pin_" in line and "@" in line:        
+               processItpplist.append(sF.SpfField(configurationType="pin_label",write = line.split(":")[1].strip()))
+            else:
+                processItpplist.append(sF.SpfField(configurationType="label",write = line.split(":")[1].strip()))
+        elif getFirstWord(line) == "expandata:":
+            itppval = removeSymbol(line.split(":")[1]).strip()
+            expandpin = itppval[:itppval.find(",")].strip()
+            expandscale = itppval[itppval.find(",")+1:].strip()
+            processItpplist.append(sF.SpfField(configurationType="expandata", register = expandpin, write = expandscale))
+        elif getFirstWord(line) == "scani:" :
+            itppval = removeSymbol(line.split(":")[1]).strip()
+            processItpplist.append(sF.SpfField(configurationType="scani", register = itppval))
+        #elif "to_state" in line:
+            #processItpplist.append(sF.SpfField(configurationType="to_state", register = removeSymbol(line.split(":")[1].strip())))
+        elif getFirstWord(line) == "scand:" :
+            itppval = line.split(":")[1].strip()
+            tdilist = removeSymbol(itppval[:itppval.find(",")]).strip()
+            tdolist = removeSymbol(itppval[itppval.find(",")+1:]).strip()
+            processItpplist.append(sF.SpfField(configurationType="scand", write= tdilist, read = tdolist))
+        elif getFirstWord(line) == "vector:":
+            itppval = removeSymbol(line.split(":")[1]).strip()
+            pinvectorlist = (itppval.split(",")[0]).split(" ")
+            try:
+                vector_rpt = itppval.split(",")[1].strip()
+            except:
+                vector_rpt = "1"
+            for vector in pinvectorlist:
+                pinvector = vector.split("(")[0]
+                vectorvalue = vector[vector.find("(")+1:vector.find(")")]
+                processItpplist.append(sF.SpfField(configurationType="vector",field = pinvector, write=vectorvalue, rpt=vector_rpt))
+
+    return processItpplist
 
 def bsdl2obj(filepath):
 
-    bsdl_dict = bsdl2dict(filepath)
+    bsdl_df = pd.read_csv(filepath)
+    bsdl_df = bsdl_df.fillna("")
+    bsdl_dict = bsdl_df.to_dict()
+
+    bsdlheaderlist = ['num','port','cell','function','safe','disval']
+    bsdlkeylist = bsdl_dict.keys()
+
+    if not (set(bsdlheaderlist).issubset(set(bsdlkeylist))):
+        print('Mandatory column ({}) not found in bsdl spreadsheet.'.format(str(bsdlheaderlist)))
+        quit()
 
     bsdlObjList = []
     for i in range(len(bsdl_dict['num'])):
         bsdlObj = bL.Bsdl()
         bsdlObj.num = i
-        bsdlObj.port = bsdl_dict['port'][i].strip()
-        bsdlObj.cell = bsdl_dict['cell'][i].strip()
-        bsdlObj.function = bsdl_dict['function'][i].strip()
-        bsdlObj.safe = bsdl_dict['safe'][i].strip()
+        bsdlObj.port = str(bsdl_dict['port'][i]).strip()
+        bsdlObj.cell = str(bsdl_dict['cell'][i]).strip()
+        bsdlObj.function = str(bsdl_dict['function'][i]).strip()
+        bsdlObj.safe = str(bsdl_dict['safe'][i]).strip()
+        bsdlObj.ccell = str(bsdl_dict['ccell'][i]).strip()
+        bsdlObj.disval = str(bsdl_dict['disval'][i]).strip()
+        bsdlObj.rslt = str(bsdl_dict['rslt'][i]).strip()
 
         bsdlObjList.append(bsdlObj)
 
-    return bsdlObjList
+    return bsdlObjList         
 
 def mapBSDLInfo(spfObjList,bsdlObjList):
 
     updatedSpfObjList = []
+    currentIr = ""
+    bscanIRList = list(opcodeDict.keys())
 
-    opcodelist = getOpcode('bscan_opcode_table.csv')
+    opcodeList = [opcodeDict[ir].replace("b","") for ir in opcodeDict]
 
     for obj in spfObjList:
-        if obj.register in opcodelist:
+        if obj.register in bscanIRList and obj.configurationType == "ir_tdi":
+            currentIr = obj.register
             updatedSpfObjList.append(obj)
             tdi_list = [*spfObjList[spfObjList.index(obj) + 1].write]
             tdo_list = [*spfObjList[spfObjList.index(obj) + 2].read]
@@ -151,82 +320,175 @@ def mapBSDLInfo(spfObjList,bsdlObjList):
             tdo_list.reverse()
             if len(tdi_list) != len(tdo_list):
                 print("Error!TDI & TDO Length mismatch")
-                return -1
-            if len(bsdlObjList) != len(tdi_list):
-                print("Warning!BSDL({}) & TDI({}) Length mismatch".format(len(bsdlObjList),len(tdi_list)))
+                updatedSpfObjList.append(sF.SpfField(configurationType = "Error", register = "TDI & TDO Length mismatch", write = tdi_list, read= tdo_list))
+            elif len(bsdlObjList) != len(tdi_list):
+                print("Warning!BSDL({}) & TDI({}) Length mismatch at opcode({})".format(len(bsdlObjList),len(tdi_list), obj.register))
                 for i in range (len(tdi_list)):
-                    updatedSpfObjList.append(sF.SpfField(configurationType = "dr_tdi/dr_tdo", write = tdi_list[i],  read = tdo_list[i]))
+                    updatedSpfObjList.append(sF.SpfField(configurationType = "dr_tdi/tdo", write = tdi_list[i],  read = tdo_list[i]))
             else:
                 for i in range (len(tdi_list)):
-                    updatedSpfObjList.append(sF.SpfField(configurationType = "dr_tdi/dr_tdo", field = bsdlObjList[i].port, cell = bsdlObjList[i].cell, function = bsdlObjList[i].function, safe = bsdlObjList[i].safe, write = tdi_list[i],  read = tdo_list[i]))
+                    updatedSpfObjList.append(sF.SpfField(configurationType = "dr_tdi/tdo-bsdlmapped", register = currentIr, field = bsdlObjList[i].port, \
+                    cell = bsdlObjList[i].cell, function = bsdlObjList[i].function, safe = bsdlObjList[i].safe, write = tdi_list[i],  read = tdo_list[i]))
         elif obj.configurationType == "dr_tdi" or obj.configurationType == "dr_tdo":
             continue
+
+        elif obj.configurationType == "scani":
+            currentIr = obj.register
+            if currentIr in opcodeList:
+                obj.register = "{}({})".format(obj.register, bscanIRList[opcodeList.index(obj.register)])
+            updatedSpfObjList.append(obj)
+
+        elif obj.configurationType == "scand":
+            tdi_list =[]
+            tdo_list =[]
+            if currentIr in opcodeList:  
+                tdi_list[:0] = obj.write
+                tdo_list[:0] = obj.read
+                tdi_list.reverse()
+                tdo_list.reverse()
+                if len(tdi_list) != len(tdo_list):
+                    print("Error!TDI({}) & TDO({}) Length mismatch".format(len(tdi_list),len(tdo_list)))
+                    updatedSpfObjList.append(sF.SpfField(configurationType = "Error", register = "TDI & TDO Length mismatch", write = tdi_list, read= tdo_list))
+                if len(bsdlObjList) != len(tdi_list):
+                    print("Warning!BSDL({}) & TDI({}) Length mismatch at opcode({})".format(len(bsdlObjList),len(tdi_list), currentIr))
+                    for i in range (len(tdi_list)):
+                        updatedSpfObjList.append(sF.SpfField(configurationType = "scand", write = tdi_list[i],  read = tdo_list[i]))
+                else:
+                    for i in range (len(tdi_list)):
+                        updatedSpfObjList.append(sF.SpfField(configurationType = "scand-bsdlmapped", register = "{}({})".format(currentIr, bscanIRList[opcodeList.index(currentIr)]), \
+                        field = bsdlObjList[i].port, cell = bsdlObjList[i].cell, function = bsdlObjList[i].function, safe = bsdlObjList[i].safe, write = tdi_list[i],  read = tdo_list[i]))
+            elif currentIr in bscanIRList:
+                tdi_list[:0] = obj.write
+                tdo_list[:0] = obj.read
+                tdi_list.reverse()
+                tdo_list.reverse()
+                if len(tdi_list) != len(tdo_list):
+                    print("Error!TDI({}) & TDO({}) Length mismatch".format(len(tdi_list),len(tdo_list)))
+                    updatedSpfObjList.append(sF.SpfField(configurationType = "Error", register = "TDI & TDO Length mismatch", write = tdi_list, read= tdo_list))
+                if len(bsdlObjList) != len(tdi_list):
+                    print("Warning!BSDL({}) & TDI({}) Length mismatch at opcode({})".format(len(bsdlObjList),len(tdi_list), currentIr))
+                    for i in range (len(tdi_list)):
+                        updatedSpfObjList.append(sF.SpfField(configurationType = "scand", write = tdi_list[i],  read = tdo_list[i]))
+                else:
+                    for i in range (len(tdi_list)):
+                        updatedSpfObjList.append(sF.SpfField(configurationType = "scand-bsdlmapped", register = "{}".format(currentIr), \
+                        field = bsdlObjList[i].port, cell = bsdlObjList[i].cell, function = bsdlObjList[i].function, safe = bsdlObjList[i].safe, write = tdi_list[i],  read = tdo_list[i]))
+            else:
+                updatedSpfObjList.append(obj)
         else:
             updatedSpfObjList.append(obj)
 
     return updatedSpfObjList
 
-def checkBscanRule(spfObjList, bsdlObjList, mode):
+def checkBSDLRule(bsdlObjList):
+
+    rulesFieldList = []
+
+    powercell_count = sum(obj.is_power() for obj in bsdlObjList)
+    segmentsel_count = sum(obj.is_segmentsel() for obj in bsdlObjList)
+    acrx_count = sum(obj.is_acrx() for obj in bsdlObjList)
+
+    if powercell_count == 0:
+        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "ERROR", desc = collateral_violation("No Power Cell category found in BSDL. Partial error checking feature impacted.")))
+
+    if segmentsel_count == 0:
+        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "ERROR", desc = collateral_violation("No Segment Select Cell category found in BSDL. Partial error checking feature impacted.")))
+
+    if acrx_count == 0:
+        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "ERROR", desc = collateral_violation("No AC Input/Observe_only category found in BSDL. Partial error checking feature impacted.")))
+
+    return rulesFieldList
+
+def mandatoryBscanRule():
+
+    rulesFieldList = []
+
+    if not sum(obj.is_expandata() for obj in bsdlMappedObjList):
+        rulesFieldList.append(rC.RulesField(spffile = testName, category = "ERROR", desc = format_violation("Expandata not found.")))
+
+    for spfObj in bsdlMappedObjList:
+        if spfObj.is_cyclemorethan1000():
+            rulesFieldList.append(rC.RulesField(spffile = testName, line = bsdlMappedObjList.index(spfObj) ,category = "WARNING", desc = format_violation("Found high cycle count ({}) .".format(spfObj.is_cyclemorethan1000()))))
+        
+        if spfObj.is_powernotsafe():
+            rulesFieldList.append(rC.RulesField(spffile = testName, line = bsdlMappedObjList.index(spfObj), category = "ERROR", desc = format_violation("Power bit not set to safe.")))
+
+        if spfObj.is_segmentselnotsafe():
+            rulesFieldList.append(rC.RulesField(spffile = testName, line = bsdlMappedObjList.index(spfObj), category = "ERROR", desc = format_violation("Segment Select bit not set to safe.")))
+
+    print("Rule BASIC      ---------------------------- RUN COMPLETED")
+    return rulesFieldList
+
+def bscanRuleChecker():
+
+    conditionalrulesFieldList = []
+
+    conditionalRuleChecker = rC.conditionalBscanRule(testName, bsdlObjList, bsdlMappedObjList)
+
+    rules_Dict = {
+                "1.1": conditionalRuleChecker.Rule1_1, #Rule1.1: Input Pin Count not equal to Input Pin Strobe Count
+                "1.2": conditionalRuleChecker.Rule1_2, #Rule1.2: Input Pin Strobe Count not equal to Input Pin Force Count
+                "1.3": conditionalRuleChecker.Rule1_3, #Rule1.3: Input Pin Strobe Count not equal to Input Pin Label Count
+                "1.4": conditionalRuleChecker.Rule1_4, #Rule1.4: Control bit not set to safe for input test
+                "2.1": conditionalRuleChecker.Rule2_1, #Rule2.1: Output Pin Count not equal to Output Pin Vector Strobe Count
+                "2.2": conditionalRuleChecker.Rule2_2, #Rule2.2: Control bit set to safe for output test
+                "2.3": conditionalRuleChecker.Rule2_3, #Rule2.3: Vector Strobe RPT count less than 10
+                "2.4": conditionalRuleChecker.Rule2_4, #Rule2.4: Pin Vector Strobing without H->L/ L->H transition
+                "3.1": conditionalRuleChecker.Rule3_1, #Rule3.1: Toggle Pin Count not equal to Toggle Pin Vector Strobe Count
+                "6.1": conditionalRuleChecker.Rule6_1, #Rule6.1: No strobe found for AC RX pin
+                "6.2": conditionalRuleChecker.Rule6_2, #Rule6.2: AC Input Pin Count not equal to AC Input Pin Strobe Count
+                "6.3": conditionalRuleChecker.Rule6_3  #Rule6.3: AC Output Pin Count not equal to AC Output Pin Vector Strobe Count
+            }
+
+    rulesFilepath = "{}\\COLLATERAL\\{}\\rulesfile.csv".format(workdir,prod)
     
-    pinlabel_count = sum(obj.is_pinlabel() for obj in spfObjList)
-    input_pincount = sum(obj.is_input() for obj in bsdlObjList)
-    output_pincount = sum(obj.is_output() for obj in bsdlObjList)
-    bidir_pincount = sum(obj.is_bidir() for obj in bsdlObjList)
-    observe_pincount = sum(obj.is_observe() for obj in bsdlObjList)
-    acrx_pincount = sum(obj.is_ac() for obj in bsdlObjList)
+    rulesFilepath = rulesFilepath if os.path.exists(rulesFilepath) else "{}\\COLLATERAL\\COMMON\\rulesfile.csv".format(workdir)
 
-    vectorstrobehigh_count = sum(obj.is_vectorstrobehigh() for obj in spfObjList)
-    vectorstrobelow_count = sum(obj.is_vectorstrobelow() for obj in spfObjList)
-    vectorforcehigh_count = sum(obj.is_vectorforcehigh() for obj in spfObjList)
-    vectorforcelow_count = sum(obj.is_vectorforcelow() for obj in spfObjList)
-    bidir_strobe_pincount = sum(obj.is_bidirstrobe() for obj in spfObjList)
-    input_strobe_pincount = sum(obj.is_inputstrobe() for obj in spfObjList)
-    controlnotsafe_count= sum(obj.is_controlnotsafe() for obj in spfObjList)
-    controlsafe_count= sum(obj.is_controlsafe() for obj in spfObjList)
-    powernotsafe_count = sum(obj.is_powernotsafe() for obj in spfObjList)
-    segmentselnotsafe_count = sum(obj.is_segmentselnotsafe() for obj in spfObjList)
-    acrxstrobe_pincount = sum(obj.is_acrxstrobe() for obj in spfObjList)
+    rulesFile_df = pd.read_csv(rulesFilepath)
+    rulesFile_df = rulesFile_df.fillna('')
+    testfile_list = rulesFile_df['TEST_FILE'].tolist()
+        
+    rulesSet_list = rulesFile_df['RULES_SET'].tolist()
 
-    ########################################################### Mandatory Check ########################################################################
-    if rC.check_expandata(sum(obj.is_expandata() for obj in spfObjList)):
-            rulesFieldList.append(rC.RulesField(spffile = spfName, desc = format_violation("Expandata not found.")))
+    print("Running mandatory BSCAN Rules:")
+    mandatoryrulesFieldList = mandatoryBscanRule()
 
-    if powernotsafe_count:
-        rulesFieldList.append(rC.RulesField(spffile = spfName, desc = format_violation("Total of ({}) power bit not set to safe.".format(powernotsafe_count))))
+    for testfile in testfile_list:
+        testfileregex = testfile.replace('*','.+')
+        if re.search(testfileregex,testName):
+            if rulesSet_list[testfile_list.index(testfile)]:
+                print("Running conditional BSCAN Rules:")
+                rulesSet = rulesSet_list[testfile_list.index(testfile)].split(',') 
+            else:
+                conditionalrulesFieldList.append(rC.RulesField(spffile = testName, category = "WARNING", desc = "SPF/ITPP skipped Conditional Rules Checker." ))
+                break
+            for rule in rulesSet:
 
-    if segmentselnotsafe_count:
-        rulesFieldList.append(rC.RulesField(spffile = spfName, desc = format_violation("Total of ({}) segment_select bit not set to safe.".format(segmentselnotsafe_count))))
+                rule_execute = rules_Dict.get(rule, conditionalRuleChecker.RuleUndefined)
+                rulefield = rule_execute() if rule in rules_Dict.keys() else rule_execute(rule)
 
-    ########################################################### Conditional Check ########################################################################
+                print("Rule {:<10} ---------------------------- {}".format(rule, 'RUN COMPLETED' if rule in rules_Dict.keys() else 'UNDEFINED'))
 
-    if "chain" in mode:
-        pass
+                if rulefield:
+                    conditionalrulesFieldList = conditionalrulesFieldList + rulefield
 
-    elif "input" in mode:
+    return conditionalrulesFieldList + mandatoryrulesFieldList
 
-        if rC.check_inputstrobe(input_pincount + bidir_pincount, bidir_strobe_pincount + input_strobe_pincount):
-            rulesFieldList.append(rC.RulesField(spffile = spfName, desc = format_violation("Input Pin Count and Input TDO Strobe Count mismatch.")))
+def getTestSummary():
 
-        if rC.check_inputforce(bidir_strobe_pincount + input_strobe_pincount, vectorforcelow_count + vectorforcehigh_count):
-            rulesFieldList.append(rC.RulesField(spffile = spfName, desc = format_violation("Input Pin Strobe count ({}) and Vector Forcing Pin count ({}) mismatch.".format(bidir_strobe_pincount + input_strobe_pincount,vectorforcelow_count + vectorforcehigh_count))))
-    
-        if controlnotsafe_count:
-            rulesFieldList.append(rC.RulesField(spffile = spfName, desc = format_violation("Total of ({}) control bit not set to safe.".format(controlnotsafe_count))))
+    conditionalRuleChecker = rC.conditionalBscanRule(testName, bsdlObjList, bsdlMappedObjList)
 
-        if rC.check_pinlabel(input_strobe_pincount + bidir_strobe_pincount, pinlabel_count):
-            rulesFieldList.append(rC.RulesField(spffile = spfName, desc = format_violation("Input Pin strobe count ({}) and Pin Label count ({}) mismatch.".format(input_strobe_pincount + bidir_strobe_pincount,pinlabel_count))))
-    
-    elif "output" in mode:
-        if controlsafe_count:
-            rulesFieldList.append(rC.RulesField(spffile = spfName, desc = format_violation("Total of ({}) control bit set to safe.".format(controlsafe_count))))
+    testSummaryObj = rC.TestSummaryField()
 
-        if rC.check_outputstrobe(output_pincount + bidir_pincount + observe_pincount,vectorstrobehigh_count + vectorstrobelow_count):
-            rulesFieldList.append(rC.RulesField(spffile = spfName, desc = format_violation("Output Pin Count ({}) and Pin Vector Strobe Count ({}) mismatch.".format(output_pincount + bidir_pincount + observe_pincount, vectorstrobehigh_count + vectorstrobelow_count))))
+    testSummaryObj.spffile = testName
+    testSummaryObj.pin_label = len(conditionalRuleChecker.pinlabellist)
+    testSummaryObj.tdo_strobe = len(conditionalRuleChecker.input_strobe_list + conditionalRuleChecker.bidir_strobe_list + conditionalRuleChecker.acrxstrobelist)
+    testSummaryObj.vector_force0 = len(conditionalRuleChecker.vectorforcelowlist)
+    testSummaryObj.vector_force1 = len(conditionalRuleChecker.vectorforcehighlist)
+    testSummaryObj.vector_strobeH = len(conditionalRuleChecker.vectorstrobehighlist)
+    testSummaryObj.vector_strobeL = len(conditionalRuleChecker.vectorstrobelowlist)
 
-    elif "pulse" in mode or "train" in mode:
-        print("RX pincount:{}, RX strobe:{}".format(acrx_pincount, acrxstrobe_pincount))
-        if rC.check_inputstrobe(acrx_pincount, acrxstrobe_pincount):
-            rulesFieldList.append(rC.RulesField(spffile = spfName, desc = format_violation("AC RX Pin count ({}) and AC RX Pin strobe count ({}) mismatch.".format(acrx_pincount,acrxstrobe_pincount))))
+    return testSummaryObj
 
 def obj2DataFrame(objList):
     newDict = []
@@ -236,54 +498,145 @@ def obj2DataFrame(objList):
 
     return pd.DataFrame.from_dict(newDict)
 
-def generateExcel(DF):
+def generateSPFExcel(DF):
+    groupdatalist = ['bsdlmapped','vector']
     print("Generating decoded file. Please wait......")
     outputFilePath = "{}\\DECODED\\{}".format(workdir, prod)
-    outputFile = os.path.splitext(spfName)[0]
+    outputFile = os.path.splitext(testName)[0]
+    outputFile_full = outputFilePath + "\\" + outputFile + "_decoded.xlsx"
+
+    if not os.path.exists(outputFilePath):
+        os.makedirs(outputFilePath)
+
+    writer = pd.ExcelWriter(outputFile_full, engine='xlsxwriter')
+
+    DF.to_excel(writer, sheet_name = 'DecodedSPF')
+
+    worksheet = writer.sheets['DecodedSPF']
+
+    for i in range (len(DF['configurationType'])):
+        for groupdata in groupdatalist:
+            if groupdata in DF['configurationType'][i]:
+                worksheet.set_row(i + 1, None, None, {'level': 1, "hidden": True})
+
+    writer.close()
+    print("Decoded SPF generated: {}\n\n".format(outputFile_full))
+
+def generateITPPExcel(DF):
+    print("Generating decoded file. Please wait......")
+    outputFilePath = "{}\\DECODED\\{}".format(workdir, prod)
+    outputFile = os.path.splitext(testName)[0]
     outputFile_full = outputFilePath + "\\" + outputFile + "_decoded.xlsx"
 
     if not os.path.exists(outputFilePath):
         os.makedirs(outputFilePath)
     
-    DF.to_excel(outputFile_full)
-    print("Decoded SPF generated: {}\n\n".format(outputFile_full))
+    writer = pd.ExcelWriter(outputFile_full, engine='xlsxwriter')
+
+    DF.to_excel(writer, sheet_name = 'DecodedITPP')
+
+    worksheet = writer.sheets['DecodedITPP']
+
+    for i in range (len(DF['configurationType'])):
+        for groupdata in groupdatalist:
+            if groupdata in DF['configurationType'][i]:
+                worksheet.set_row(i + 1, None, None, {'level': 1, "hidden": True})
+
+    writer.close()
+    print("Decoded ITPP generated: {}\n\n".format(outputFile_full))
+
+def generateReport(SummaryDF, RulesDF):
+    
+    reportName = 'SummaryReport.xlsx'
+    reportpath = "{}\\REPORT\\{}".format(workdir,prod)
+    print("Generating Summary Report. Please wait ...... ")
+    
+    if not os.path.isdir(reportpath):
+        os.makedirs(reportpath)
+    
+    with pd.ExcelWriter(reportpath + "\\" + reportName) as writer:
+        SummaryDF.to_excel(writer, sheet_name = 'Summary')
+        RulesDF.to_excel(writer, sheet_name = 'Violation')
+
+    print("{} generated to path {} ".format(reportName,reportpath))
 
 if __name__ == "__main__":
 
-    prod = ""
-    
-    rulesFieldList = []
+    prod = getuserinput()
 
     print("Current Work Directory: {}\n".format(workdir))
 
     spfPathList = getSpfPath()
 
-    for spfPath in spfPathList:
+    itppPathList = getITPPPath()
 
-        spfFile = readSpfFile(spfPath)
+    if len(spfPathList + itppPathList) == 0:
+        print("No file to decode. Exiting......")
+        quit()
 
-        spfName = os.path.basename(spfPath)
+    checkCollateralPath()
 
-        mode = spfName.split(".")[0].split("_")
+    opcodeDict = getOpcode()
 
-        spfLineObjList = processSpf(spfFile)
+    bsdlFile = getBsdl()
 
-        bsdlObjList = bsdl2obj('bsdl_spreadsheet.csv')
+    bsdlObjList = bsdl2obj(bsdlFile)
 
-        bsdlMappedObjList = mapBSDLInfo(spfLineObjList,bsdlObjList)
+    bsdlrulesFieldList = checkBSDLRule(bsdlObjList)
+
+    bscanrulesFieldList = []
+
+    testSummaryList = []
+
+    if len(spfPathList) >= 1:
+        for spfPath in spfPathList:
+
+            spfFile = readFile(spfPath)
+
+            testName = os.path.basename(spfPath)
+
+            print("Decoding SPF {} ({}/{})\n".format(testName, spfPathList.index(spfPath) + 1,len(spfPathList)))
+
+            spfLineObjList = processSpf(spfFile)
+
+            mapPinName(spfLineObjList)
+
+            bsdlMappedObjList = mapBSDLInfo(spfLineObjList,bsdlObjList)
         
-        bsdlMappedDF = obj2DataFrame(bsdlMappedObjList)
+            bsdlMappedDF = obj2DataFrame(bsdlMappedObjList)
 
-        generateExcel(bsdlMappedDF)
+            generateSPFExcel(bsdlMappedDF)
 
-        checkBscanRule(bsdlMappedObjList,bsdlObjList,mode)
+            bscanrulesFieldList += bscanRuleChecker()
 
-        print("Current progress: ({}/{})\n".format(spfPathList.index(spfPath) + 1,len(spfPathList)))
+            testSummaryList.append(getTestSummary())
 
-    RulesDict = obj2DataFrame(rulesFieldList)
+    if len(itppPathList) >= 1:   
+        for itppPath in itppPathList:
+
+            itppFile = readFile(itppPath)
+
+            testName = os.path.basename(itppPath)
+
+            print("Decoding ITPP {} ({}/{})\n".format(testName, itppPathList.index(itppPath) + 1,len(itppPathList)))
+
+            itppLineObjList = processItpp(itppFile)
+
+            mapPinName(itppLineObjList)
+
+            bsdlMappedObjList = mapBSDLInfo(itppLineObjList,bsdlObjList)
+        
+            bsdlMappedDF = obj2DataFrame(bsdlMappedObjList)
+
+            generateITPPExcel(bsdlMappedDF)
+
+            bscanrulesFieldList += bscanRuleChecker()
+
+            testSummaryList.append(getTestSummary())
+
+    RulesDF = obj2DataFrame(bsdlrulesFieldList + bscanrulesFieldList)
+
+    TestSummaryDF = obj2DataFrame(testSummaryList)
     
-    reportName = 'Report.xlsx'
-    pd.DataFrame.from_dict(RulesDict).to_excel(reportName)
-
-    print("{} generated on {}".format(reportName,workdir))
+    generateReport(TestSummaryDF, RulesDF)
 
