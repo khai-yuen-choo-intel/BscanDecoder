@@ -1,6 +1,5 @@
 import os
 import re
-import xlsxwriter
 import pandas as pd
 import spffield as sF
 import bsdl_lib as bL
@@ -678,3 +677,4 @@ if __name__ == "__main__":
     
     generateReport(TestSummaryDF, RulesDF)
 
+    input('Press any key to exit ..... ')
