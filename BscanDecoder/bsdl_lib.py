@@ -19,6 +19,9 @@ class Bsdl:
     def is_observe(self):
         return 1 if "observe" in self.function else 0
 
+    def is_observe_xac(self):
+        return 1 if "observe" in self.function and "ac" not in self.cell.lower() else 0
+
     def is_input(self):
         return 1 if self.function == "input" else 0
 

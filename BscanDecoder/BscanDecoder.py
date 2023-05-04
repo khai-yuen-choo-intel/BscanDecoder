@@ -1,5 +1,6 @@
 import os
 import re
+import xlsxwriter
 import pandas as pd
 import spffield as sF
 import bsdl_lib as bL
@@ -34,10 +35,6 @@ def getuserinput():
 
     for item in list(set(os.listdir(spfFolder) + os.listdir(itppFolder))):
         if os.path.isdir("{}\\{}".format(spfFolder, item)) or os.path.isdir("{}\\{}".format(itppFolder, item)):
-            prodlist.append(item)
-
-    for item in os.listdir():
-        if os.path.isdir("{}\\ITPP\\{}".format(workdir, item)):
             prodlist.append(item)
 
     for option in prodlist:
@@ -148,8 +145,8 @@ def mapPinName(ObjList):
             for reference_pin in reference_pinlist:
                 if obj.field.lower() == reference_pin.lower():
                     map_pin = bsdl_pinlist[reference_pinlist.index(reference_pin)]
-                    obj.pinmap = map_pin              
-
+                    obj.pinmap = map_pin  
+                    
 def readFile(readfilepath):
 
     print("Reading {} from path: {}\n".format(os.path.basename(readfilepath), os.path.abspath(readfilepath)))
@@ -243,15 +240,16 @@ def processItpp(itppfile):
             continue
         elif line.lstrip()[0] == "#":
             continue
-        elif getFirstWord(line) == "label:":
-            if "Pin_" in line and "@" in line:        
-               processItpplist.append(sF.SpfField(configurationType="pin_label",write = line.split(":")[1].strip()))
+        elif getFirstWord(removeSymbol(line)) == "label":
+            if "Pin_" in line and "@" in line:
+                itppval = line.split(":")[1].strip()
+                processItpplist.append(sF.SpfField(configurationType="pin_label", field = itppval[itppval.find("_")+1:itppval.find("@")], write = itppval))
             else:
                 processItpplist.append(sF.SpfField(configurationType="label",write = line.split(":")[1].strip()))
         elif getFirstWord(line) == "expandata:":
-            itppval = removeSymbol(line.split(":")[1]).strip()
-            expandpin = itppval[:itppval.find(",")].strip()
-            expandscale = itppval[itppval.find(",")+1:].strip()
+            itppval = line.split(":")[1].strip()
+            expandpin = removeSymbol(itppval[:itppval.find(",")]).strip()
+            expandscale = removeSymbol(itppval[itppval.find(",")+1:]).strip()
             processItpplist.append(sF.SpfField(configurationType="expandata", register = expandpin, write = expandscale))
         elif getFirstWord(line) == "scani:" :
             itppval = removeSymbol(line.split(":")[1]).strip()
@@ -420,7 +418,10 @@ def mandatoryBscanRule():
         if spfObj.is_segmentselnotsafe():
             rulesFieldList.append(rC.RulesField(spffile = testName, line = bsdlMappedObjList.index(spfObj), category = "ERROR", desc = format_violation("Segment Select bit not set to safe.")))
 
-    print("Rule BASIC      ---------------------------- RUN COMPLETED")
+    rule_status = 'PASS' if len(rulesFieldList) < 1 else 'FAIL'
+
+    print("Rule BASIC      ---------------------------- {}".format(rule_status))
+
     return rulesFieldList
 
 def bscanRuleChecker():
@@ -471,7 +472,13 @@ def bscanRuleChecker():
                 rule_execute = rules_Dict.get(rule, conditionalRuleChecker.RuleUndefined)
                 rulefield = rule_execute() if rule in rules_Dict.keys() else rule_execute(rule)
 
-                print("Rule {:<10} ---------------------------- {}".format(rule, 'RUN COMPLETED' if rule in rules_Dict.keys() else 'UNDEFINED'))
+                if len(rulefield) < 1:
+                    rule_status = 'PASS'
+                    conditionalrulesFieldList.append(rC.RulesField(spffile = testName, rule = "Rule{}".format(rule), category = "PASS"))
+                else:
+                   rule_status = 'FAIL'
+
+                print("Rule {:<10} ---------------------------- {}".format(rule, rule_status if rule in rules_Dict.keys() else 'UNDEFINED'))
 
                 if rulefield:
                     conditionalrulesFieldList = conditionalrulesFieldList + rulefield
@@ -485,12 +492,24 @@ def getTestSummary():
     testSummaryObj = rC.TestSummaryField()
 
     testSummaryObj.spffile = testName
+
+    testSummaryObj.bidir_pin = len(conditionalRuleChecker.bidirpinlist)
+    testSummaryObj.input_pin = len(conditionalRuleChecker.inputpinlist)
+    testSummaryObj.output_pin = len(conditionalRuleChecker.outputpinlist)
+    testSummaryObj.observe_pin = len(conditionalRuleChecker.observepinlist)
+
     testSummaryObj.pin_label = len(conditionalRuleChecker.pinlabellist)
     testSummaryObj.tdo_strobe = len(conditionalRuleChecker.input_strobe_list + conditionalRuleChecker.bidir_strobe_list + conditionalRuleChecker.acrxstrobelist)
     testSummaryObj.vector_force0 = len(conditionalRuleChecker.vectorforcelowlist)
     testSummaryObj.vector_force1 = len(conditionalRuleChecker.vectorforcehighlist)
     testSummaryObj.vector_strobeH = len(conditionalRuleChecker.vectorstrobehighlist)
     testSummaryObj.vector_strobeL = len(conditionalRuleChecker.vectorstrobelowlist)
+
+    category_list = list(set([bscanrulesField.category for bscanrulesField in bscanrulesFieldList if bscanrulesField.spffile == testSummaryObj.spffile]))
+    rules_list = list(set([bscanrulesField.rule for bscanrulesField in bscanrulesFieldList if bscanrulesField.spffile == testSummaryObj.spffile]))
+
+    testSummaryObj.rules = ', '.join(rules_list)
+    testSummaryObj.status = 'ERROR' if 'ERROR' in category_list else 'PASS'
 
     return testSummaryObj
 
@@ -559,9 +578,23 @@ def generateReport(SummaryDF, RulesDF):
     if not os.path.isdir(reportpath):
         os.makedirs(reportpath)
     
-    with pd.ExcelWriter(reportpath + "\\" + reportName) as writer:
-        SummaryDF.to_excel(writer, sheet_name = 'Summary')
-        RulesDF.to_excel(writer, sheet_name = 'Violation')
+    def format_cell(column):    
+        for category in column:
+            if category == 'PASS':
+                highlight = 'background-color: #00B050;'
+            elif category == 'ERROR':
+                highlight = 'background-color: #FF0000;'
+            else:
+                highlight = ''
+        
+        return [highlight]
+
+    RulesDF_formatted = RulesDF.style.apply(format_cell, subset=['category'], axis=1)
+    SummaryDF_formatted = SummaryDF.style.apply(format_cell, subset=['status'], axis=1)
+
+    with pd.ExcelWriter(reportpath + "\\" + reportName, engine='xlsxwriter') as writer:
+        SummaryDF_formatted.to_excel(writer, sheet_name = 'Summary')
+        RulesDF_formatted.to_excel(writer, sheet_name = 'Violation')
 
     print("{} generated to path {} ".format(reportName,reportpath))
 
