@@ -261,7 +261,7 @@ class conditionalBscanRule:
                     pintoggleDict[spfObj.field].append('L')
 
         if len(pintoggleDict.keys()) < self.toggle_pincount:
-            rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule3.1", category = "ERROR", desc = self.format_violation("Pin Vector Strobe Count ({}) lesser than Toggle Support Pin Count ({}).".format(len(pintoggleDict.keys(), self.toggle_pincount)))))
+            rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule3.1", category = "ERROR", desc = self.format_violation("Pin Vector Strobe Count ({}) lesser than Toggle Support Pin Count ({}).".format(len(pintoggleDict.keys()), self.toggle_pincount))))
 
         for pin in self.togglepinlist:
             if pin not in pintoggleDict.keys():

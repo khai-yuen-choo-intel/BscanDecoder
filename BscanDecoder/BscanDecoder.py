@@ -290,7 +290,7 @@ def bsdl2obj(filepath):
     bsdlObjList = []
     for i in range(len(bsdl_dict['num'])):
         bsdlObj = bL.Bsdl()
-        bsdlObj.num = i
+        bsdlObj.num = str(bsdl_dict['num'][i]).strip()
         bsdlObj.port = str(bsdl_dict['port'][i]).strip()
         bsdlObj.cell = str(bsdl_dict['cell'][i]).strip()
         bsdlObj.function = str(bsdl_dict['function'][i]).strip()
@@ -328,8 +328,11 @@ def mapBSDLInfo(spfObjList,bsdlObjList):
                     updatedSpfObjList.append(sF.SpfField(configurationType = "dr_tdi/tdo", write = tdi_list[i],  read = tdo_list[i]))
             else:
                 for i in range (len(tdi_list)):
-                    updatedSpfObjList.append(sF.SpfField(configurationType = "dr_tdi/tdo-bsdlmapped", register = currentIr, field = bsdlObjList[i].port, \
-                    cell = bsdlObjList[i].cell, function = bsdlObjList[i].function, safe = bsdlObjList[i].safe, write = tdi_list[i],  read = tdo_list[i]))
+                    for bsdlObj in bsdlObjList:
+                        if bsdlObj.num == str(i):
+                            bsdlindex = bsdlObjList.index(bsdlObj)
+                    updatedSpfObjList.append(sF.SpfField(configurationType = "dr_tdi/tdo-bsdlmapped", register = currentIr, field = bsdlObjList[bsdlindex].port, \
+                    cell = bsdlObjList[bsdlindex].cell, function = bsdlObjList[bsdlindex].function, safe = bsdlObjList[bsdlindex].safe, write = tdi_list[i],  read = tdo_list[i]))
         elif obj.configurationType == "dr_tdi" or obj.configurationType == "dr_tdo":
             continue
 
@@ -356,8 +359,11 @@ def mapBSDLInfo(spfObjList,bsdlObjList):
                         updatedSpfObjList.append(sF.SpfField(configurationType = "scand", write = tdi_list[i],  read = tdo_list[i]))
                 else:
                     for i in range (len(tdi_list)):
+                        for bsdlObj in bsdlObjList:
+                            if bsdlObj.num == str(i):
+                                bsdlindex = bsdlObjList.index(bsdlObj)
                         updatedSpfObjList.append(sF.SpfField(configurationType = "scand-bsdlmapped", register = "{}({})".format(currentIr, bscanIRList[opcodeList.index(currentIr)]), \
-                        field = bsdlObjList[i].port, cell = bsdlObjList[i].cell, function = bsdlObjList[i].function, safe = bsdlObjList[i].safe, write = tdi_list[i],  read = tdo_list[i]))
+                        field = bsdlObjList[bsdlindex].port, cell = bsdlObjList[bsdlindex].cell, function = bsdlObjList[bsdlindex].function, safe = bsdlObjList[bsdlindex].safe, write = tdi_list[i],  read = tdo_list[i]))
             elif currentIr in bscanIRList:
                 tdi_list[:0] = obj.write
                 tdo_list[:0] = obj.read
@@ -372,8 +378,11 @@ def mapBSDLInfo(spfObjList,bsdlObjList):
                         updatedSpfObjList.append(sF.SpfField(configurationType = "scand", write = tdi_list[i],  read = tdo_list[i]))
                 else:
                     for i in range (len(tdi_list)):
+                        for bsdlObj in bsdlObjList:
+                            if bsdlObj.num == str(i):
+                                bsdlindex = bsdlObjList.index(bsdlObj)
                         updatedSpfObjList.append(sF.SpfField(configurationType = "scand-bsdlmapped", register = "{}".format(currentIr), \
-                        field = bsdlObjList[i].port, cell = bsdlObjList[i].cell, function = bsdlObjList[i].function, safe = bsdlObjList[i].safe, write = tdi_list[i],  read = tdo_list[i]))
+                        field = bsdlObjList[bsdlindex].port, cell = bsdlObjList[bsdlindex].cell, function = bsdlObjList[bsdlindex].function, safe = bsdlObjList[bsdlindex].safe, write = tdi_list[i],  read = tdo_list[i]))
             else:
                 updatedSpfObjList.append(obj)
         else:
