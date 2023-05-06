@@ -13,6 +13,10 @@ def format_violation(text):
 def collateral_violation(text):
     return "Collateral Violation:[{}]".format(text)
 
+def quit_program():
+    input('Exiting Program. Press any key to exit ..... ')
+    quit()
+
 def removeSymbol(text):
     unwantedSym_list = [";","->","\n","\t","\"",",","=",":"]
     for unwantedSym in unwantedSym_list:
@@ -110,7 +114,7 @@ def checkCollateralPath():
             print("{:<30} ---------------------------- Not Found".format(collateral_file))
             if collateral_file in compulsory_filelist:
                 print("Compulsory file ({}) not found!!!! Program Exiting.....".format(collateral_file))
-                quit()
+                quit_program()
 
     print("\n")
 
@@ -261,10 +265,10 @@ def processItpp(itppfile):
             tdolist = removeSymbol(itppval[itppval.find(",")+1:]).strip()
             processItpplist.append(sF.SpfField(configurationType="scand", write= tdilist, read = tdolist))
         elif getFirstWord(line) == "vector:":
-            itppval = removeSymbol(line.split(":")[1]).strip()
+            itppval = line.split(":")[1].strip()
             pinvectorlist = (itppval.split(",")[0]).split(" ")
             try:
-                vector_rpt = itppval.split(",")[1].strip()
+                vector_rpt = removeSymbol(itppval.split(",")[1].strip())
             except:
                 vector_rpt = "1"
             for vector in pinvectorlist:
@@ -285,7 +289,7 @@ def bsdl2obj(filepath):
 
     if not (set(bsdlheaderlist).issubset(set(bsdlkeylist))):
         print('Mandatory column ({}) not found in bsdl spreadsheet.'.format(str(bsdlheaderlist)))
-        quit()
+        quit_program()
 
     bsdlObjList = []
     for i in range(len(bsdl_dict['num'])):
@@ -545,6 +549,8 @@ def generateSPFExcel(DF):
 
     worksheet = writer.sheets['DecodedSPF']
 
+    worksheet.freeze_panes(1, 1)
+
     for i in range (len(DF['configurationType'])):
         for groupdata in groupdatalist:
             if groupdata in DF['configurationType'][i]:
@@ -568,6 +574,8 @@ def generateITPPExcel(DF):
     DF.to_excel(writer, sheet_name = 'DecodedITPP')
 
     worksheet = writer.sheets['DecodedITPP']
+
+    worksheet.freeze_panes(1, 1)
 
     for i in range (len(DF['configurationType'])):
         for groupdata in groupdatalist:
@@ -604,6 +612,12 @@ def generateReport(SummaryDF, RulesDF):
         SummaryDF_formatted.to_excel(writer, sheet_name = 'Summary')
         RulesDF_formatted.to_excel(writer, sheet_name = 'Violation')
 
+        worksheet = writer.sheets['Summary']
+        worksheet.freeze_panes(1, 1)
+
+        worksheet = writer.sheets['Violation']
+        worksheet.freeze_panes(1, 1)
+
     print("{} generated to path {} ".format(reportName,reportpath))
 
 if __name__ == "__main__":
@@ -618,7 +632,7 @@ if __name__ == "__main__":
 
     if len(spfPathList + itppPathList) == 0:
         print("No file to decode. Exiting......")
-        quit()
+        quit_program()
 
     checkCollateralPath()
 
@@ -686,4 +700,4 @@ if __name__ == "__main__":
     
     generateReport(TestSummaryDF, RulesDF)
 
-    input('Press any key to exit ..... ')
+    quit_program()
