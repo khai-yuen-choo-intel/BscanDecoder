@@ -2,16 +2,32 @@ import os
 import re
 import pandas as pd
 import spffield as sF
-import bsdl_lib as bL
+import bsdlinterpreter as bI
 import ruleschecker as rC
+import filesetup as fS
 
 workdir = os.getcwd()
+os.system("")
 
 def format_violation(text):
     return "Bscan Rules Violation:[{}]".format(text)
 
 def collateral_violation(text):
     return "Collateral Violation:[{}]".format(text)
+
+def print_color(text, color):
+    switch = {
+        'red': '\033[91m',
+        'green': '\033[92m',
+        'yellow': '\033[93m',
+        'cyan':'\033[96m',
+        'blue': '\033[34m',
+        'orange': '\033[33m',
+        }
+    color_ansi = switch.get(color)
+
+    print('{}{}{}'.format(color_ansi,text,'\033[00m'))
+
 
 def quit_program():
     input('Exiting Program. Press any key to exit ..... ')
@@ -29,31 +45,61 @@ def getFirstWord(text):
     firstword = text.split(" ")[0]
     return firstword
 
+def setupBasicFolder():
+
+    basicPath = ['COLLATERAL', 'SPF', 'ITPP']
+
+    print("\nCheck/Create Folder Structure:")
+
+    for path in basicPath:
+        folder = "{}\\{}".format(workdir,path)
+        if os.path.exists(folder):
+            print("BASIC FOLDER {:<20}     ---------------------------- OK".format(path))
+            pass
+        else:
+            os.makedirs(folder)
+            print("BASIC FOLDER {:<20}     ---------------------------- CREATED".format(path))
+
 def getuserinput():
-    
-    prodlist = []
 
-    spfFolder = "{}\\SPF".format(workdir)
-    itppFolder = "{}\\ITPP".format(workdir)
-
-    for item in list(set(os.listdir(spfFolder) + os.listdir(itppFolder))):
-        if os.path.isdir("{}\\{}".format(spfFolder, item)) or os.path.isdir("{}\\{}".format(itppFolder, item)):
-            prodlist.append(item)
-
-    for option in prodlist:
-        print ("{}--{}".format(prodlist.index(option),option))
-    
     while(True):
-        try:
-            option = int(input('Enter your choice: '))
-            prod = prodlist[option]
-            return prod
-        except:
+        prodlist = []
+
+        spfFolder = "{}\\SPF".format(workdir)
+        itppFolder = "{}\\ITPP".format(workdir)
+
+        for item in list(set(os.listdir(spfFolder) + os.listdir(itppFolder))):
+            if os.path.isdir("{}\\{}".format(spfFolder, item)) or os.path.isdir("{}\\{}".format(itppFolder, item)):
+                prodlist.append(item)
+    
+        prodlist.sort()
+
+        optionlist = [prod for prod in prodlist]
+    
+        optionlist.append("Product Setup")
+        optionlist.append("Remove Product")
+
+        for index, option in enumerate(optionlist):
+            if option == "Product Setup":
+                print_color("{}--{}".format(index,option),'cyan')
+            elif option == "Remove Product":
+                print_color("{}--{}".format(index,option),'red')
+            else:
+                print("{}--{}".format(index,option))
+
+        option = int(input('Enter your choice: '))
+        if optionlist[option] in prodlist:
+            return prodlist[option]
+        elif optionlist[option] == "Product Setup":
+            fS.FileSetup.setupProduct()
+        elif optionlist[option] == "Remove Product":
+            fS.FileSetup.removeProduct()
+        else:
             print('Wrong input. Please enter a number in the options ...')
 
 def getSpfPath():
     spfpathList = []
-
+    
     spfpath = "{}\\SPF\\{}".format(workdir,prod)
     if os.path.isdir(spfpath):
         print("Searching for SPF in Directory: {}\n".format(spfpath))
@@ -101,6 +147,14 @@ def checkCollateralPath():
     collateral_filelist = ['bsdl_spreadsheet.csv','bscan_opcode_table.csv','pinfile.csv','rulesfile.csv']
     compulsory_filelist = ['bsdl_spreadsheet.csv','bscan_opcode_table.csv','rulesfile.csv']
     
+    for file in os.listdir(customCollateral_path):
+        if file.endswith('.bsdl'):
+            collateral_filelist.remove('bsdl_spreadsheet.csv')
+            compulsory_filelist.remove('bsdl_spreadsheet.csv')
+            collateral_filelist.append(file)
+            compulsory_filelist.append(file)
+            break
+
     for collateral_file in collateral_filelist:
         file_found = False
         for collateral_path in collateralPath_list:
@@ -120,7 +174,14 @@ def checkCollateralPath():
 
 def getBsdl():
 
-    bsdlpath = "{}\\COLLATERAL\\{}\\bsdl_spreadsheet.csv".format(workdir,prod)
+    bsdlfilepath = "{}\\COLLATERAL\\{}".format(workdir, prod)
+
+    bsdlpath = "{}\\bsdl_spreadsheet.csv".format(bsdlfilepath)
+
+    for file in os.listdir(bsdlfilepath):
+        if file.endswith(".bsdl"):
+            bsdlpath = "{}\\{}".format(bsdlfilepath,file)
+            
     return bsdlpath
 
 
@@ -280,30 +341,15 @@ def processItpp(itppfile):
 
 def bsdl2obj(filepath):
 
-    bsdl_df = pd.read_csv(filepath)
-    bsdl_df = bsdl_df.fillna("")
-    bsdl_dict = bsdl_df.to_dict()
-
-    bsdlheaderlist = ['num','port','cell','function','safe','disval']
-    bsdlkeylist = bsdl_dict.keys()
-
-    if not (set(bsdlheaderlist).issubset(set(bsdlkeylist))):
-        print('Mandatory column ({}) not found in bsdl spreadsheet.'.format(str(bsdlheaderlist)))
-        quit_program()
-
     bsdlObjList = []
-    for i in range(len(bsdl_dict['num'])):
-        bsdlObj = bL.Bsdl()
-        bsdlObj.num = str(bsdl_dict['num'][i]).strip()
-        bsdlObj.port = str(bsdl_dict['port'][i]).strip()
-        bsdlObj.cell = str(bsdl_dict['cell'][i]).strip()
-        bsdlObj.function = str(bsdl_dict['function'][i]).strip()
-        bsdlObj.safe = str(bsdl_dict['safe'][i]).strip()
-        bsdlObj.ccell = str(bsdl_dict['ccell'][i]).strip()
-        bsdlObj.disval = str(bsdl_dict['disval'][i]).strip()
-        bsdlObj.rslt = str(bsdl_dict['rslt'][i]).strip()
 
-        bsdlObjList.append(bsdlObj)
+    if filepath.endswith('.csv'):
+
+        bsdlObjList = bI.BSDLInterpreter(filepath).csv2ObjList()
+
+    else:
+
+        bsdlObjList = bI.BSDLInterpreter(filepath).bsdl2ObjList()
 
     return bsdlObjList         
 
@@ -443,18 +489,18 @@ def bscanRuleChecker():
     conditionalRuleChecker = rC.conditionalBscanRule(testName, bsdlObjList, bsdlMappedObjList)
 
     rules_Dict = {
-                "1.1": conditionalRuleChecker.Rule1_1, #Rule1.1: Input Pin Count not equal to Input Pin Strobe Count
-                "1.2": conditionalRuleChecker.Rule1_2, #Rule1.2: Input Pin Strobe Count not equal to Input Pin Force Count
-                "1.3": conditionalRuleChecker.Rule1_3, #Rule1.3: Input Pin Strobe Count not equal to Input Pin Label Count
+                "1.1": conditionalRuleChecker.Rule1_1, #Rule1.1: Input Pin Strobe Count lesser than Input Pin Count 
+                "1.2": conditionalRuleChecker.Rule1_2, #Rule1.2: Input Pin Strobe Count lesser than Input Pin Force Count
+                "1.3": conditionalRuleChecker.Rule1_3, #Rule1.3: Input Pin Label Count lesser than Input Pin Strobe Count
                 "1.4": conditionalRuleChecker.Rule1_4, #Rule1.4: Control bit not set to safe for input test
-                "2.1": conditionalRuleChecker.Rule2_1, #Rule2.1: Output Pin Count not equal to Output Pin Vector Strobe Count
+                "2.1": conditionalRuleChecker.Rule2_1, #Rule2.1: Output Pin Vector Strobe Count lesser than Output Pin Count
                 "2.2": conditionalRuleChecker.Rule2_2, #Rule2.2: Control bit set to safe for output test
                 "2.3": conditionalRuleChecker.Rule2_3, #Rule2.3: Vector Strobe RPT count less than 10
                 "2.4": conditionalRuleChecker.Rule2_4, #Rule2.4: Pin Vector Strobing without H->L/ L->H transition
-                "3.1": conditionalRuleChecker.Rule3_1, #Rule3.1: Toggle Pin Count not equal to Toggle Pin Vector Strobe Count
+                "3.1": conditionalRuleChecker.Rule3_1, #Rule3.1: Toggle Pin Vector Strobe Count leser than Toggle Pin Count
                 "6.1": conditionalRuleChecker.Rule6_1, #Rule6.1: No strobe found for AC RX pin
-                "6.2": conditionalRuleChecker.Rule6_2, #Rule6.2: AC Input Pin Count not equal to AC Input Pin Strobe Count
-                "6.3": conditionalRuleChecker.Rule6_3  #Rule6.3: AC Output Pin Count not equal to AC Output Pin Vector Strobe Count
+                "6.2": conditionalRuleChecker.Rule6_2, #Rule6.2: AC Input Pin Strobe Count lesser than AC Input Pin Count
+                "6.3": conditionalRuleChecker.Rule6_3  #Rule6.3: AC Output Pin Vector Strobe Count lesser than AC Output Pin Count
             }
 
     rulesFilepath = "{}\\COLLATERAL\\{}\\rulesfile.csv".format(workdir,prod)
@@ -532,6 +578,20 @@ def obj2DataFrame(objList):
         newDict.append(obj.__dict__)
 
     return pd.DataFrame.from_dict(newDict)
+
+def generateBsdlExcel(DF):
+
+    fileName = 'BSDL.xlsx'
+    filePath = "{}\\COLLATERAL\\{}".format(workdir,prod)
+    print("Generating BSDL Excel Spreadsheet. Please wait ...... ")
+      
+    with pd.ExcelWriter(filePath + "\\" + fileName, engine='xlsxwriter') as writer:
+        DF.to_excel(writer, sheet_name = 'BSDL', index=False)
+
+        worksheet = writer.sheets['BSDL']
+        worksheet.freeze_panes(1, 1)
+
+    print("{} generated to path {} \n".format(fileName,filePath))
 
 def generateSPFExcel(DF):
     groupdatalist = ['bsdlmapped','vector']
@@ -622,25 +682,30 @@ def generateReport(SummaryDF, RulesDF):
 
 if __name__ == "__main__":
 
+    setupBasicFolder()
+
     prod = getuserinput()
 
     print("Current Work Directory: {}\n".format(workdir))
+
+    checkCollateralPath()
 
     spfPathList = getSpfPath()
 
     itppPathList = getITPPPath()
 
     if len(spfPathList + itppPathList) == 0:
-        print("No file to decode. Exiting......")
         quit_program()
-
-    checkCollateralPath()
 
     opcodeDict = getOpcode()
 
     bsdlFile = getBsdl()
 
     bsdlObjList = bsdl2obj(bsdlFile)
+
+    bsdl_DF = obj2DataFrame(bsdlObjList)
+
+    generateBsdlExcel(bsdl_DF)
 
     bsdlrulesFieldList = checkBSDLRule(bsdlObjList)
 

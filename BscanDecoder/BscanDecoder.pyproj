@@ -23,7 +23,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BscanDecoder.py" />
+    <Compile Include="bsdlinterpreter.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="bsdl_lib.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="filesetup.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ruleschecker.py">

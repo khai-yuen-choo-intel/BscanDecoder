@@ -2,8 +2,8 @@ class Bsdl:
 
     def __init__(self,num = "", cell="",function="",safe="",port="",ccell="",disval="",rslt=""):
         self.num = num
-        self.port = port
         self.cell = cell
+        self.port = port
         self.function = function
         self.safe = safe
         self.ccell = ccell
