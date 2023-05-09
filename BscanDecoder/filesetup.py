@@ -21,7 +21,7 @@ def getProductCode():
         if prodcode_exist == False:
             return userInput
         else:
-            print("Product Code {} already created. Please use another Product Code!!!\n")
+            print("Product Code {} already created. Please use another Product Code!!!\n".format(userInput))
 
 def setupBasicFolder(prod):
 
@@ -61,59 +61,62 @@ def getProductBSDL(prod):
                 continue
         else:
             print("BSDL File not found!!!\n")
+    print("\n")
 
 def getProductSPF(prod):
 
-    userInput = input('Upload SPF? (Y/N): ')
+    while(True):
+        userInput = input('Upload SPF? (Y/N): ')
 
-    if userInput.lower() == 'y':
+        if userInput.lower() == 'y':
+            destination_folder = "{}\\SPF\\{}".format(workdir,prod)
+        else:
+            print('Upload SPF skipped.\n')
+            break
 
-        destination_folder = "{}\\SPF\\{}".format(workdir,prod)
+        userInput = input('SPF Folder Path: ')
 
-        while(True):
-            userInput = input('SPF Folder Path: ')
-
-            if os.path.isdir(userInput):
-                for file_name in os.listdir(userInput):
+        if os.path.isdir(userInput):
+            for file_name in os.listdir(userInput):
                 
-                    source = os.path.join(userInput,file_name)
+                source = os.path.join(userInput,file_name)
                 
-                    if os.path.isfile(source) and file_name.endswith('.spf'):
-                        destination = os.path.join(destination_folder, file_name)
-                        print('Copying SPF from {}. Please Wait......'.format(source))
-                        shutil.copy(source, destination)
-                break 
-            else:
-                print("Invalid SPF Folder Path!!!\n")
+                if os.path.isfile(source) and file_name.endswith('.spf'):
+                    destination = os.path.join(destination_folder, file_name)
+                    print('Copying SPF from {}. Please Wait......'.format(source))
+                    shutil.copy(source, destination)
+            break 
+        else:
+            print("Invalid SPF Folder Path!!!\n")
 
-    else:
-        print('Upload SPF skipped.\n')
+   
 
 def getProductITPP(prod):
 
-    userInput = input('Upload ITPP? (Y/N): ')
+    while(True):
+        userInput = input('Upload ITPP? (Y/N): ')
 
-    if userInput.lower() == 'y':
+        if userInput.lower() == 'y':
+            destination_folder = "{}\\ITPP\\{}".format(workdir,prod)
+        else:
+            print('Upload ITPP skipped.\n')
+            break
 
-        destination_folder = "{}\\ITPP\\{}".format(workdir,prod)
+        userInput = input('ITPP Folder Path: ')
 
-        while(True):
-            userInput = input('ITPP Folder Path: ')
-
-            if os.path.isdir(userInput):
-                for file_name in os.listdir(userInput):
-                    source = os.path.join(userInput,file_name)
+        if os.path.isdir(userInput):
+            for file_name in os.listdir(userInput):
+                source = os.path.join(userInput,file_name)
                 
-                    if os.path.isfile(source) and file_name.endswith('.itpp'):
-                        destination = os.path.join(destination_folder, file_name)
-                        print('Copying ITPP from {}. Please Wait......'.format(source))
-                        shutil.copy(source, destination)
-                break
+                if os.path.isfile(source) and file_name.endswith('.itpp'):
+                    destination = os.path.join(destination_folder, file_name)
+                    print('Copying ITPP from {}. Please Wait......'.format(source))
+                    shutil.copy(source, destination)
+            break
         
-            else:
-                print("Invalid ITPP Folder Path!!!\n")
-    else:
-        print('Upload ITPP skipped.\n')
+        else:
+            print("Invalid ITPP Folder Path!!!\n")
+    
 
 class FileSetup:    
  

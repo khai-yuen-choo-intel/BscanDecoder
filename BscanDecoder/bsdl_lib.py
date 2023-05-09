@@ -1,6 +1,6 @@
 class Bsdl:
 
-    def __init__(self,num = "", cell="",function="",safe="",port="",ccell="",disval="",rslt=""):
+    def __init__(self,num = "", cell="",function="",safe="",port="",ccell="",disval="",rslt="", acio=False,toggle=True):
         self.num = num
         self.cell = cell
         self.port = port
@@ -9,9 +9,11 @@ class Bsdl:
         self.ccell = ccell
         self.disval = disval
         self.rslt = rslt
+        self.acio = acio
+        self.toggle = toggle
 
     def __repr__(self):
-       return "Num:{} Port:{}, Cell:{}, Function:{}, Safe:{}".format(self.num, self.port,self.cell,self.function,self.safe)
+       return "Num:{} Port:{}, Cell:{}, Function:{}, Safe:{}, ACIO: {}, Toggle: {}".format(self.num, self.port,self.cell,self.function,self.safe, self.acio, self.toggle)
     
     def is_output(self):
         return 1 if "output" in self.function else 0
@@ -38,18 +40,18 @@ class Bsdl:
         return 1 if self.function == "segment select" else 0
 
     def is_acrx(self):
-        if "ac" in self.cell.lower():
+        if self.acio:
             if self.function == "observe_only" or self.function == "input":
                 return 1
         return 0
 
     def is_actx(self):
-        if "ac" in self.cell.lower():
+        if self.acio:
             if "output" in self.function:
                 return 1
         return 0
 
     def is_togglepin(self):
-        return 1 if self.disval != "" else 0
+        return 1 if self.toggle else 0
 
         

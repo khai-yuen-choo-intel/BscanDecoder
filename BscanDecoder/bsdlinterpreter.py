@@ -40,10 +40,50 @@ class BSDLInterpreter:
 
         return acio_list
 
+
+    def getToggleList(self):
+
+        toggle_list = []
+
+        with open(self.bsdlfilepath, "r") as bsdlfile:
+            bsdlline = bsdlfile.readlines()
+            start_line =  None
+
+            for line_num, line in enumerate (bsdlline):
+                if 'EXTEST_TOGGLE_CELLS of' in line:
+                    start_line = line_num + 1
+                    continue
+
+                if start_line != None:
+                    if ';' in line:
+                        end_line = line_num + 1
+                        break
+            
+            try:
+                toggle_segment = bsdlline[start_line:end_line]
+            except:
+                print('No EXTEST_TOGGLE_CELLS segment in BSDL!!!!\n')
+                return []
+
+            for line in toggle_segment:
+
+                if line.isspace():
+                    continue
+                if '\"' not in line:
+                    continue
+
+                toggle_list.append(line.split(",")[3].strip())
+
+        return toggle_list
+
     def bsdl2ObjList(self):
 
         bsdlObjList = []
+
         ACIO_List = self.getACIOList()
+
+        Toggle_List = self.getToggleList()
+
         with open(self.bsdlfilepath, "r") as bsdlfile:
             bsdlline = bsdlfile.readlines()
             start_line =  None
@@ -72,13 +112,16 @@ class BSDLInterpreter:
 
                 bsdlinfo = line[line.find('(') + 1:].split(',')
 
+                bsdlObj.cell = bsdlinfo[0].strip()
                 bsdlObj.port = bsdlinfo[1].strip()
+                '''
                 for ACIO in ACIO_List:
                     if bsdlObj.port in ACIO:
                         bsdlObj.cell = 'AC'
                         break
                     else:
                         bsdlObj.cell = bsdlinfo[0].strip()
+                '''
                 bsdlObj.function = bsdlinfo[2].strip()
                 bsdlObj.safe = removeSymbol(bsdlinfo[3])
 
@@ -97,6 +140,10 @@ class BSDLInterpreter:
                 except:
                     bsdlObj.rslt = ""
                 
+                bsdlObj.acio = True if bsdlObj.port in ACIO_List else False
+
+                bsdlObj.toggle = True if bsdlObj.port in Toggle_List else False
+
                 bsdlObjList.append(bsdlObj)
 
         return bsdlObjList
@@ -109,7 +156,7 @@ class BSDLInterpreter:
         bsdl_df = bsdl_df.fillna("")
         bsdl_dict = bsdl_df.to_dict()
 
-        bsdlheaderlist = ['num','port','cell','function','safe','disval']
+        bsdlheaderlist = ['num','port','cell','function','safe','disval','acio','toggle']
         bsdlkeylist = bsdl_df.columns
 
         if not (set(bsdlheaderlist).issubset(set(bsdlkeylist))):
@@ -126,7 +173,8 @@ class BSDLInterpreter:
             bsdlObj.ccell = str(bsdl_dict['ccell'][i]).strip()
             bsdlObj.disval = str(bsdl_dict['disval'][i]).strip()
             bsdlObj.rslt = str(bsdl_dict['rslt'][i]).strip()
-
+            bsdlObj.acio = True if str(bsdl_dict['acio'][i]).strip().lower() == 'true' else False
+            bsdlObj.toggle = True if str(bsdl_dict['toggle'][i]).strip().lower() == 'true' else False
             bsdlObjList.append(bsdlObj)
 
         return bsdlObjList

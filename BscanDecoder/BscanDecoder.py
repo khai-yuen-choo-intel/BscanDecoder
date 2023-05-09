@@ -60,6 +60,8 @@ def setupBasicFolder():
             os.makedirs(folder)
             print("BASIC FOLDER {:<20}     ---------------------------- CREATED".format(path))
 
+    print("\n")
+
 def getuserinput():
 
     while(True):
@@ -181,7 +183,8 @@ def getBsdl():
     for file in os.listdir(bsdlfilepath):
         if file.endswith(".bsdl"):
             bsdlpath = "{}\\{}".format(bsdlfilepath,file)
-            
+    
+    print('Using {} as BSDL reference.\n'.format(bsdlpath))
     return bsdlpath
 
 
@@ -611,10 +614,26 @@ def generateSPFExcel(DF):
 
     worksheet.freeze_panes(1, 1)
 
-    for i in range (len(DF['configurationType'])):
-        for groupdata in groupdatalist:
-            if groupdata in DF['configurationType'][i]:
-                worksheet.set_row(i + 1, None, None, {'level': 1, "hidden": True})
+    groupRow_list = []
+    line_num_to_grp_threshold = 10
+    consecutive_configType_num = 0
+
+    for groupdata in groupdatalist:
+        for DF_index, configType in enumerate(DF['configurationType']):
+            
+            if groupdata in configType:
+                consecutive_configType_num += 1
+            else:
+                consecutive_configType_num = 0
+
+            if consecutive_configType_num == line_num_to_grp_threshold:
+                for i in range(line_num_to_grp_threshold):
+                    groupRow_list.append(DF_index - line_num_to_grp_threshold + i + 2)
+            elif consecutive_configType_num > line_num_to_grp_threshold:
+                groupRow_list.append(DF_index + 1)
+
+    for groupRow in groupRow_list:
+        worksheet.set_row(groupRow, None, None, {'level': 1, "hidden": True})
 
     writer.close()
     print("Decoded SPF generated: {}\n\n".format(outputFile_full))
@@ -637,10 +656,26 @@ def generateITPPExcel(DF):
 
     worksheet.freeze_panes(1, 1)
 
-    for i in range (len(DF['configurationType'])):
-        for groupdata in groupdatalist:
-            if groupdata in DF['configurationType'][i]:
-                worksheet.set_row(i + 1, None, None, {'level': 1, "hidden": True})
+    groupRow_list = []
+    line_num_to_grp_threshold = 10
+    consecutive_configType_num = 0
+
+    for groupdata in groupdatalist:
+        for DF_index, configType in enumerate(DF['configurationType']):
+            
+            if groupdata in configType:
+                consecutive_configType_num += 1
+            else:
+                consecutive_configType_num = 0
+
+            if consecutive_configType_num == line_num_to_grp_threshold:
+                for i in range(line_num_to_grp_threshold):
+                    groupRow_list.append(DF_index - line_num_to_grp_threshold + i + 2)
+            elif consecutive_configType_num > line_num_to_grp_threshold:
+                groupRow_list.append(DF_index + 1)
+
+    for groupRow in groupRow_list:
+        worksheet.set_row(groupRow, None, None, {'level': 1, "hidden": True})
 
     writer.close()
     print("Decoded ITPP generated: {}\n\n".format(outputFile_full))
