@@ -39,6 +39,9 @@ class Bsdl:
     def is_segmentsel(self):
         return 1 if self.function == "segment select" else 0
 
+    def is_delay(self):
+        return 1 if self.function == "delay" else 0
+
     def is_acrx(self):
         if self.acio:
             if self.function == "observe_only" or self.function == "input":

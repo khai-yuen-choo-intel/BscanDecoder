@@ -116,16 +116,30 @@ class conditionalBscanRule:
     #Rule1.1: Input Pin Count not equal to Input Pin Strobe Count
     def Rule1_1(self):
         rulesFieldList = []
-        if (self.bidir_strobe_pincount + self.input_strobe_pincount) < (self.input_pincount + self.bidir_pincount):
+        if self.input_strobe_pincount < self.input_pincount :
             rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.1", category = "ERROR", desc = self.format_violation("Input TDO Strobe Count ({}) lesser than Input Pin Count ({}).".format(self.bidir_strobe_pincount + self.input_strobe_pincount, self.input_pincount + self.bidir_pincount))))
     
-        for pin in self.inputpinlist + self.bidirpinlist:
-            if pin not in self.bidir_strobe_list + self.input_strobe_list:
+        if self.bidir_strobe_pincount < self.bidir_pincount:
+            rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.1", category = "ERROR", desc = self.format_violation("Bidir TDO Strobe Count ({}) lesser than Bidir Pin Count ({}).".format(self.bidir_strobe_pincount + self.input_strobe_pincount, self.input_pincount + self.bidir_pincount))))
+    
+        for pin in self.inputpinlist:
+            if pin not in self.input_strobe_list:
                     rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.1", category = "ERROR", desc = self.format_violation("Input Pin ({}) not strobed.".format(pin))))
-            
-        for pinstrobe in self.bidir_strobe_list + self.input_strobe_list:
-            if pinstrobe not in self.inputpinlist + self.bidirpinlist:
-                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.1", category = "WARNING", desc = self.format_violation("Non-input Pin ({}) strobed.".format(pinstrobe))))
+        
+        for pin in self.bidirpinlist:
+            if pin not in self.bidir_strobe_list:
+                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.1", category = "ERROR", desc = self.format_violation("Bidir Pin ({}) not strobed.".format(pin))))
+
+        for pinstrobe in self.input_strobe_list:
+            if pinstrobe not in self.inputpinlist:
+                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.1", category = "WARNING", desc = self.format_violation("Pin ({}) strobed not Input Function Pin.".format(pinstrobe))))
+        
+        for pinstrobe in self.bidir_strobe_list:
+            if pinstrobe not in self.bidirpinlist:
+                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.1", category = "WARNING", desc = self.format_violation("Pin ({}) strobed not Bidir Function Pin.".format(pinstrobe))))
+
+        if len(rulesFieldList) < 1:
+            rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.1", category = "PASS", desc = "Pin Strobe Count match with Input/Bidir Pin Count."))
         
         return rulesFieldList
     
@@ -135,14 +149,21 @@ class conditionalBscanRule:
         if (self.bidir_strobe_pincount + self.input_strobe_pincount) < self.vectorforce_count:
             rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.2", category = "ERROR", desc = self.format_violation("Vector Forcing Pin count ({}) lesser than Input Pin Strobe count ({}).".format(self.vectorforce_count, self.bidir_strobe_pincount + self.input_strobe_pincount))))
             
-        for pinstrobe in self.bidir_strobe_list + self.input_strobe_list:
+        for pinstrobe in self.input_strobe_list:
             if pinstrobe not in self.vectorforcelowlist + self.vectorforcehighlist:
-                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.2", category = "ERROR", desc = self.format_violation("Pin ({}) strobed without forcing.".format(pinstrobe))))
+                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.2", category = "ERROR", desc = self.format_violation("Input Pin ({}) strobed without forcing.".format(pinstrobe))))
+        
+        for pinstrobe in self.bidir_strobe_list:
+            if pinstrobe not in self.vectorforcelowlist + self.vectorforcehighlist:
+                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.2", category = "ERROR", desc = self.format_violation("Bidir Pin ({}) strobed without forcing.".format(pinstrobe))))
 
         for vectorforce in self.vectorforcelowlist + self.vectorforcehighlist:
-            if vectorforce not in self.bidir_strobe_list + self.input_strobe_list:
-                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.2", category = "WARNING", desc = self.format_violation("Pin ({}) forced without strobing.".format(vectorforce))))
-        
+            if vectorforce not in self.input_strobe_list + self.bidir_strobe_list:
+                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.2", category = "WARNING", desc = self.format_violation("Input Pin ({}) forced without strobing.".format(vectorforce))))
+
+        if len(rulesFieldList) < 1:
+            rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.2", category = "PASS", desc = "Pin Force Count match with Input/Bidir Pin Count."))
+
         return rulesFieldList
 
     #Rule1.3: Input Pin Strobe Count not equal to Input Pin Label Count
@@ -155,9 +176,16 @@ class conditionalBscanRule:
         if pinlabel_count < self.input_strobe_pincount + self.bidir_strobe_pincount:
             rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.3", category = "ERROR", desc = self.format_violation("Pin Label count ({}) lesser than Input Pin strobe count ({})h.".format(pinlabel_count, self.input_strobe_pincount + self.bidir_strobe_pincount))))
             
-        for pinstrobe in self.bidir_strobe_list + self.input_strobe_list:
+        for pinstrobe in self.input_strobe_list:
             if pinstrobe not in self.pinlabellist:
                     rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.3", category = "ERROR", desc = self.format_violation("Pin Label for Input Pin ({}) not found.".format(pinstrobe))))
+
+        for pinstrobe in self.bidir_strobe_list:
+            if pinstrobe not in self.pinlabellist:
+                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.3", category = "ERROR", desc = self.format_violation("Pin Label for Bidir Pin ({}) not found.".format(pinstrobe))))
+
+        if len(rulesFieldList) < 1:
+            rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.3", category = "PASS", desc = "Pin Strobe Count match with Pin Label Count."))
 
         return rulesFieldList
 
@@ -168,6 +196,9 @@ class conditionalBscanRule:
             if spfObj.is_controlnotsafe():
                 rulesFieldList.append(RulesField(spffile = self.testName, line = self.spfObjList.index(spfObj), rule = "Rule1.4", category = "ERROR", desc = self.format_violation("Control bit not set to safe for input test.")))
 
+        if len(rulesFieldList) < 1:
+            rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule1.3", category = "PASS", desc = "Control bit set to safe for input test"))
+
         return rulesFieldList
     
     #Rule2.1: Output Pin Count not equal to Output Pin Vector Strobe Count
@@ -176,10 +207,18 @@ class conditionalBscanRule:
         if self.vectorstrobe_count < self.output_pincount + self.bidir_pincount + self.observe_pincount:
             rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule2.1", category = "ERROR", desc = self.format_violation("Pin Vector Strobe Count ({}) lesser than Output Pin Count ({}).".format(self.vectorstrobe_count, self.output_pincount + self.bidir_pincount + self.observe_pincount))))
             
-        for pin in self.bidirpinlist + self.outputpinlist + self.observepinlist:
+        for pin in self.bidirpinlist:
+            if pin not in self.vectorstrobehighlist + self.vectorstrobelowlist:
+                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule2.1", category = "ERROR", desc = self.format_violation("Bidir Pin ({}) not strobed.".format(pin))))
+        
+        for pin in self.outputpinlist:
             if pin not in self.vectorstrobehighlist + self.vectorstrobelowlist:
                     rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule2.1", category = "ERROR", desc = self.format_violation("Output Pin ({}) not strobed.".format(pin))))
-            
+        
+        for pin in self.observepinlist:
+            if pin not in self.vectorstrobehighlist + self.vectorstrobelowlist:
+                    rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule2.1", category = "ERROR", desc = self.format_violation("Observe_only Pin ({}) not strobed.".format(pin))))
+
         for vectorstrobe in self.vectorstrobehighlist + self.vectorstrobelowlist:
             if vectorstrobe not in self.bidirpinlist + self.outputpinlist + self.observepinlist:
                     rulesFieldList.append(RulesField(spffile = self.testName, rule = "Rule2.1", category = "WARNING", desc = self.format_violation("Non-output Pin ({}) strobed.".format(vectorstrobe))))

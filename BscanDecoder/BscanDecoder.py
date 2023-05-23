@@ -2,6 +2,7 @@ import os
 import re
 import pandas as pd
 import spffield as sF
+import bsdl_lib as bL
 import bsdlinterpreter as bI
 import ruleschecker as rC
 import filesetup as fS
@@ -199,6 +200,7 @@ def getOpcode():
     df_dict = df_opcode.to_dict()
     return df_dict['OPCODE']
 
+
 def mapPinName(ObjList):
 
     pinMapPath = "{}\\COLLATERAL\\{}\\pinfile.csv".format(workdir,prod)
@@ -223,122 +225,128 @@ def readFile(readfilepath):
 def processSpf(spffile):
     processSpflist = []
     focus_tap = ""
-    for line in spffile:
+    for line_num, line in enumerate(spffile):
         #print("Processing line: " + line)
-        if line.isspace():
-            continue
-        elif line.lstrip()[0] == "#":
-            continue
-        elif getFirstWord(line) == "focus_tap":
-            focus_tap = removeSymbol(line).split(" ")[1]
-            #processSpflist.append(sF.SpfField(configurationType="focus_tap",focus_tap=focus_tap))
-        elif getFirstWord(line) == "set":
-            temp_line = removeSymbol(line).split(" ")
-            temp_line = [item for item in temp_line if item]
-            if len(temp_line) == 4:
-                processSpflist.append(sF.SpfField(configurationType="set",focus_tap=focus_tap,register=temp_line[1],field=temp_line[2],write=temp_line[3]))
-            elif len(temp_line) == 3:
-                processSpflist.append(sF.SpfField(configurationType="set",focus_tap=focus_tap,register=temp_line[1],write=temp_line[2]))
-        elif getFirstWord(line) == "execute":
-            temp_line = removeSymbol(line).split(" ")
-            temp_line = [item for item in temp_line if item]
-            processSpflist.append(sF.SpfField(configurationType="execute",focus_tap=focus_tap,register=temp_line[1]))
-        elif getFirstWord(line) == "ir_tdi":
-            temp_line = removeSymbol(line).split(" ")
-            temp_line = [item for item in temp_line if item]
-            processSpflist.append(sF.SpfField(configurationType="ir_tdi",focus_tap=focus_tap,register=temp_line[1]))
-        elif getFirstWord(line) == "dr_tdi":
-            temp_line = removeSymbol(line).split(" ")
-            temp_line = [item for item in temp_line if item]
-            processSpflist.append(sF.SpfField(configurationType="dr_tdi",write=temp_line[1].replace("'b","")))
-        elif getFirstWord(line) == "dr_tdo":
-            temp_line = removeSymbol(line).split(" ")
-            temp_line = [item for item in temp_line if item]
-            processSpflist.append(sF.SpfField(configurationType="dr_tdo",read=temp_line[1].replace("'b","")))
-        elif getFirstWord(line) == "cycle":
-            temp_line = removeSymbol(line).split(" ")
-            temp_line = [item for item in temp_line if item]
-            processSpflist.append(sF.SpfField(configurationType="cycle",write=temp_line[1]))
-        elif getFirstWord(line) == "label":
-            temp_line = removeSymbol(line).split(" ")
-            temp_line = [item for item in temp_line if item]
-            processSpflist.append(sF.SpfField(configurationType="label",write=temp_line[1]))
-        elif "flush" in line:
-            processSpflist.append(sF.SpfField(configurationType="flush"))
-        elif "pass itpp" in line:
-            itppline = line[line.find("\"")+1:line.find(";")]
-            itppcmd = itppline.split(":")[0].strip()
-            itppval = itppline.split(":")[1].strip()
+        try:
+            if line.isspace():
+                continue
+            elif line.lstrip()[0] == "#":
+                continue
+            elif getFirstWord(line) == "focus_tap":
+                focus_tap = removeSymbol(line).split(" ")[1]
+                #processSpflist.append(sF.SpfField(configurationType="focus_tap",focus_tap=focus_tap))
+            elif getFirstWord(line) == "set":
+                temp_line = removeSymbol(line).split(" ")
+                temp_line = [item for item in temp_line if item]
+                if len(temp_line) == 4:
+                    processSpflist.append(sF.SpfField(configurationType="set",focus_tap=focus_tap,register=temp_line[1],field=temp_line[2],write=temp_line[3]))
+                elif len(temp_line) == 3:
+                    processSpflist.append(sF.SpfField(configurationType="set",focus_tap=focus_tap,register=temp_line[1],write=temp_line[2]))
+            elif getFirstWord(line) == "execute":
+                temp_line = removeSymbol(line).split(" ")
+                temp_line = [item for item in temp_line if item]
+                processSpflist.append(sF.SpfField(configurationType="execute",focus_tap=focus_tap,register=temp_line[1]))
+            elif getFirstWord(line) == "ir_tdi":
+                temp_line = removeSymbol(line).split(" ")
+                temp_line = [item for item in temp_line if item]
+                processSpflist.append(sF.SpfField(configurationType="ir_tdi",focus_tap=focus_tap,register=temp_line[1]))
+            elif getFirstWord(line) == "dr_tdi":
+                temp_line = removeSymbol(line).split(" ")
+                temp_line = [item for item in temp_line if item]
+                processSpflist.append(sF.SpfField(configurationType="dr_tdi",write=temp_line[1].replace("'b","")))
+            elif getFirstWord(line) == "dr_tdo":
+                temp_line = removeSymbol(line).split(" ")
+                temp_line = [item for item in temp_line if item]
+                processSpflist.append(sF.SpfField(configurationType="dr_tdo",read=temp_line[1].replace("'b","")))
+            elif getFirstWord(line) == "cycle":
+                temp_line = removeSymbol(line).split(" ")
+                temp_line = [item for item in temp_line if item]
+                processSpflist.append(sF.SpfField(configurationType="cycle",write=temp_line[1]))
+            elif getFirstWord(line) == "label":
+                temp_line = removeSymbol(line).split(" ")
+                temp_line = [item for item in temp_line if item]
+                processSpflist.append(sF.SpfField(configurationType="label",write=temp_line[1]))
+            elif "flush" in line:
+                processSpflist.append(sF.SpfField(configurationType="flush"))
+            elif "pass itpp" in line:
+                itppline = line[line.find("\"")+1:line.find(";")]
+                itppcmd = itppline.split(":")[0].strip()
+                itppval = itppline.split(":")[1].strip()
 
-            if itppcmd.lower() == "label" and "Pin_" in itppval:
-                pinName = itppval[itppval.find("_")+1:itppval.find("@")]
-                processSpflist.append(sF.SpfField(configurationType="pin_label", field = pinName, write = itppval))
-            elif "expandata" in itppcmd:
-                expandpin = itppval[:itppval.find(",")].strip()
-                expandscale = itppval[itppval.find(",")+1:].strip()
-                processSpflist.append(sF.SpfField(configurationType="expandata", register = expandpin, write = expandscale))
-            elif itppcmd == "scani" :
-                processSpflist.append(sF.SpfField(configurationType="scani", register = itppval))
-            elif itppcmd == "to_state" :
-                processSpflist.append(sF.SpfField(configurationType="to_state", register = itppval))
-            elif itppcmd == "scand" :
-                tdilist = itppval[:itppval.find(",")].strip()
-                tdolist = itppval[itppval.find(",")+1:].strip()
-                processSpflist.append(sF.SpfField(configurationType="scand", write= tdilist, read = tdolist))
-            elif itppcmd == "vector":
-                pinvectorlist = (itppval.split(",")[0]).split(" ")
-                try:
-                    vector_rpt = itppval.split(",")[1].strip()
-                except:
-                    vector_rpt = "1"
-                for vector in pinvectorlist:
-                    pinvector = vector.split("(")[0]
-                    vectorvalue = vector[vector.find("(")+1:vector.find(")")]
-                    processSpflist.append(sF.SpfField(configurationType="vector",field = pinvector, write=vectorvalue, rpt=vector_rpt))
-
+                if itppcmd.lower() == "label" and "Pin_" in itppval:
+                    pinName = itppval[itppval.find("_")+1:itppval.find("@")]
+                    processSpflist.append(sF.SpfField(configurationType="pin_label", field = pinName, write = itppval))
+                elif "expandata" in itppcmd:
+                    expandpin = itppval[:itppval.find(",")].strip()
+                    expandscale = itppval[itppval.find(",")+1:].strip()
+                    processSpflist.append(sF.SpfField(configurationType="expandata", register = expandpin, write = expandscale))
+                elif itppcmd == "scani" :
+                    processSpflist.append(sF.SpfField(configurationType="scani", register = itppval))
+                elif itppcmd == "to_state" :
+                    processSpflist.append(sF.SpfField(configurationType="to_state", register = itppval))
+                elif itppcmd == "scand" :
+                    tdilist = itppval[:itppval.find(",")].strip()
+                    tdolist = itppval[itppval.find(",")+1:].strip()
+                    processSpflist.append(sF.SpfField(configurationType="scand", write= tdilist, read = tdolist))
+                elif itppcmd == "vector":
+                    pinvectorlist = (itppval.split(",")[0]).split(" ")
+                    try:
+                        vector_rpt = itppval.split(",")[1].strip()
+                    except:
+                        vector_rpt = "1"
+                    for vector in pinvectorlist:
+                        pinvector = vector.split("(")[0]
+                        vectorvalue = vector[vector.find("(")+1:vector.find(")")]
+                        processSpflist.append(sF.SpfField(configurationType="vector",field = pinvector, write=vectorvalue, rpt=vector_rpt))
+        except:
+            processSpflist.append(sF.SpfField(configurationType="Fail-to-Process", register = line_num + 1, write=line))
 
     return processSpflist
 
 def processItpp(itppfile):
     processItpplist = []
 
-    for line in itppfile:
-        if line.isspace():
-            continue
-        elif line.lstrip()[0] == "#":
-            continue
-        elif getFirstWord(removeSymbol(line)) == "label":
-            if "Pin_" in line and "@" in line:
+    for line_num, line in enumerate(itppfile):
+        try:
+            if line.isspace():
+                continue
+            elif line.lstrip()[0] == "#":
+                continue
+            elif getFirstWord(removeSymbol(line)) == "label":
+                if "Pin_" in line and "@" in line:
+                    itppval = line.split(":")[1].strip()
+                    processItpplist.append(sF.SpfField(configurationType="pin_label", field = itppval[itppval.find("_")+1:itppval.find("@")], write = itppval))
+                else:
+                    processItpplist.append(sF.SpfField(configurationType="label",write = line.split(":")[1].strip()))
+            elif getFirstWord(line) == "expandata:":
                 itppval = line.split(":")[1].strip()
-                processItpplist.append(sF.SpfField(configurationType="pin_label", field = itppval[itppval.find("_")+1:itppval.find("@")], write = itppval))
-            else:
-                processItpplist.append(sF.SpfField(configurationType="label",write = line.split(":")[1].strip()))
-        elif getFirstWord(line) == "expandata:":
-            itppval = line.split(":")[1].strip()
-            expandpin = removeSymbol(itppval[:itppval.find(",")]).strip()
-            expandscale = removeSymbol(itppval[itppval.find(",")+1:]).strip()
-            processItpplist.append(sF.SpfField(configurationType="expandata", register = expandpin, write = expandscale))
-        elif getFirstWord(line) == "scani:" :
-            itppval = removeSymbol(line.split(":")[1]).strip()
-            processItpplist.append(sF.SpfField(configurationType="scani", register = itppval))
-        #elif "to_state" in line:
-            #processItpplist.append(sF.SpfField(configurationType="to_state", register = removeSymbol(line.split(":")[1].strip())))
-        elif getFirstWord(line) == "scand:" :
-            itppval = line.split(":")[1].strip()
-            tdilist = removeSymbol(itppval[:itppval.find(",")]).strip()
-            tdolist = removeSymbol(itppval[itppval.find(",")+1:]).strip()
-            processItpplist.append(sF.SpfField(configurationType="scand", write= tdilist, read = tdolist))
-        elif getFirstWord(line) == "vector:":
-            itppval = line.split(":")[1].strip()
-            pinvectorlist = (itppval.split(",")[0]).split(" ")
-            try:
-                vector_rpt = removeSymbol(itppval.split(",")[1].strip())
-            except:
-                vector_rpt = "1"
-            for vector in pinvectorlist:
-                pinvector = vector.split("(")[0]
-                vectorvalue = vector[vector.find("(")+1:vector.find(")")]
-                processItpplist.append(sF.SpfField(configurationType="vector",field = pinvector, write=vectorvalue, rpt=vector_rpt))
+                expandpin = removeSymbol(itppval[:itppval.find(",")]).strip()
+                expandscale = removeSymbol(itppval[itppval.find(",")+1:]).strip()
+                processItpplist.append(sF.SpfField(configurationType="expandata", register = expandpin, write = expandscale))
+            elif getFirstWord(line) == "scani:" :
+                itppval = removeSymbol(line.split(":")[1]).strip()
+                processItpplist.append(sF.SpfField(configurationType="scani", register = itppval))
+            #elif "to_state" in line:
+                #processItpplist.append(sF.SpfField(configurationType="to_state", register = removeSymbol(line.split(":")[1].strip())))
+            elif getFirstWord(line) == "scand:" :
+                itppval = line.split(":")[1].strip()
+                tdilist = removeSymbol(itppval[:itppval.find(",")]).strip()
+                tdolist = removeSymbol(itppval[itppval.find(",")+1:]).strip()
+                processItpplist.append(sF.SpfField(configurationType="scand", write= tdilist, read = tdolist))
+            elif getFirstWord(line) == "vector:":
+                itppval = line.split(":")[1].strip()
+                pinvectorlist = (itppval.split(",")[0]).split(" ")
+                try:
+                    vector_rpt = removeSymbol(itppval.split(",")[1].strip())
+                except:
+                    vector_rpt = "1"
+                for vector in pinvectorlist:
+                    pinvector = vector.split("(")[0]
+                    vectorvalue = vector[vector.find("(")+1:vector.find(")")]
+                    processItpplist.append(sF.SpfField(configurationType="vector",field = pinvector, write=vectorvalue, rpt=vector_rpt))
+
+        except:
+            processItpplist.append(sF.SpfField(configurationType="Fail-to-Process", register = line_num + 1, write=line))
 
     return processItpplist
 
@@ -385,7 +393,7 @@ def mapBSDLInfo(spfObjList,bsdlObjList):
                         if bsdlObj.num == str(i):
                             bsdlindex = bsdlObjList.index(bsdlObj)
                     updatedSpfObjList.append(sF.SpfField(configurationType = "dr_tdi/tdo-bsdlmapped", register = currentIr, field = bsdlObjList[bsdlindex].port, \
-                    cell = bsdlObjList[bsdlindex].cell, function = bsdlObjList[bsdlindex].function, safe = bsdlObjList[bsdlindex].safe, write = tdi_list[i],  read = tdo_list[i]))
+                    cell = bsdlObjList[bsdlindex].cell, function = bsdlObjList[bsdlindex].function, safe = bsdlObjList[bsdlindex].safe, acio = bsdlObjList[bsdlindex].acio, write = tdi_list[i],  read = tdo_list[i]))
         elif obj.configurationType == "dr_tdi" or obj.configurationType == "dr_tdo":
             continue
 
@@ -416,7 +424,7 @@ def mapBSDLInfo(spfObjList,bsdlObjList):
                             if bsdlObj.num == str(i):
                                 bsdlindex = bsdlObjList.index(bsdlObj)
                         updatedSpfObjList.append(sF.SpfField(configurationType = "scand-bsdlmapped", register = "{}({})".format(currentIr, bscanIRList[opcodeList.index(currentIr)]), \
-                        field = bsdlObjList[bsdlindex].port, cell = bsdlObjList[bsdlindex].cell, function = bsdlObjList[bsdlindex].function, safe = bsdlObjList[bsdlindex].safe, write = tdi_list[i],  read = tdo_list[i]))
+                        field = bsdlObjList[bsdlindex].port, cell = bsdlObjList[bsdlindex].cell, function = bsdlObjList[bsdlindex].function, safe = bsdlObjList[bsdlindex].safe, acio = bsdlObjList[bsdlindex].acio, write = tdi_list[i],  read = tdo_list[i]))
             elif currentIr in bscanIRList:
                 tdi_list[:0] = obj.write
                 tdo_list[:0] = obj.read
@@ -435,7 +443,7 @@ def mapBSDLInfo(spfObjList,bsdlObjList):
                             if bsdlObj.num == str(i):
                                 bsdlindex = bsdlObjList.index(bsdlObj)
                         updatedSpfObjList.append(sF.SpfField(configurationType = "scand-bsdlmapped", register = "{}".format(currentIr), \
-                        field = bsdlObjList[bsdlindex].port, cell = bsdlObjList[bsdlindex].cell, function = bsdlObjList[bsdlindex].function, safe = bsdlObjList[bsdlindex].safe, write = tdi_list[i],  read = tdo_list[i]))
+                        field = bsdlObjList[bsdlindex].port, cell = bsdlObjList[bsdlindex].cell, function = bsdlObjList[bsdlindex].function, safe = bsdlObjList[bsdlindex].safe, acio = bsdlObjList[bsdlindex].acio, write = tdi_list[i],  read = tdo_list[i]))
             else:
                 updatedSpfObjList.append(obj)
         else:
@@ -449,16 +457,28 @@ def checkBSDLRule(bsdlObjList):
 
     powercell_count = sum(obj.is_power() for obj in bsdlObjList)
     segmentsel_count = sum(obj.is_segmentsel() for obj in bsdlObjList)
+    delay_count = sum(obj.is_delay() for obj in bsdlObjList)
     acrx_count = sum(obj.is_acrx() for obj in bsdlObjList)
 
     if powercell_count == 0:
-        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "ERROR", desc = collateral_violation("No Power Cell category found in BSDL. Partial error checking feature impacted.")))
+        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "ERROR", desc = collateral_violation("No (power) Cell category found in BSDL. Partial error checking feature impacted.")))
+    else:
+        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "PASS", desc = "(power) cell found in BSDL."))
 
     if segmentsel_count == 0:
-        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "ERROR", desc = collateral_violation("No Segment Select Cell category found in BSDL. Partial error checking feature impacted.")))
+        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "ERROR", desc = collateral_violation("No (segment select) Cell category found in BSDL. Partial error checking feature impacted.")))
+    else:
+        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "PASS", desc = "(segment select) cell found in BSDL."))
+    
+    if delay_count == 0:
+        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "ERROR", desc = collateral_violation("No (delay) Cell category found in BSDL. Partial error checking feature impacted.")))
+    else:
+        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "PASS", desc = "(delay) cell found in BSDL."))
 
     if acrx_count == 0:
         rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "ERROR", desc = collateral_violation("No AC Input/Observe_only category found in BSDL. Partial error checking feature impacted.")))
+    else:
+        rulesFieldList.append(rC.RulesField(spffile = bsdlFile , category = "PASS", desc = "AC Input/Observe_only category found in BSDL."))
 
     return rulesFieldList
 
@@ -478,6 +498,9 @@ def mandatoryBscanRule():
 
         if spfObj.is_segmentselnotsafe():
             rulesFieldList.append(rC.RulesField(spffile = testName, line = bsdlMappedObjList.index(spfObj), category = "ERROR", desc = format_violation("Segment Select bit not set to safe.")))
+       
+        if spfObj.is_failtoprocess():
+            rulesFieldList.append(rC.RulesField(spffile = testName, line = spfObj.register, category = "ERROR", desc = collateral_violation("SPF/ITPP Line Fail to Process.")))
 
     rule_status = 'PASS' if len(rulesFieldList) < 1 else 'FAIL'
 
@@ -533,9 +556,10 @@ def bscanRuleChecker():
                 rule_execute = rules_Dict.get(rule, conditionalRuleChecker.RuleUndefined)
                 rulefield = rule_execute() if rule in rules_Dict.keys() else rule_execute(rule)
 
-                if len(rulefield) < 1:
+                rule_statuslist = [rule.category for rule in rulefield]
+
+                if "PASS" in rule_statuslist and "ERROR" not in rule_statuslist:
                     rule_status = 'PASS'
-                    conditionalrulesFieldList.append(rC.RulesField(spffile = testName, rule = "Rule{}".format(rule), category = "PASS"))
                 else:
                    rule_status = 'FAIL'
 
@@ -544,7 +568,7 @@ def bscanRuleChecker():
                 if rulefield:
                     conditionalrulesFieldList = conditionalrulesFieldList + rulefield
 
-    return conditionalrulesFieldList + mandatoryrulesFieldList
+    return mandatoryrulesFieldList + conditionalrulesFieldList
 
 def getTestSummary():
 

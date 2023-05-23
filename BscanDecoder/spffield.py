@@ -1,7 +1,7 @@
 class SpfField:
     strobe_charlist = ["0","1","H","L"]
 
-    def __init__(self,configurationType = "",focus_tap = "",register="",field="",cell="",function="",safe="",write="",read="", rpt=""):
+    def __init__(self,configurationType = "",focus_tap = "",register="",field="",cell="",function="",safe="",acio = "", write="",read="", rpt=""):
         self.configurationType = configurationType
         self.focus_tap = focus_tap
         self.register = register
@@ -9,6 +9,7 @@ class SpfField:
         self.cell = cell
         self.function = function
         self.safe = safe
+        self.acio = acio
         self.write = write
         self.read = read
         self.rpt = rpt
@@ -83,7 +84,7 @@ class SpfField:
         return 0
 
     def is_acrxstrobe(self):
-        if "ac" in self.cell.lower():
+        if self.acio:
             if "input" in self.function or "observe" in self.function:
                 return 1 if self.read in self.strobe_charlist else 0
             return 0
@@ -91,7 +92,7 @@ class SpfField:
             return 0
 
     def is_actxstrobe(self):
-        if "ac" in self.cell.lower():
+        if self.acio:
             if "output" in self.function or "observe" in self.function:
                 return 1 if self.write in ['H','L'] else 0
             return 0
@@ -133,3 +134,6 @@ class SpfField:
 
     def is_irtdi(self):
         return 1 if self.configurationType == "ir_tdi" else 0
+
+    def is_failtoprocess(self):
+        return 1 if self.configurationType == "Fail-to-Process" else 0
