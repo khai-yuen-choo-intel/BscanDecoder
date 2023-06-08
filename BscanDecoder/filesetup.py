@@ -65,6 +65,18 @@ def getProductBSDL(prod):
 
 def getProductSPF(prod):
 
+    def copySPF(path):
+        for file_name in os.listdir(path):
+            source = os.path.join(path,file_name)
+                
+            if os.path.isfile(source) and file_name.endswith('.spf'):
+                destination = os.path.join(destination_folder, file_name)
+                print('Copying SPF from {}. Please Wait......'.format(source))
+                shutil.copy(source, destination)
+
+            if os.path.isdir(source):
+                copySPF(source)
+
     while(True):
         userInput = input('Upload SPF? (Y/N): ')
 
@@ -77,21 +89,26 @@ def getProductSPF(prod):
         userInput = input('SPF Folder Path: ')
 
         if os.path.isdir(userInput):
-            for file_name in os.listdir(userInput):
-                
-                source = os.path.join(userInput,file_name)
-                
-                if os.path.isfile(source) and file_name.endswith('.spf'):
-                    destination = os.path.join(destination_folder, file_name)
-                    print('Copying SPF from {}. Please Wait......'.format(source))
-                    shutil.copy(source, destination)
-            break 
+            copySPF(userInput)
+            break
         else:
             print("Invalid SPF Folder Path!!!\n")
 
    
 
 def getProductITPP(prod):
+
+    def copyITPP(path):
+        for file_name in os.listdir(path):
+            source = os.path.join(path,file_name)
+                
+            if os.path.isfile(source) and file_name.endswith('.itpp'):
+                destination = os.path.join(destination_folder, file_name)
+                print('Copying ITPP from {}. Please Wait......'.format(source))
+                shutil.copy(source, destination)
+               
+            if os.path.isdir(source):
+                copyITPP(source)
 
     while(True):
         userInput = input('Upload ITPP? (Y/N): ')
@@ -105,13 +122,7 @@ def getProductITPP(prod):
         userInput = input('ITPP Folder Path: ')
 
         if os.path.isdir(userInput):
-            for file_name in os.listdir(userInput):
-                source = os.path.join(userInput,file_name)
-                
-                if os.path.isfile(source) and file_name.endswith('.itpp'):
-                    destination = os.path.join(destination_folder, file_name)
-                    print('Copying ITPP from {}. Please Wait......'.format(source))
-                    shutil.copy(source, destination)
+            copyITPP(userInput)
             break
         
         else:
