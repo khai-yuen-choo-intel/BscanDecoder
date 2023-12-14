@@ -1,0 +1,583 @@
+
+
+#SPF : $SPF_ROOT/bin/spf --testSeqFile bscan_extest_input_all1.spf --tapSpecFile /p/hdk/rtl/models/phdk73/ssnip_sles12/vip_spf_itpp_mtps/vip_spf_itpp_mtps-ssnip_sles12-latest/spf/bscan/collateral/mtps.bscan.tap.spfspec --itppFile bscan_extest_input_all1.itpp
+
+## BSCAN PROJECT BASED FORCE and REGISTER SETUP
+label "force_signal";
+comment rem  "force_signal pch_tb.pch.dsw_pwrok 1'b1" ;
+comment rem  "force_signal pch_tb.pch.pch_pwrok 1'b1" ;
+comment rem  "force_signal pch_tb.pch.rsmrstb 1'b1" ;
+comment rem  "force_signal pch_tb.bscan_mux_en 1'b1" ;
+label "write_NTIS_STAP_to_disable_dfx_pinmode";
+cycle 1;
+focus_tap NTIS_STAP;
+set TAPNTISWITCH_TESTMODESELCFG_CPU_Ovrd = 1'b0;
+flush;
+label "write_TAPCR";
+cycle 1;
+focus_tap cl_cltapc;
+set TAPCR->RST_AND_ISOLATION_EN = 'h1;
+set TAPCR->BSCANMODEOVR = 'h1;
+set TAPCR->CNVI_FUNC_BSCAN_EN = 'h1;
+set PRELOAD = 35'h7FFFFFFFF;
+set CLTCR3->BSCAN_MODE_BYPASS_DIS = 'h1;
+flush;
+pass itpp "rem: poll_signal pch_tb.pch.parcnv.parcnv_pwell_wrapper.cnv1.cnv_hip_wrapper_inst_0.cnv_hip_inst.u_solar.top_lgc_inst_0.dft_inst_0.fsm_finish 1" ;
+##add delay to allow dphy buffer ready
+cycle 1;
+
+focus_tap GPIOCOM1_STAP;
+#DIR_ESPI
+set DIR_ESPI0_FAM_MISC_OVRD->miscovren = 'h1;
+set DIR_ESPI0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#DMI #PWRBTNB_OUT
+set DMI_FAM_MISC_OVRD->miscovren = 'h1;
+set DMI_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_A
+set ESPI_FAM_MISC_OVRD->miscovren = 'h1;
+set ESPI_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_B
+set MISCB_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCB_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+focus_tap GPIOCOM2_STAP;
+#DSW #SLP_LANB #SLP_SUSB #GPD
+set DSW_FAM_MISC_OVRD->miscovren = 'h1;
+set DSW_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+focus_tap GPIOCOM3_STAP;
+#GPP_C
+set I2C3_FAM_MISC_OVRD->miscovren = 'h1;
+set I2C3_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set I2C4_FAM_MISC_OVRD->miscovren = 'h1;
+set I2C4_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set I2C5_FAM_MISC_OVRD->miscovren = 'h1;
+set I2C5_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SMBUS0_FAM_MISC_OVRD->miscovren = 'h1;
+set SMBUS0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML0_I2C2_FAM_MISC_OVRD->miscovren = 'h1;
+set SML0_I2C2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set UART012_FAM_MISC_OVRD->miscovren = 'h1;
+set UART012_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#SPI0
+set SPI_FAM_MISC_OVRD->miscovren = 'h1;
+set SPI_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_H
+set MISCH_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCH_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML2_FAM_MISC_OVRD->miscovren = 'h1;
+set SML2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML3_FAM_MISC_OVRD->miscovren = 'h1;
+set SML3_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML4_FAM_MISC_OVRD->miscovren = 'h1;
+set SML4_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+focus_tap GPIOCOM0_STAP;
+#GPP_D
+set I2S2_FAM_MISC_OVRD->miscovren = 'h1;
+set I2S2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set MISCD_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCD_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML0_FAM_MISC_OVRD->miscovren = 'h1;
+set SML0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML1_FAM_MISC_OVRD->miscovren = 'h1;
+set SML1_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set THC1_GSPI3_FAM_MISC_OVRD->miscovren = 'h1;
+set THC1_GSPI3_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_J
+set AZA_CPU_FAM_MISC_OVRD->miscovren = 'h1;
+set AZA_CPU_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set BPKI3C_FAM_MISC_OVRD->miscovren = 'h1;
+set BPKI3C_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set CNV_FAM_MISC_OVRD->miscovren = 'h1;
+set CNV_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set CNV_MFUART2_FAM_MISC_OVRD->miscovren = 'h1;
+set CNV_MFUART2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set MISCJ_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCJ_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_R
+set AZA_I2S0_FAM_MISC_OVRD->miscovren = 'h1;
+set AZA_I2S0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set AZA_I2S1_FAM_MISC_OVRD->miscovren = 'h1;
+set AZA_I2S1_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set GSPI2_FAM_MISC_OVRD->miscovren = 'h1;
+set GSPI2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+focus_tap GPIOCOM4_STAP;
+#GPP_E
+set MISCE_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCE_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set THC0_SPI1_FAM_MISC_OVRD->miscovren = 'h1;
+set THC0_SPI1_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_F
+set MISCF_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCF_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set VISA2_FAM_MISC_OVRD->miscovren = 'h1;
+set VISA2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_K
+set GSX_FAM_MISC_OVRD->miscovren = 'h1;
+set GSX_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set MISCK_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCK_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_S
+set SWND_FAM_MISC_OVRD->miscovren = 'h1;
+set SWND_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#MISC_SPARE and MLK_RSTB
+set SYS_FAM_MISC_OVRD->miscovren = 'h1;
+set SYS_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+focus_tap GPIOCOM5_STAP;
+#GPP_I
+set GSPI0_FAM_MISC_OVRD->miscovren = 'h1;
+set GSPI0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set GSPI1_FAM_MISC_OVRD->miscovren = 'h1;
+set GSPI1_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set I2C0_FAM_MISC_OVRD->miscovren = 'h1;
+set I2C0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set I2C1_FAM_MISC_OVRD->miscovren = 'h1;
+set I2C1_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set ISH_I2C0_FAM_MISC_OVRD->miscovren = 'h1;
+set ISH_I2C0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+##Release signals before preloading bscan cells:
+label "Release_all_signal_force";
+cycle 1;
+pass itpp "vector: gpp_j_7_boothalt_b(Z) prdyb(Z) preqb(Z) trigger_in(Z) ;";
+pass itpp "vector: gpp_j_7_boothalt_b(X) prdyb(X) preqb(X) trigger_in(X) ;";
+cycle 50;
+
+label "Force";
+pass itpp "vector: usb31_1_rxp(1) usb31_2_rxp(1) usb31_3_rxp(1) usb31_4_rxp(1) usb31_5_rxp(1) usb31_6_rxp(1) usb31_7_rxp(1) usb31_8_rxp(1) usb31_9_rxp(1) usb31_10_rxp(1) pcie_24_rxp(1) pcie_23_rxp(1) pcie_22_rxp(1) pcie_21_rxp(1) dmi_4_rxp(1) dmi_5_rxp(1) dmi_6_rxp(1) dmi_7_rxp(1) dmi_0_rxp(1) dmi_1_rxp(1) dmi_2_rxp(1) dmi_3_rxp(1) pcie_1_rxp(1) pcie_2_rxp(1) pcie_3_lan_0a_rxp(1) pcie_4_rxp(1) pcie_5_rxp(1) pcie_6_rxp(1) pcie_7_lan_0b_rxp(1) pcie_8_rxp(1) pcie_9_tsn_0_rxp(1) pcie_10_tsn_1_rxp(1) pcie_11_rxp(1) pcie_12_rxp(1) pcie_17_sata_4_rxp(1) pcie_18_sata_5_rxp(1) pcie_19_sata_6_rxp(1) pcie_20_sata_7_rxp(1) pcie_13_sata_0_rxp(1) pcie_14_sata_1_rxp(1) pcie_15_sata_2_lan_0c_rxp(1) pcie_16_sata_3_rxp(1) usb31_1_rxn(0) usb31_2_rxn(0) usb31_3_rxn(0) usb31_4_rxn(0) usb31_5_rxn(0) usb31_6_rxn(0) usb31_7_rxn(0) usb31_8_rxn(0) usb31_9_rxn(0) usb31_10_rxn(0) pcie_24_rxn(0) pcie_23_rxn(0) pcie_22_rxn(0) pcie_21_rxn(0) dmi_4_rxn(0) dmi_5_rxn(0) dmi_6_rxn(0) dmi_7_rxn(0) dmi_0_rxn(0) dmi_1_rxn(0) dmi_2_rxn(0) dmi_3_rxn(0) pcie_1_rxn(1) pcie_2_rxn(0) pcie_3_lan_0a_rxn(0) pcie_4_rxn(0) pcie_5_rxn(0) pcie_6_rxn(0) pcie_7_lan_0b_rxn(0) pcie_8_rxn(0) pcie_9_tsn_0_rxn(0) pcie_10_tsn_1_rxn(0) pcie_11_rxn(0) pcie_12_rxn(0) pcie_17_sata_4_rxn(0) pcie_18_sata_5_rxn(0) pcie_19_sata_6_rxn(0) pcie_20_sata_7_rxn(0) pcie_13_sata_0_rxn(0) pcie_14_sata_1_rxn(0) pcie_15_sata_2_lan_0c_rxn(0) pcie_16_sata_3_rxn(0) usb2p_1(1) usb2n_1(1) usb2p_2(1) usb2n_2(1) usb2p_3(1) usb2n_3(1) usb2p_4(1) usb2n_4(1) usb2p_5(1) usb2n_5(1) usb2p_6(1) usb2n_6(1) usb2p_7(1) usb2n_7(1) usb2p_8(1) usb2n_8(1) usb2p_9(1) usb2n_9(1) usb2p_10(1) usb2n_10(1) usb2p_11(1) usb2n_11(1) usb2p_12(1) usb2n_12(1) usb2p_13(1) usb2n_13(1) usb2p_14(1) usb2n_14(1) gpp_b_0_pcie_lnk_down(1) gpp_b_1_ish_uart0_rtsb_gspi2_cs1b(1) gpp_b_2_ish_gp_8(1) gpp_b_3_cpu_gp_2(1) gpp_b_4_cpu_gp_3(1) gpp_b_5_sx_exit_holdoffb_ish_gp_6_ieh_fatal_err2b(1) gpp_b_6_clkout_48(1) gpp_b_7_ish_gp_7(1) gpp_b_8_ish_gp_0(1) gpp_b_9_ish_gp_1(1) gpp_b_10_ish_gp_2(1) gpp_b_11_i2s_mclk(1) gpp_b_12_slp_s0b(1) gpp_b_13_pltrstb(1) gpp_b_14(1) gpp_b_15_ish_gp_3(1) gpp_b_16_ish_gp_4(1) gpp_b_17_ish_gp_5(1) gpp_b_18_pmcalertb(1) gpp_b_19_fusa_diagtest_en(1) gpp_b_20_fusa_diagtest_mode(1) gpp_b_21_sml1alertb_pchhotb(1) gpp_a_0_espi_io_0(1) gpp_a_1_espi_io_1(1) gpp_a_2_espi_io_2_suswarnb_suspwrdnack(1) gpp_a_4_espi_cs0b(1) gpp_a_5_espi_clk(1) gpp_a_6_espi_resetb(1) gpp_a_7_espi_cs1b(1) gpp_a_8_espi_cs2b(1) gpp_a_9_espi_cs3b(1) gpp_a_10_espi_alert0b(1) gpp_a_11_espi_alert1b(1) gpp_a_12_espi_alert2b(1) gpp_a_13_espi_alert3b(1) pwrbtnb_out(1) dmi_clkreqb(1) dir_espi_io_0(1) dir_espi_io_1(1) dir_espi_io_2(1) dir_espi_io_3(1) dir_espi_csb(1) dir_espi_resetb(1) dir_espi_clk(1) dir_espi_rclk(1) dir_espi_alertb(1) spi0_io_2(1) spi0_io_3(1) spi0_mosi_io_0(1) spi0_miso_io_1(1) spi0_tpm_csb(1) spi0_flash_0_csb(1) spi0_flash_1_csb(1) spi0_clk(1) gpp_h_0(1) gpp_h_1_srcclkreqb_8(1) gpp_h_2_srcclkreqb_9(1) gpp_h_3_srcclkreqb_10(1) gpp_h_4_srcclkreqb_11(1) gpp_h_5_usb2_ocb_0(1) gpp_h_6_usb2_ocb_1(1) gpp_h_7_usb2_ocb_2_gmii_mdc_1(1) gpp_h_8_usb2_ocb_3_gmii_mdio_1(1) gpp_h_9_sml2clk(1) gpp_h_10_sml2data(1) gpp_h_11_sml2alertb(1) gpp_h_12_sml3clk(1) gpp_h_13_sml3data(1) gpp_h_14_sml3alertb(1) gpp_h_15_sml4clk(1) gpp_h_16_sml4data(1) gpp_h_17_sml4alertb(1) gpp_h_18_ish_i2c1_sda_smib(1) gpp_h_19_ish_i2c1_scl_nmib(1) gpp_c_0_smbclk(1) gpp_c_1_smbdata(1) gpp_c_2_smbalertb(1) gpp_c_3_ish_uart0_rxd_sml0bdata_i2c2_sda(1) gpp_c_4_ish_uart0_txd_sml0bclk_i2c2_scl(1) gpp_c_5_sml0alertb(1) gpp_c_6_ish_i2c2_sda_i2c3_sda(1) gpp_c_7_ish_i2c2_scl_i2c3_scl(1) gpp_c_8_uart0_rxd(1) gpp_c_9_uart0_txd(1) gpp_c_10_uart0_rtsb(1) gpp_c_11_uart0_ctsb(1) gpp_c_12_uart1_rxd_ish_uart1_rxd(1) gpp_c_13_uart1_txd_ish_uart1_txd(1) gpp_c_14_uart1_rtsb_ish_uart1_rtsb(1) gpp_c_15_uart1_ctsb_ish_uart1_ctsb(1) gpp_c_16_usb2_ocb_4_i2c4_sda(1) gpp_c_17_usb2_ocb_5_i2c4_scl(1) gpp_c_18_usb2_ocb_6_i2c5_sda(1) gpp_c_19_usb2_ocb_7_i2c5_scl(1) gpp_c_20_uart2_rxd_cnv_mfuart0_rxd(1) gpp_c_21_uart2_txd_cnv_mfuart0_txd(1) gpp_c_22_uart2_rtsb_cnv_mfuart0_rts_b(1) gpp_c_23_uart2_ctsb_cnv_mfuart0_cts_b(1) mlk_clk(1) mlk_data(1) gpp_s_0_sndw0_clk_rgmii_auxts_0(1) gpp_s_1_sndw0_data0_rgmii_int_0(1) gpp_s_2_sndw1_clk_dmic_clk_a_0_rgmii_reset_0_sndw0_data1(1) gpp_s_3_sndw1_data_dmic_data_0_rgmii_pps_0_sndw0_data2(1) gpp_s_4_sndw2_clk_dmic_clk_b_0_rgmii_auxts_1_sndw0_data3(1) gpp_s_5_sndw2_data_dmic_clk_b_1_rgmii_int_1(1) gpp_s_6_sndw3_clk_dmic_clk_a_1_rgmii_reset_1(1) gpp_s_7_sndw3_data_dmic_data_1_rgmii_pps_1(1) gpp_e_0_sataxpcie_0_satagp_0(1) gpp_e_1_sataxpcie_1_satagp_1(1) gpp_e_2_sataxpcie_2_satagp_2(1) gpp_e_3_cpu_gp_0(1) gpp_e_4_sata_devslp_0(1) gpp_e_5_sata_devslp_1(1) gpp_e_6_sata_devslp_2(1) gpp_e_7_cpu_gp_1(1) gpp_e_8_sata_ledb(1) gpp_e_9_srcclkreqb_12(1) gpp_e_10_srcclkreqb_13(1) gpp_e_11_ish_gp_9(1) gpp_e_12_ish_gp_10(1) gpp_e_13_thc0_spi1_csb(1) gpp_e_14_thc0_spi1_clk(1) gpp_e_15_thc0_spi1_io_1(1) gpp_e_16_thc0_spi1_io_0(1) gpp_e_17_thc0_spi1_io_2(1) gpp_e_18_thc0_spi1_io_3(1) gpp_e_19_thc0_spi1_rstb(1) gpp_e_20_thc0_spi1_intb(1) gpp_e_21_ish_uart0_ctsb_sml0balertb(1) gpp_k_0_gsxdout(1) gpp_k_1_gsxsload(1) gpp_k_2_gsxdin(1) gpp_k_3_gsxsresetb(1) gpp_k_4_gsxclk(1) gpp_k_5_adr_complete(1) gpp_k_8_core_vid_0(1) gpp_k_9_core_vid_1(1) mlk_rstb(1) gpp_f_0_sataxpcie_3_satagp_3(1) gpp_f_1_sataxpcie_4_satagp_4(1) gpp_f_2_sataxpcie_5_satagp_5(1) gpp_f_3_sataxpcie_6_satagp_6(1) gpp_f_4_sataxpcie_7_satagp_7(1) gpp_f_5_sata_devslp_3(1) gpp_f_6_sata_devslp_4(1) gpp_f_7_sata_devslp_5(1) gpp_f_8_sata_devslp_6(1) gpp_f_9_sata_devslp_7_dir_espi_smi(1) gpp_f_10_sata_sclock_dir_espi_nmi(1) gpp_f_11_sata_sload_dir_espi_irq(1) gpp_f_12_sata_sdataout1_dir_espi_wake(1) gpp_f_13_sata_sdataout0_dir_espi_sci(1) gpp_f_14(1) gpp_f_15(1) gpp_f_16(1) gpp_f_17(1) gpp_f_18(1) gpp_f_19_dnx_force_reload(1) gpp_f_20_gmii_mdc_0(1) gpp_f_21_gmii_mdio_0(1) gpp_f_22_ieh_corr_err0b(1) gpp_f_23_ieh_nonfatal_err1b(1) cnv_wr_d0p(1) cnv_wr_d0n(1) cnv_wr_d1p(1) cnv_wr_d1n(1) cnv_wr_clkp(1) cnv_wr_clkn(1) gpp_d_0_srcclkreqb_0(1) gpp_d_1_srcclkreqb_1(1) gpp_d_2_srcclkreqb_2(1) gpp_d_3_srcclkreqb_3(1) gpp_d_4_sml1clk(1) gpp_d_5_i2s2_sfrm_cnv_rf_reset_b_dmic_data_0(1) gpp_d_6_i2s2_txd_modem_clkreq_dmic_clk_b_0(1) gpp_d_7_i2s2_rxd_dmic_data_1(1) gpp_d_8_i2s2_sclk_dmic_clk_a_0(1) gpp_d_9_sml0clk(1) gpp_d_10_sml0data(1) gpp_d_11_srcclkreqb_4(1) gpp_d_12_srcclkreqb_5(1) gpp_d_13_srcclkreqb_6(1) gpp_d_14_srcclkreqb_7(1) gpp_d_15_sml1data(1) gpp_d_16_gspi3_cs0b_thc1_spi2_csb(1) gpp_d_17_gspi3_clk_thc1_spi2_clk(1) gpp_d_18_gspi3_miso_thc1_spi2_io_0(1) gpp_d_19_gspi3_mosi_thc1_spi2_io_1(1) gpp_d_20_uart3_rxd_thc1_spi2_io_2(1) gpp_d_21_uart3_txd_thc1_spi2_io_3(1) gpp_d_22_uart3_rtsb_thc1_spi2_rstb(1) gpp_d_23_uart3_ctsb_thc1_spi2_intb(1) gpp_r_0_hda_bclk_i2s0_sclk_hdacpu_bclk_dmic_clk_a_1(1) gpp_r_1_hda_sync_i2s0_sfrm_dmic_clk_b_1(1) gpp_r_2_hda_sdo_i2s0_txd_hdacpu_sdo(1) gpp_r_3_hda_sdi_0_i2s0_rxd_hdacpu_sdi(1) gpp_r_4_hda_rstb(1) gpp_r_5_hda_sdi_1_i2s1_rxd(1) gpp_r_6_i2s1_txd(1) gpp_r_7_i2s1_sfrm(1) gpp_r_8_i2s1_sclk(1) gpp_r_9_ish_spi_csb_gspi2_cs0b(1) gpp_r_10_ish_spi_clk_gspi2_clk(1) gpp_r_11_ish_spi_miso_gspi2_miso(1) gpp_r_12_ish_spi_mosi_gspi2_mosi(1) gpp_j_0_cnv_pa_blanking(1) gpp_j_1_cnv_bri_dt_uart0_rtsb(1) gpp_j_2_cnv_bri_rsp_uart0_rxd(1) gpp_j_3_cnv_rgi_dt_uart0_txd(1) gpp_j_4_cnv_rgi_rsp_uart0_ctsb(1) gpp_j_5_cnv_mfuart2_rxd(1) gpp_j_6_cnv_mfuart2_txd(1) gpp_j_7_boothalt_b(1) gpp_j_8_rtcclkout(1) gpp_j_9_bpki3c_sda(1) gpp_j_10_bpki3c_scl(1) gpp_j_11_dam(1) gpp_j_12_hdacpu_sdi(1) gpp_j_13_hdacpu_sdo(1) gpp_j_14_hdacpu_bclk(1) gpp_j_15_aux_pwrgd(1) gpd_4_slp_s3b(1) gpd_5_slp_s4b(1) gpd_6_slp_ab(1) gpd_7(1) gpd_8_susclk(1) gpd_9_slp_wlanb(1) gpd_10_slp_s5b(1) gpd_11_lanphypc(1) gpd_12(1) slp_lanb(1) slp_susb(1) gpp_i_0_gspi0_cs1b(1) gpp_i_1_gspi1_cs1b(1) gpp_i_2_i2c0_sda_i3c0_sda(1) gpp_i_3_i2c0_scl_i3c0_scl(1) gpp_i_4_i2c1_sda(1) gpp_i_5_i2c1_scl(1) gpp_i_6_gspi0_cs0b(1) gpp_i_7_gspi0_clk(1) gpp_i_8_gspi0_miso(1) gpp_i_9_gspi0_mosi(1) gpp_i_10_gspi1_cs0b(1) gpp_i_11_gspi1_clk_nfc_clk(1) gpp_i_12_gspi1_miso_nfc_clkreq(1) gpp_i_13_gspi1_mosi(1) gpp_i_14_ish_i2c0_sda_ish_i3c0_sda(1) gpp_i_15_ish_i2c0_scl_ish_i3c0_scl(1) gpp_i_16_ish_gp_11(1) prdyb(1) preqb(1) cpupwrgd(1) pm_spare0(1) pm_spare1(1) trigger_in(1) trigger_out(1) fbrk_out_n(1) ;";
+cycle 4;
+@set tap_incremental_mode off;
+
+pass itpp "no_compress: start;";
+## First set all control cells to be outputs (and PRELOAD value for cells opposite of how they're being forced)
+pass itpp "expandata: TCK, 32; ";
+focus_tap cl_cltapc;
+label "preload_bscan_cells";
+tap_raw_shift :
+ir_tdi = PRELOAD,
+dr_tdi = 'b00000000000000000000000000010000000,
+dr_tdo = 'bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;
+flush;
+
+
+tap_raw_shift :
+ir_tdi = SAMPLE_PRELOAD,
+dr_tdi = 'b0000000000000000000000000001010000000,
+dr_tdo = 'bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;
+flush;
+cycle 4250;
+
+#-----Extest1----------
+label "Extest1_Begins";
+tap_raw_shift :
+ir_tdi = EXTEST,
+dr_tdi = 'b0000000000000000000000000001010000000,
+dr_tdo = 'bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;
+flush;
+cycle 1000;
+
+label "Force";
+pass itpp "vector: usb31_1_rxp(1) usb31_2_rxp(1) usb31_3_rxp(1) usb31_4_rxp(1) usb31_5_rxp(1) usb31_6_rxp(1) usb31_7_rxp(1) usb31_8_rxp(1) usb31_9_rxp(1) usb31_10_rxp(1) pcie_24_rxp(1) pcie_23_rxp(1) pcie_22_rxp(1) pcie_21_rxp(1) dmi_4_rxp(1) dmi_5_rxp(1) dmi_6_rxp(1) dmi_7_rxp(1) dmi_0_rxp(1) dmi_1_rxp(1) dmi_2_rxp(1) dmi_3_rxp(1) pcie_1_rxp(1) pcie_2_rxp(1) pcie_3_lan_0a_rxp(1) pcie_4_rxp(1) pcie_5_rxp(1) pcie_6_rxp(1) pcie_7_lan_0b_rxp(1) pcie_8_rxp(1) pcie_9_tsn_0_rxp(1) pcie_10_tsn_1_rxp(1) pcie_11_rxp(1) pcie_12_rxp(1) pcie_17_sata_4_rxp(1) pcie_18_sata_5_rxp(1) pcie_19_sata_6_rxp(1) pcie_20_sata_7_rxp(1) pcie_13_sata_0_rxp(1) pcie_14_sata_1_rxp(1) pcie_15_sata_2_lan_0c_rxp(1) pcie_16_sata_3_rxp(1) usb31_1_rxn(0) usb31_2_rxn(0) usb31_3_rxn(0) usb31_4_rxn(0) usb31_5_rxn(0) usb31_6_rxn(0) usb31_7_rxn(0) usb31_8_rxn(0) usb31_9_rxn(0) usb31_10_rxn(0) pcie_24_rxn(0) pcie_23_rxn(0) pcie_22_rxn(0) pcie_21_rxn(0) dmi_4_rxn(0) dmi_5_rxn(0) dmi_6_rxn(0) dmi_7_rxn(0) dmi_0_rxn(0) dmi_1_rxn(0) dmi_2_rxn(0) dmi_3_rxn(0) pcie_1_rxn(1) pcie_2_rxn(0) pcie_3_lan_0a_rxn(0) pcie_4_rxn(0) pcie_5_rxn(0) pcie_6_rxn(0) pcie_7_lan_0b_rxn(0) pcie_8_rxn(0) pcie_9_tsn_0_rxn(0) pcie_10_tsn_1_rxn(0) pcie_11_rxn(0) pcie_12_rxn(0) pcie_17_sata_4_rxn(0) pcie_18_sata_5_rxn(0) pcie_19_sata_6_rxn(0) pcie_20_sata_7_rxn(0) pcie_13_sata_0_rxn(0) pcie_14_sata_1_rxn(0) pcie_15_sata_2_lan_0c_rxn(0) pcie_16_sata_3_rxn(0) usb2p_1(1) usb2n_1(1) usb2p_2(1) usb2n_2(1) usb2p_3(1) usb2n_3(1) usb2p_4(1) usb2n_4(1) usb2p_5(1) usb2n_5(1) usb2p_6(1) usb2n_6(1) usb2p_7(1) usb2n_7(1) usb2p_8(1) usb2n_8(1) usb2p_9(1) usb2n_9(1) usb2p_10(1) usb2n_10(1) usb2p_11(1) usb2n_11(1) usb2p_12(1) usb2n_12(1) usb2p_13(1) usb2n_13(1) usb2p_14(1) usb2n_14(1) gpp_b_0_pcie_lnk_down(1) gpp_b_1_ish_uart0_rtsb_gspi2_cs1b(1) gpp_b_2_ish_gp_8(1) gpp_b_3_cpu_gp_2(1) gpp_b_4_cpu_gp_3(1) gpp_b_5_sx_exit_holdoffb_ish_gp_6_ieh_fatal_err2b(1) gpp_b_6_clkout_48(1) gpp_b_7_ish_gp_7(1) gpp_b_8_ish_gp_0(1) gpp_b_9_ish_gp_1(1) gpp_b_10_ish_gp_2(1) gpp_b_11_i2s_mclk(1) gpp_b_12_slp_s0b(1) gpp_b_13_pltrstb(1) gpp_b_14(1) gpp_b_15_ish_gp_3(1) gpp_b_16_ish_gp_4(1) gpp_b_17_ish_gp_5(1) gpp_b_18_pmcalertb(1) gpp_b_19_fusa_diagtest_en(1) gpp_b_20_fusa_diagtest_mode(1) gpp_b_21_sml1alertb_pchhotb(1) gpp_a_0_espi_io_0(1) gpp_a_1_espi_io_1(1) gpp_a_2_espi_io_2_suswarnb_suspwrdnack(1) gpp_a_4_espi_cs0b(1) gpp_a_5_espi_clk(1) gpp_a_6_espi_resetb(1) gpp_a_7_espi_cs1b(1) gpp_a_8_espi_cs2b(1) gpp_a_9_espi_cs3b(1) gpp_a_10_espi_alert0b(1) gpp_a_11_espi_alert1b(1) gpp_a_12_espi_alert2b(1) gpp_a_13_espi_alert3b(1) pwrbtnb_out(1) dmi_clkreqb(1) dir_espi_io_0(1) dir_espi_io_1(1) dir_espi_io_2(1) dir_espi_io_3(1) dir_espi_csb(1) dir_espi_resetb(1) dir_espi_clk(1) dir_espi_rclk(1) dir_espi_alertb(1) spi0_io_2(1) spi0_io_3(1) spi0_mosi_io_0(1) spi0_miso_io_1(1) spi0_tpm_csb(1) spi0_flash_0_csb(1) spi0_flash_1_csb(1) spi0_clk(1) gpp_h_0(1) gpp_h_1_srcclkreqb_8(1) gpp_h_2_srcclkreqb_9(1) gpp_h_3_srcclkreqb_10(1) gpp_h_4_srcclkreqb_11(1) gpp_h_5_usb2_ocb_0(1) gpp_h_6_usb2_ocb_1(1) gpp_h_7_usb2_ocb_2_gmii_mdc_1(1) gpp_h_8_usb2_ocb_3_gmii_mdio_1(1) gpp_h_9_sml2clk(1) gpp_h_10_sml2data(1) gpp_h_11_sml2alertb(1) gpp_h_12_sml3clk(1) gpp_h_13_sml3data(1) gpp_h_14_sml3alertb(1) gpp_h_15_sml4clk(1) gpp_h_16_sml4data(1) gpp_h_17_sml4alertb(1) gpp_h_18_ish_i2c1_sda_smib(1) gpp_h_19_ish_i2c1_scl_nmib(1) gpp_c_0_smbclk(1) gpp_c_1_smbdata(1) gpp_c_2_smbalertb(1) gpp_c_3_ish_uart0_rxd_sml0bdata_i2c2_sda(1) gpp_c_4_ish_uart0_txd_sml0bclk_i2c2_scl(1) gpp_c_5_sml0alertb(1) gpp_c_6_ish_i2c2_sda_i2c3_sda(1) gpp_c_7_ish_i2c2_scl_i2c3_scl(1) gpp_c_8_uart0_rxd(1) gpp_c_9_uart0_txd(1) gpp_c_10_uart0_rtsb(1) gpp_c_11_uart0_ctsb(1) gpp_c_12_uart1_rxd_ish_uart1_rxd(1) gpp_c_13_uart1_txd_ish_uart1_txd(1) gpp_c_14_uart1_rtsb_ish_uart1_rtsb(1) gpp_c_15_uart1_ctsb_ish_uart1_ctsb(1) gpp_c_16_usb2_ocb_4_i2c4_sda(1) gpp_c_17_usb2_ocb_5_i2c4_scl(1) gpp_c_18_usb2_ocb_6_i2c5_sda(1) gpp_c_19_usb2_ocb_7_i2c5_scl(1) gpp_c_20_uart2_rxd_cnv_mfuart0_rxd(1) gpp_c_21_uart2_txd_cnv_mfuart0_txd(1) gpp_c_22_uart2_rtsb_cnv_mfuart0_rts_b(1) gpp_c_23_uart2_ctsb_cnv_mfuart0_cts_b(1) mlk_clk(1) mlk_data(1) gpp_s_0_sndw0_clk_rgmii_auxts_0(1) gpp_s_1_sndw0_data0_rgmii_int_0(1) gpp_s_2_sndw1_clk_dmic_clk_a_0_rgmii_reset_0_sndw0_data1(1) gpp_s_3_sndw1_data_dmic_data_0_rgmii_pps_0_sndw0_data2(1) gpp_s_4_sndw2_clk_dmic_clk_b_0_rgmii_auxts_1_sndw0_data3(1) gpp_s_5_sndw2_data_dmic_clk_b_1_rgmii_int_1(1) gpp_s_6_sndw3_clk_dmic_clk_a_1_rgmii_reset_1(1) gpp_s_7_sndw3_data_dmic_data_1_rgmii_pps_1(1) gpp_e_0_sataxpcie_0_satagp_0(1) gpp_e_1_sataxpcie_1_satagp_1(1) gpp_e_2_sataxpcie_2_satagp_2(1) gpp_e_3_cpu_gp_0(1) gpp_e_4_sata_devslp_0(1) gpp_e_5_sata_devslp_1(1) gpp_e_6_sata_devslp_2(1) gpp_e_7_cpu_gp_1(1) gpp_e_8_sata_ledb(1) gpp_e_9_srcclkreqb_12(1) gpp_e_10_srcclkreqb_13(1) gpp_e_11_ish_gp_9(1) gpp_e_12_ish_gp_10(1) gpp_e_13_thc0_spi1_csb(1) gpp_e_14_thc0_spi1_clk(1) gpp_e_15_thc0_spi1_io_1(1) gpp_e_16_thc0_spi1_io_0(1) gpp_e_17_thc0_spi1_io_2(1) gpp_e_18_thc0_spi1_io_3(1) gpp_e_19_thc0_spi1_rstb(1) gpp_e_20_thc0_spi1_intb(1) gpp_e_21_ish_uart0_ctsb_sml0balertb(1) gpp_k_0_gsxdout(1) gpp_k_1_gsxsload(1) gpp_k_2_gsxdin(1) gpp_k_3_gsxsresetb(1) gpp_k_4_gsxclk(1) gpp_k_5_adr_complete(1) gpp_k_8_core_vid_0(1) gpp_k_9_core_vid_1(1) mlk_rstb(1) gpp_f_0_sataxpcie_3_satagp_3(1) gpp_f_1_sataxpcie_4_satagp_4(1) gpp_f_2_sataxpcie_5_satagp_5(1) gpp_f_3_sataxpcie_6_satagp_6(1) gpp_f_4_sataxpcie_7_satagp_7(1) gpp_f_5_sata_devslp_3(1) gpp_f_6_sata_devslp_4(1) gpp_f_7_sata_devslp_5(1) gpp_f_8_sata_devslp_6(1) gpp_f_9_sata_devslp_7_dir_espi_smi(1) gpp_f_10_sata_sclock_dir_espi_nmi(1) gpp_f_11_sata_sload_dir_espi_irq(1) gpp_f_12_sata_sdataout1_dir_espi_wake(1) gpp_f_13_sata_sdataout0_dir_espi_sci(1) gpp_f_14(1) gpp_f_15(1) gpp_f_16(1) gpp_f_17(1) gpp_f_18(1) gpp_f_19_dnx_force_reload(1) gpp_f_20_gmii_mdc_0(1) gpp_f_21_gmii_mdio_0(1) gpp_f_22_ieh_corr_err0b(1) gpp_f_23_ieh_nonfatal_err1b(1) cnv_wr_d0p(1) cnv_wr_d0n(1) cnv_wr_d1p(1) cnv_wr_d1n(1) cnv_wr_clkp(1) cnv_wr_clkn(1) gpp_d_0_srcclkreqb_0(1) gpp_d_1_srcclkreqb_1(1) gpp_d_2_srcclkreqb_2(1) gpp_d_3_srcclkreqb_3(1) gpp_d_4_sml1clk(1) gpp_d_5_i2s2_sfrm_cnv_rf_reset_b_dmic_data_0(1) gpp_d_6_i2s2_txd_modem_clkreq_dmic_clk_b_0(1) gpp_d_7_i2s2_rxd_dmic_data_1(1) gpp_d_8_i2s2_sclk_dmic_clk_a_0(1) gpp_d_9_sml0clk(1) gpp_d_10_sml0data(1) gpp_d_11_srcclkreqb_4(1) gpp_d_12_srcclkreqb_5(1) gpp_d_13_srcclkreqb_6(1) gpp_d_14_srcclkreqb_7(1) gpp_d_15_sml1data(1) gpp_d_16_gspi3_cs0b_thc1_spi2_csb(1) gpp_d_17_gspi3_clk_thc1_spi2_clk(1) gpp_d_18_gspi3_miso_thc1_spi2_io_0(1) gpp_d_19_gspi3_mosi_thc1_spi2_io_1(1) gpp_d_20_uart3_rxd_thc1_spi2_io_2(1) gpp_d_21_uart3_txd_thc1_spi2_io_3(1) gpp_d_22_uart3_rtsb_thc1_spi2_rstb(1) gpp_d_23_uart3_ctsb_thc1_spi2_intb(1) gpp_r_0_hda_bclk_i2s0_sclk_hdacpu_bclk_dmic_clk_a_1(1) gpp_r_1_hda_sync_i2s0_sfrm_dmic_clk_b_1(1) gpp_r_2_hda_sdo_i2s0_txd_hdacpu_sdo(1) gpp_r_3_hda_sdi_0_i2s0_rxd_hdacpu_sdi(1) gpp_r_4_hda_rstb(1) gpp_r_5_hda_sdi_1_i2s1_rxd(1) gpp_r_6_i2s1_txd(1) gpp_r_7_i2s1_sfrm(1) gpp_r_8_i2s1_sclk(1) gpp_r_9_ish_spi_csb_gspi2_cs0b(1) gpp_r_10_ish_spi_clk_gspi2_clk(1) gpp_r_11_ish_spi_miso_gspi2_miso(1) gpp_r_12_ish_spi_mosi_gspi2_mosi(1) gpp_j_0_cnv_pa_blanking(1) gpp_j_1_cnv_bri_dt_uart0_rtsb(1) gpp_j_2_cnv_bri_rsp_uart0_rxd(1) gpp_j_3_cnv_rgi_dt_uart0_txd(1) gpp_j_4_cnv_rgi_rsp_uart0_ctsb(1) gpp_j_5_cnv_mfuart2_rxd(1) gpp_j_6_cnv_mfuart2_txd(1) gpp_j_7_boothalt_b(1) gpp_j_8_rtcclkout(1) gpp_j_9_bpki3c_sda(1) gpp_j_10_bpki3c_scl(1) gpp_j_11_dam(1) gpp_j_12_hdacpu_sdi(1) gpp_j_13_hdacpu_sdo(1) gpp_j_14_hdacpu_bclk(1) gpp_j_15_aux_pwrgd(1) gpd_4_slp_s3b(1) gpd_5_slp_s4b(1) gpd_6_slp_ab(1) gpd_7(1) gpd_8_susclk(1) gpd_9_slp_wlanb(1) gpd_10_slp_s5b(1) gpd_11_lanphypc(1) gpd_12(1) slp_lanb(1) slp_susb(1) gpp_i_0_gspi0_cs1b(1) gpp_i_1_gspi1_cs1b(1) gpp_i_2_i2c0_sda_i3c0_sda(1) gpp_i_3_i2c0_scl_i3c0_scl(1) gpp_i_4_i2c1_sda(1) gpp_i_5_i2c1_scl(1) gpp_i_6_gspi0_cs0b(1) gpp_i_7_gspi0_clk(1) gpp_i_8_gspi0_miso(1) gpp_i_9_gspi0_mosi(1) gpp_i_10_gspi1_cs0b(1) gpp_i_11_gspi1_clk_nfc_clk(1) gpp_i_12_gspi1_miso_nfc_clkreq(1) gpp_i_13_gspi1_mosi(1) gpp_i_14_ish_i2c0_sda_ish_i3c0_sda(1) gpp_i_15_ish_i2c0_scl_ish_i3c0_scl(1) gpp_i_16_ish_gp_11(1) prdyb(1) preqb(1) cpupwrgd(1) pm_spare0(1) pm_spare1(1) trigger_in(1) trigger_out(1) fbrk_out_n(1) ;";
+cycle 1000;
+
+#-----Extest2----------
+pass itpp "label:Pin_USB2P_01@812;";
+pass itpp "label:Pin_USB2N_01@810;";
+pass itpp "label:Pin_USB2P_02@808;";
+pass itpp "label:Pin_USB2N_02@806;";
+pass itpp "label:Pin_USB2P_03@804;";
+pass itpp "label:Pin_USB2N_03@802;";
+pass itpp "label:Pin_USB2P_04@800;";
+pass itpp "label:Pin_USB2N_04@798;";
+pass itpp "label:Pin_USB2P_05@796;";
+pass itpp "label:Pin_USB2N_05@794;";
+pass itpp "label:Pin_USB2P_06@792;";
+pass itpp "label:Pin_USB2N_06@790;";
+pass itpp "label:Pin_USB2P_07@788;";
+pass itpp "label:Pin_USB2N_07@786;";
+pass itpp "label:Pin_USB2P_08@784;";
+pass itpp "label:Pin_USB2N_08@782;";
+pass itpp "label:Pin_USB2P_09@780;";
+pass itpp "label:Pin_USB2N_09@778;";
+pass itpp "label:Pin_USB2P_10@776;";
+pass itpp "label:Pin_USB2N_10@774;";
+pass itpp "label:Pin_USB2P_11@772;";
+pass itpp "label:Pin_USB2N_11@770;";
+pass itpp "label:Pin_USB2P_12@768;";
+pass itpp "label:Pin_USB2N_12@766;";
+pass itpp "label:Pin_USB2P_13@764;";
+pass itpp "label:Pin_USB2N_13@762;";
+pass itpp "label:Pin_USB2P_14@760;";
+pass itpp "label:Pin_USB2N_14@758;";
+pass itpp "label:Pin_USB31_01_RXP@752;";
+pass itpp "label:Pin_USB31_01_RXN@751;";
+pass itpp "label:Pin_USB31_02_RXP@749;";
+pass itpp "label:Pin_USB31_02_RXN@748;";
+pass itpp "label:Pin_USB31_03_RXP@746;";
+pass itpp "label:Pin_USB31_03_RXN@745;";
+pass itpp "label:Pin_USB31_04_RXP@743;";
+pass itpp "label:Pin_USB31_04_RXN@742;";
+pass itpp "label:Pin_USB31_05_RXP@740;";
+pass itpp "label:Pin_USB31_05_RXN@739;";
+pass itpp "label:Pin_USB31_06_RXP@737;";
+pass itpp "label:Pin_USB31_06_RXN@736;";
+pass itpp "label:Pin_USB31_07_RXP@734;";
+pass itpp "label:Pin_USB31_07_RXN@733;";
+pass itpp "label:Pin_USB31_08_RXP@731;";
+pass itpp "label:Pin_USB31_08_RXN@730;";
+pass itpp "label:Pin_USB31_09_RXP@728;";
+pass itpp "label:Pin_USB31_09_RXN@727;";
+pass itpp "label:Pin_USB31_10_RXP@725;";
+pass itpp "label:Pin_USB31_10_RXN@724;";
+pass itpp "label:Pin_PCIE_24_RXP@719;";
+pass itpp "label:Pin_PCIE_24_RXN@718;";
+pass itpp "label:Pin_PCIE_23_RXP@716;";
+pass itpp "label:Pin_PCIE_23_RXN@715;";
+pass itpp "label:Pin_PCIE_22_RXP@713;";
+pass itpp "label:Pin_PCIE_22_RXN@712;";
+pass itpp "label:Pin_PCIE_21_RXP@710;";
+pass itpp "label:Pin_PCIE_21_RXN@709;";
+pass itpp "label:Pin_DMI_04_RXP@707;";
+pass itpp "label:Pin_DMI_04_RXN@706;";
+pass itpp "label:Pin_DMI_05_RXP@704;";
+pass itpp "label:Pin_DMI_05_RXN@703;";
+pass itpp "label:Pin_DMI_06_RXP@701;";
+pass itpp "label:Pin_DMI_06_RXN@700;";
+pass itpp "label:Pin_DMI_07_RXP@698;";
+pass itpp "label:Pin_DMI_07_RXN@697;";
+pass itpp "label:Pin_DMI_00_RXP@695;";
+pass itpp "label:Pin_DMI_00_RXN@694;";
+pass itpp "label:Pin_DMI_01_RXP@692;";
+pass itpp "label:Pin_DMI_01_RXN@691;";
+pass itpp "label:Pin_DMI_02_RXP@689;";
+pass itpp "label:Pin_DMI_02_RXN@688;";
+pass itpp "label:Pin_DMI_03_RXP@686;";
+pass itpp "label:Pin_DMI_03_RXN@685;";
+pass itpp "label:Pin_GPP_B_00_PCIE_LNK_DOWN@679;";
+pass itpp "label:Pin_GPP_B_01_ISH_UART0_RTSB_GSPI2_CS1B@677;";
+pass itpp "label:Pin_GPP_B_02_ISH_GP_08@675;";
+pass itpp "label:Pin_GPP_B_03_CPU_GP_02@673;";
+pass itpp "label:Pin_GPP_B_04_CPU_GP_03@671;";
+pass itpp "label:Pin_GPP_B_05_SX_EXIT_HOLDOFFB_ISH_GP_06_IEH_FATAL_ERR2B@669;";
+pass itpp "label:Pin_GPP_B_06_CLKOUT_48@667;";
+pass itpp "label:Pin_GPP_B_07_ISH_GP_07@665;";
+pass itpp "label:Pin_GPP_B_08_ISH_GP_00@663;";
+pass itpp "label:Pin_GPP_B_09_ISH_GP_01@661;";
+pass itpp "label:Pin_GPP_B_10_ISH_GP_02@659;";
+pass itpp "label:Pin_GPP_B_11_I2S_MCLK@657;";
+pass itpp "label:Pin_GPP_B_12_SLP_S0B@655;";
+pass itpp "label:Pin_GPP_B_13_PLTRSTB@653;";
+pass itpp "label:Pin_GPP_B_14@651;";
+pass itpp "label:Pin_GPP_B_15_ISH_GP_03@649;";
+pass itpp "label:Pin_GPP_B_16_ISH_GP_04@647;";
+pass itpp "label:Pin_GPP_B_17_ISH_GP_05@645;";
+pass itpp "label:Pin_GPP_B_18_PMCALERTB@643;";
+pass itpp "label:Pin_GPP_B_19_FUSA_DIAGTEST_EN@641;";
+pass itpp "label:Pin_GPP_B_20_FUSA_DIAGTEST_MODE@639;";
+pass itpp "label:Pin_GPP_B_21_SML1ALERTB_PCHHOTB@637;";
+pass itpp "label:Pin_GPP_A_00_ESPI_IO_00@635;";
+pass itpp "label:Pin_GPP_A_01_ESPI_IO_01@633;";
+pass itpp "label:Pin_GPP_A_02_ESPI_IO_02_SUSWARNB_SUSPWRDNACK@631;";
+pass itpp "label:Pin_GPP_A_04_ESPI_CS0B@627;";
+pass itpp "label:Pin_GPP_A_05_ESPI_CLK@625;";
+pass itpp "label:Pin_GPP_A_06_ESPI_RESETB@623;";
+pass itpp "label:Pin_GPP_A_07_ESPI_CS1B@621;";
+pass itpp "label:Pin_GPP_A_08_ESPI_CS2B@619;";
+pass itpp "label:Pin_GPP_A_09_ESPI_CS3B@617;";
+pass itpp "label:Pin_GPP_A_10_ESPI_ALERT0B@615;";
+pass itpp "label:Pin_GPP_A_11_ESPI_ALERT1B@613;";
+pass itpp "label:Pin_GPP_A_12_ESPI_ALERT2B@611;";
+pass itpp "label:Pin_GPP_A_13_ESPI_ALERT3B@609;";
+pass itpp "label:Pin_PWRBTNB_OUT@607;";
+pass itpp "label:Pin_DMI_CLKREQB@603;";
+pass itpp "label:Pin_DIR_ESPI_IO_00@601;";
+pass itpp "label:Pin_DIR_ESPI_IO_01@599;";
+pass itpp "label:Pin_DIR_ESPI_IO_02@597;";
+pass itpp "label:Pin_DIR_ESPI_IO_03@595;";
+pass itpp "label:Pin_DIR_ESPI_CSB@593;";
+pass itpp "label:Pin_DIR_ESPI_RESETB@591;";
+pass itpp "label:Pin_DIR_ESPI_CLK@589;";
+pass itpp "label:Pin_DIR_ESPI_RCLK@587;";
+pass itpp "label:Pin_DIR_ESPI_ALERTB@585;";
+pass itpp "label:Pin_SPI0_IO_02@569;";
+pass itpp "label:Pin_SPI0_IO_03@567;";
+pass itpp "label:Pin_SPI0_MOSI_IO_00@565;";
+pass itpp "label:Pin_SPI0_MISO_IO_01@563;";
+pass itpp "label:Pin_SPI0_TPM_CSB@561;";
+pass itpp "label:Pin_SPI0_FLASH_00_CSB@559;";
+pass itpp "label:Pin_SPI0_FLASH_01_CSB@557;";
+pass itpp "label:Pin_SPI0_CLK@555;";
+pass itpp "label:Pin_GPP_H_00@553;";
+pass itpp "label:Pin_GPP_H_01_SRCCLKREQB_08@551;";
+pass itpp "label:Pin_GPP_H_02_SRCCLKREQB_09@549;";
+pass itpp "label:Pin_GPP_H_03_SRCCLKREQB_10@547;";
+pass itpp "label:Pin_GPP_H_04_SRCCLKREQB_11@545;";
+pass itpp "label:Pin_GPP_H_05_USB2_OCB_00@543;";
+pass itpp "label:Pin_GPP_H_06_USB2_OCB_01@541;";
+pass itpp "label:Pin_GPP_H_07_USB2_OCB_02_GMII_MDC_01@539;";
+pass itpp "label:Pin_GPP_H_08_USB2_OCB_03_GMII_MDIO_01@537;";
+pass itpp "label:Pin_GPP_H_09_SML2CLK@535;";
+pass itpp "label:Pin_GPP_H_10_SML2DATA@533;";
+pass itpp "label:Pin_GPP_H_11_SML2ALERTB@531;";
+pass itpp "label:Pin_GPP_H_12_SML3CLK@529;";
+pass itpp "label:Pin_GPP_H_13_SML3DATA@527;";
+pass itpp "label:Pin_GPP_H_14_SML3ALERTB@525;";
+pass itpp "label:Pin_GPP_H_15_SML4CLK@523;";
+pass itpp "label:Pin_GPP_H_16_SML4DATA@521;";
+pass itpp "label:Pin_GPP_H_17_SML4ALERTB@519;";
+pass itpp "label:Pin_GPP_H_18_ISH_I2C1_SDA_SMIB@517;";
+pass itpp "label:Pin_GPP_H_19_ISH_I2C1_SCL_NMIB@515;";
+pass itpp "label:Pin_GPP_C_00_SMBCLK@513;";
+pass itpp "label:Pin_GPP_C_01_SMBDATA@511;";
+pass itpp "label:Pin_GPP_C_02_SMBALERTB@509;";
+pass itpp "label:Pin_GPP_C_03_ISH_UART0_RXD_SML0BDATA_I2C2_SDA@507;";
+pass itpp "label:Pin_GPP_C_04_ISH_UART0_TXD_SML0BCLK_I2C2_SCL@505;";
+pass itpp "label:Pin_GPP_C_05_SML0ALERTB@503;";
+pass itpp "label:Pin_GPP_C_06_ISH_I2C2_SDA_I2C3_SDA@501;";
+pass itpp "label:Pin_GPP_C_07_ISH_I2C2_SCL_I2C3_SCL@499;";
+pass itpp "label:Pin_GPP_C_08_UART0_RXD@497;";
+pass itpp "label:Pin_GPP_C_09_UART0_TXD@495;";
+pass itpp "label:Pin_GPP_C_10_UART0_RTSB@493;";
+pass itpp "label:Pin_GPP_C_11_UART0_CTSB@491;";
+pass itpp "label:Pin_GPP_C_12_UART1_RXD_ISH_UART1_RXD@489;";
+pass itpp "label:Pin_GPP_C_13_UART1_TXD_ISH_UART1_TXD@487;";
+pass itpp "label:Pin_GPP_C_14_UART1_RTSB_ISH_UART1_RTSB@485;";
+pass itpp "label:Pin_GPP_C_15_UART1_CTSB_ISH_UART1_CTSB@483;";
+pass itpp "label:Pin_GPP_C_16_USB2_OCB_04_I2C4_SDA@481;";
+pass itpp "label:Pin_GPP_C_17_USB2_OCB_05_I2C4_SCL@479;";
+pass itpp "label:Pin_GPP_C_18_USB2_OCB_06_I2C5_SDA@477;";
+pass itpp "label:Pin_GPP_C_19_USB2_OCB_07_I2C5_SCL@475;";
+pass itpp "label:Pin_GPP_C_20_UART2_RXD_CNV_MFUART0_RXD@473;";
+pass itpp "label:Pin_GPP_C_21_UART2_TXD_CNV_MFUART0_TXD@471;";
+pass itpp "label:Pin_GPP_C_22_UART2_RTSB_CNV_MFUART0_RTS_B@469;";
+pass itpp "label:Pin_GPP_C_23_UART2_CTSB_CNV_MFUART0_CTS_B@467;";
+pass itpp "label:Pin_MLK_CLK@463;";
+pass itpp "label:Pin_MLK_DATA@461;";
+pass itpp "label:Pin_GPP_S_00_SNDW0_CLK_RGMII_AUXTS_00@447;";
+pass itpp "label:Pin_GPP_S_01_SNDW0_DATA0_RGMII_INT_00@445;";
+pass itpp "label:Pin_GPP_S_02_SNDW1_CLK_DMIC_CLK_A_00_RGMII_RESET_00_SNDW0_DATA1@443;";
+pass itpp "label:Pin_GPP_S_03_SNDW1_DATA_DMIC_DATA_00_RGMII_PPS_00_SNDW0_DATA2@441;";
+pass itpp "label:Pin_GPP_S_04_SNDW2_CLK_DMIC_CLK_B_00_RGMII_AUXTS_01_SNDW0_DATA3@439;";
+pass itpp "label:Pin_GPP_S_05_SNDW2_DATA_DMIC_CLK_B_01_RGMII_INT_01@437;";
+pass itpp "label:Pin_GPP_S_06_SNDW3_CLK_DMIC_CLK_A_01_RGMII_RESET_01@435;";
+pass itpp "label:Pin_GPP_S_07_SNDW3_DATA_DMIC_DATA_01_RGMII_PPS_01@433;";
+pass itpp "label:Pin_GPP_E_00_SATAXPCIE_00_SATAGP_00@431;";
+pass itpp "label:Pin_GPP_E_01_SATAXPCIE_01_SATAGP_01@429;";
+pass itpp "label:Pin_GPP_E_02_SATAXPCIE_02_SATAGP_02@427;";
+pass itpp "label:Pin_GPP_E_03_CPU_GP_00@425;";
+pass itpp "label:Pin_GPP_E_04_SATA_DEVSLP_00@423;";
+pass itpp "label:Pin_GPP_E_05_SATA_DEVSLP_01@421;";
+pass itpp "label:Pin_GPP_E_06_SATA_DEVSLP_02@419;";
+pass itpp "label:Pin_GPP_E_07_CPU_GP_01@417;";
+pass itpp "label:Pin_GPP_E_08_SATA_LEDB@415;";
+pass itpp "label:Pin_GPP_E_09_SRCCLKREQB_12@413;";
+pass itpp "label:Pin_GPP_E_10_SRCCLKREQB_13@411;";
+pass itpp "label:Pin_GPP_E_11_ISH_GP_09@409;";
+pass itpp "label:Pin_GPP_E_12_ISH_GP_10@407;";
+pass itpp "label:Pin_GPP_E_13_THC0_SPI1_CSB@405;";
+pass itpp "label:Pin_GPP_E_14_THC0_SPI1_CLK@403;";
+pass itpp "label:Pin_GPP_E_15_THC0_SPI1_IO_01@401;";
+pass itpp "label:Pin_GPP_E_16_THC0_SPI1_IO_00@399;";
+pass itpp "label:Pin_GPP_E_17_THC0_SPI1_IO_02@397;";
+pass itpp "label:Pin_GPP_E_18_THC0_SPI1_IO_03@395;";
+pass itpp "label:Pin_GPP_E_19_THC0_SPI1_RSTB@393;";
+pass itpp "label:Pin_GPP_E_20_THC0_SPI1_INTB@391;";
+pass itpp "label:Pin_GPP_E_21_ISH_UART0_CTSB_SML0BALERTB@389;";
+pass itpp "label:Pin_GPP_K_00_GSXDOUT@387;";
+pass itpp "label:Pin_GPP_K_01_GSXSLOAD@385;";
+pass itpp "label:Pin_GPP_K_02_GSXDIN@383;";
+pass itpp "label:Pin_GPP_K_03_GSXSRESETB@381;";
+pass itpp "label:Pin_GPP_K_04_GSXCLK@379;";
+pass itpp "label:Pin_GPP_K_05_ADR_COMPLETE@377;";
+pass itpp "label:Pin_GPP_K_08_CORE_VID_00@371;";
+pass itpp "label:Pin_GPP_K_09_CORE_VID_01@369;";
+pass itpp "label:Pin_MLK_RSTB@361;";
+pass itpp "label:Pin_GPP_F_00_SATAXPCIE_03_SATAGP_03@359;";
+pass itpp "label:Pin_GPP_F_01_SATAXPCIE_04_SATAGP_04@357;";
+pass itpp "label:Pin_GPP_F_02_SATAXPCIE_05_SATAGP_05@355;";
+pass itpp "label:Pin_GPP_F_03_SATAXPCIE_06_SATAGP_06@353;";
+pass itpp "label:Pin_GPP_F_04_SATAXPCIE_07_SATAGP_07@351;";
+pass itpp "label:Pin_GPP_F_05_SATA_DEVSLP_03@349;";
+pass itpp "label:Pin_GPP_F_06_SATA_DEVSLP_04@347;";
+pass itpp "label:Pin_GPP_F_07_SATA_DEVSLP_05@345;";
+pass itpp "label:Pin_GPP_F_08_SATA_DEVSLP_06@343;";
+pass itpp "label:Pin_GPP_F_09_SATA_DEVSLP_07_DIR_ESPI_SMI@341;";
+pass itpp "label:Pin_GPP_F_10_SATA_SCLOCK_DIR_ESPI_NMI@339;";
+pass itpp "label:Pin_GPP_F_11_SATA_SLOAD_DIR_ESPI_IRQ@337;";
+pass itpp "label:Pin_GPP_F_12_SATA_SDATAOUT1_DIR_ESPI_WAKE@335;";
+pass itpp "label:Pin_GPP_F_13_SATA_SDATAOUT0_DIR_ESPI_SCI@333;";
+pass itpp "label:Pin_GPP_F_14@331;";
+pass itpp "label:Pin_GPP_F_15@329;";
+pass itpp "label:Pin_GPP_F_16@327;";
+pass itpp "label:Pin_GPP_F_17@325;";
+pass itpp "label:Pin_GPP_F_18@323;";
+pass itpp "label:Pin_GPP_F_19_DNX_FORCE_RELOAD@321;";
+pass itpp "label:Pin_GPP_F_20_GMII_MDC_00@319;";
+pass itpp "label:Pin_GPP_F_21_GMII_MDIO_00@317;";
+pass itpp "label:Pin_GPP_F_22_IEH_CORR_ERR0B@315;";
+pass itpp "label:Pin_GPP_F_23_IEH_NONFATAL_ERR1B@313;";
+pass itpp "label:Pin_PCIE_01_RXP@307;";	
+pass itpp "label:Pin_PCIE_01_RXN@306;";	
+pass itpp "label:Pin_PCIE_02_RXP@304;";	
+pass itpp "label:Pin_PCIE_02_RXN@303;";	
+pass itpp "label:Pin_PCIE_03_LAN_0A_RXP@301;";	
+pass itpp "label:Pin_PCIE_03_LAN_0A_RXN@300;";	
+pass itpp "label:Pin_PCIE_04_RXP@298;";	
+pass itpp "label:Pin_PCIE_04_RXN@297;";	
+pass itpp "label:Pin_PCIE_05_RXP@295;";	
+pass itpp "label:Pin_PCIE_05_RXN@294;";	
+pass itpp "label:Pin_PCIE_06_RXP@292;";	
+pass itpp "label:Pin_PCIE_06_RXN@291;";	
+pass itpp "label:Pin_PCIE_07_LAN_0B_RXP@289;";	
+pass itpp "label:Pin_PCIE_07_LAN_0B_RXN@288;";	
+pass itpp "label:Pin_PCIE_08_RXP@286;";	
+pass itpp "label:Pin_PCIE_08_RXN@285;";	
+pass itpp "label:Pin_PCIE_09_TSN_00_RXP@283;";	
+pass itpp "label:Pin_PCIE_09_TSN_00_RXN@282;";	
+pass itpp "label:Pin_PCIE_10_TSN_01_RXP@280;";	
+pass itpp "label:Pin_PCIE_10_TSN_01_RXN@279;";	
+pass itpp "label:Pin_PCIE_11_RXP@277;";	
+pass itpp "label:Pin_PCIE_11_RXN@276;";	
+pass itpp "label:Pin_PCIE_12_RXP@274;";	
+pass itpp "label:Pin_PCIE_12_RXN@273;";	
+pass itpp "label:Pin_PCIE_17_SATA_04_RXP@271;";	
+pass itpp "label:Pin_PCIE_17_SATA_04_RXN@270;";	
+pass itpp "label:Pin_PCIE_18_SATA_05_RXP@268;";	
+pass itpp "label:Pin_PCIE_18_SATA_05_RXN@267;";	
+pass itpp "label:Pin_PCIE_19_SATA_06_RXP@265;";	
+pass itpp "label:Pin_PCIE_19_SATA_06_RXN@264;";	
+pass itpp "label:Pin_PCIE_20_SATA_07_RXP@262;";	
+pass itpp "label:Pin_PCIE_20_SATA_07_RXN@261;";	
+pass itpp "label:Pin_PCIE_13_SATA_00_RXP@259;";	
+pass itpp "label:Pin_PCIE_13_SATA_00_RXN@258;";	
+pass itpp "label:Pin_PCIE_14_SATA_01_RXP@256;";	
+pass itpp "label:Pin_PCIE_14_SATA_01_RXN@255;";	
+pass itpp "label:Pin_PCIE_15_SATA_02_LAN_0C_RXP@253;";	
+pass itpp "label:Pin_PCIE_15_SATA_02_LAN_0C_RXN@252;";	
+pass itpp "label:Pin_PCIE_16_SATA_03_RXP@250;";	
+pass itpp "label:Pin_PCIE_16_SATA_03_RXN@249;";	
+pass itpp "label:Pin_CNV_WR_D0P@240;";
+pass itpp "label:Pin_CNV_WR_D0N@239;";
+pass itpp "label:Pin_CNV_WR_D1P@238;";
+pass itpp "label:Pin_CNV_WR_D1N@237;";
+pass itpp "label:Pin_CNV_WR_CLKP@236;";
+pass itpp "label:Pin_CNV_WR_CLKN@235;";
+pass itpp "label:Pin_GPP_D_00_SRCCLKREQB_00@223;";
+pass itpp "label:Pin_GPP_D_01_SRCCLKREQB_01@221;";
+pass itpp "label:Pin_GPP_D_02_SRCCLKREQB_02@219;";
+pass itpp "label:Pin_GPP_D_03_SRCCLKREQB_03@217;";
+pass itpp "label:Pin_GPP_D_04_SML1CLK@215;";
+pass itpp "label:Pin_GPP_D_05_I2S2_SFRM_CNV_RF_RESET_B_DMIC_DATA_00@213;";
+pass itpp "label:Pin_GPP_D_06_I2S2_TXD_MODEM_CLKREQ_DMIC_CLK_B_00@211;";
+pass itpp "label:Pin_GPP_D_07_I2S2_RXD_DMIC_DATA_01@209;";
+pass itpp "label:Pin_GPP_D_08_I2S2_SCLK_DMIC_CLK_A_00@207;";
+pass itpp "label:Pin_GPP_D_09_SML0CLK@205;";
+pass itpp "label:Pin_GPP_D_10_SML0DATA@203;";
+pass itpp "label:Pin_GPP_D_11_SRCCLKREQB_04@201;";
+pass itpp "label:Pin_GPP_D_12_SRCCLKREQB_05@199;";
+pass itpp "label:Pin_GPP_D_13_SRCCLKREQB_06@197;";
+pass itpp "label:Pin_GPP_D_14_SRCCLKREQB_07@195;";
+pass itpp "label:Pin_GPP_D_15_SML1DATA@193;";
+pass itpp "label:Pin_GPP_D_16_GSPI3_CS0B_THC1_SPI2_CSB@191;";
+pass itpp "label:Pin_GPP_D_17_GSPI3_CLK_THC1_SPI2_CLK@189;";
+pass itpp "label:Pin_GPP_D_18_GSPI3_MISO_THC1_SPI2_IO_00@187;";
+pass itpp "label:Pin_GPP_D_19_GSPI3_MOSI_THC1_SPI2_IO_01@185;";
+pass itpp "label:Pin_GPP_D_20_UART3_RXD_THC1_SPI2_IO_02@183;";
+pass itpp "label:Pin_GPP_D_21_UART3_TXD_THC1_SPI2_IO_03@181;";
+pass itpp "label:Pin_GPP_D_22_UART3_RTSB_THC1_SPI2_RSTB@179;";
+pass itpp "label:Pin_GPP_D_23_UART3_CTSB_THC1_SPI2_INTB@177;";
+pass itpp "label:Pin_GPP_R_00_HDA_BCLK_I2S0_SCLK_HDACPU_BCLK_DMIC_CLK_A_01@175;";
+pass itpp "label:Pin_GPP_R_01_HDA_SYNC_I2S0_SFRM_DMIC_CLK_B_01@173;";
+pass itpp "label:Pin_GPP_R_02_HDA_SDO_I2S0_TXD_HDACPU_SDO@171;";
+pass itpp "label:Pin_GPP_R_03_HDA_SDI_00_I2S0_RXD_HDACPU_SDI@169;";
+pass itpp "label:Pin_GPP_R_04_HDA_RSTB@167;";
+pass itpp "label:Pin_GPP_R_05_HDA_SDI_01_I2S1_RXD@165;";
+pass itpp "label:Pin_GPP_R_06_I2S1_TXD@163;";
+pass itpp "label:Pin_GPP_R_07_I2S1_SFRM@161;";
+pass itpp "label:Pin_GPP_R_08_I2S1_SCLK@159;";
+pass itpp "label:Pin_GPP_R_09_ISH_SPI_CSB_GSPI2_CS0B@157;";
+pass itpp "label:Pin_GPP_R_10_ISH_SPI_CLK_GSPI2_CLK@155;";
+pass itpp "label:Pin_GPP_R_11_ISH_SPI_MISO_GSPI2_MISO@153;";
+pass itpp "label:Pin_GPP_R_12_ISH_SPI_MOSI_GSPI2_MOSI@151;";
+pass itpp "label:Pin_GPP_J_00_CNV_PA_BLANKING@149;";
+pass itpp "label:Pin_GPP_J_01_CNV_BRI_DT_UART0_RTSB@147;";
+pass itpp "label:Pin_GPP_J_02_CNV_BRI_RSP_UART0_RXD@145;";
+pass itpp "label:Pin_GPP_J_03_CNV_RGI_DT_UART0_TXD@143;";
+pass itpp "label:Pin_GPP_J_04_CNV_RGI_RSP_UART0_CTSB@141;";
+pass itpp "label:Pin_GPP_J_05_CNV_MFUART2_RXD@139;";
+pass itpp "label:Pin_GPP_J_06_CNV_MFUART2_TXD@137;";
+pass itpp "label:Pin_GPP_J_07_BOOTHALT_B@135;";
+pass itpp "label:Pin_GPP_J_08_RTCCLKOUT@133;";
+pass itpp "label:Pin_GPP_J_09_BPKI3C_SDA@131;";
+pass itpp "label:Pin_GPP_J_10_BPKI3C_SCL@129;";
+pass itpp "label:Pin_GPP_J_11_DAM@127;";
+pass itpp "label:Pin_GPP_J_12_HDACPU_SDI@125;";
+pass itpp "label:Pin_GPP_J_13_HDACPU_SDO@123;";
+pass itpp "label:Pin_GPP_J_14_HDACPU_BCLK@121;";
+pass itpp "label:Pin_GPP_J_15_AUX_PWRGD@119;";
+pass itpp "label:Pin_GPD_04_SLP_S3B@91;";
+pass itpp "label:Pin_GPD_05_SLP_S4B@89;";
+pass itpp "label:Pin_GPD_06_SLP_AB@87;";
+pass itpp "label:Pin_GPD_07@85;";
+pass itpp "label:Pin_GPD_08_SUSCLK@83;";
+pass itpp "label:Pin_GPD_09_SLP_WLANB@81;";
+pass itpp "label:Pin_GPD_10_SLP_S5B@79;";
+pass itpp "label:Pin_GPD_11_LANPHYPC@77;";
+pass itpp "label:Pin_GPD_12@75;";
+pass itpp "label:Pin_SLP_LANB@73;";
+pass itpp "label:Pin_SLP_SUSB@71;";
+pass itpp "label:Pin_GPP_I_00_GSPI0_CS1B@52;";
+pass itpp "label:Pin_GPP_I_01_GSPI1_CS1B@50;";
+pass itpp "label:Pin_GPP_I_02_I2C0_SDA_I3C0_SDA@48;";
+pass itpp "label:Pin_GPP_I_03_I2C0_SCL_I3C0_SCL@46;";
+pass itpp "label:Pin_GPP_I_04_I2C1_SDA@44;";
+pass itpp "label:Pin_GPP_I_05_I2C1_SCL@42;";
+pass itpp "label:Pin_GPP_I_06_GSPI0_CS0B@40;";
+pass itpp "label:Pin_GPP_I_07_GSPI0_CLK@38;";
+pass itpp "label:Pin_GPP_I_08_GSPI0_MISO@36;";
+pass itpp "label:Pin_GPP_I_09_GSPI0_MOSI@34;";
+pass itpp "label:Pin_GPP_I_10_GSPI1_CS0B@32;";
+pass itpp "label:Pin_GPP_I_11_GSPI1_CLK_NFC_CLK@30;";
+pass itpp "label:Pin_GPP_I_12_GSPI1_MISO_NFC_CLKREQ@28;";
+pass itpp "label:Pin_GPP_I_13_GSPI1_MOSI@26;";
+pass itpp "label:Pin_GPP_I_14_ISH_I2C0_SDA_ISH_I3C0_SDA@24;";
+pass itpp "label:Pin_GPP_I_15_ISH_I2C0_SCL_ISH_I3C0_SCL@22;";
+pass itpp "label:Pin_GPP_I_16_ISH_GP_11@20;";
+pass itpp "label:Pin_PRDYB@18;";
+pass itpp "label:Pin_PREQB@16;";
+pass itpp "label:Pin_CPUPWRGD@14;";
+pass itpp "label:Pin_PM_SPARE0@12;";
+pass itpp "label:Pin_PM_SPARE1@10;";
+pass itpp "label:Pin_TRIGGER_IN@6;";
+pass itpp "label:Pin_TRIGGER_OUT@4;";
+pass itpp "label:Pin_FBRK_OUT_N@2;";
+
+label "Extest2_Begins";
+tap_raw_shift :
+ir_tdi = EXTEST,
+dr_tdi = 'b0000000000000000000000000001010000000,
+dr_tdo = 'bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;
+flush;
+cycle 50;
+pass itpp "no_compress: stop;";
+pass itpp "rem: KKL TEST END";

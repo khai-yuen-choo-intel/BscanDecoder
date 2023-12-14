@@ -1,0 +1,99 @@
+#SPF : $SPF_ROOT/bin/spf --testSeqFile bscan_EXTEST_PULSE_tx_rx_loopback_all0.spf --tapSpecFile /p/hdk/rtl/models/phdk73/ssnip_sles12/vip_spf_itpp_mtps/vip_spf_itpp_mtps-ssnip_sles12-latest/spf/bscan/collateral/mtps.bscan.tap.spfspec --itppFile bscan_EXTEST_PULSE_tx_rx_loopback_all0.itpp
+
+
+## BSCAN PROJECT BASED FORCE and REGISTER SETUP
+label "force_signal";
+comment rem  "force_signal pch_tb.pch.dsw_pwrok 1'b1" ;
+comment rem  "force_signal pch_tb.pch.pch_pwrok 1'b1" ;
+comment rem  "force_signal pch_tb.pch.rsmrstb 1'b1" ;
+comment rem  "force_signal pch_tb.bscan_mux_en 1'b1" ;
+label "write_NTIS_STAP_to_disable_dfx_pinmode";
+cycle 1;
+focus_tap NTIS_STAP;
+set TAPNTISWITCH_TESTMODESELCFG_CPU_Ovrd = 1'b0;
+flush;
+label "write_TAPCR";
+cycle 1;
+focus_tap cl_cltapc;
+set TAPCR->RST_AND_ISOLATION_EN = 'h1;
+set TAPCR->BSCANMODEOVR = 'h1;
+set TAPCR->CNVI_FUNC_BSCAN_EN = 'h1;
+set PRELOAD = 35'h7FFFFFFFF;
+set CLTCR3->BSCAN_MODE_BYPASS_DIS = 'h1;
+flush;
+pass itpp "rem: poll_signal pch_tb.pch.parcnv.parcnv_pwell_wrapper.cnv1.cnv_hip_wrapper_inst_0.cnv_hip_inst.u_solar.top_lgc_inst_0.dft_inst_0.fsm_finish 1" ;
+##add delay to allow dphy buffer ready
+cycle 1;
+
+#MPPHY
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP1RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP1RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP2RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP2RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP3RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP3RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP4RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP4RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP5RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP5RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP6RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP6RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP7RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP7RXLVL = 'b01101;
+flush;
+
+#USB3
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_1RXBIGSWING = 1'h0;
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_1RXLVL = 'b01101;
+
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_2RXBIGSWING = 1'h0;
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_2RXLVL = 'b01101;
+
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_3RXBIGSWING = 1'h0;
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_3RXLVL = 'b01101;
+flush;
+
+##Release signals before preloading bscan cells
+label "Release_all_signal_force";
+cycle 1;
+pass itpp "vector: gpp_j_7_boothalt_b(Z) prdyb(Z) preqb(Z) trigger_in(Z) ;";
+pass itpp "vector: gpp_j_7_boothalt_b(X) prdyb(X) preqb(X) trigger_in(X) ;";
+cycle 50;
+
+@set tap_incremental_mode off;
+
+pass itpp "no_compress: start;";
+pass itpp "expandata: TCK, 32; ";
+focus_tap cl_cltapc;
+label "preload_bscan_cells";
+tap_raw_shift : ir_tdi = SAMPLE_PRELOAD,
+				dr_tdi = 'b001000000000000000000000000000000000;
+flush;
+cycle 200;
+
+#-----Extest----------
+label "Extest_Begins";
+tap_raw_shift : ir_tdi = EXTEST_PULSE,
+				dr_tdi = 'b001000000000000000000000000000000000;
+flush;
+cycle 1000;
+
+label "Extest_Begins2";
+tap_raw_shift : ir_tdi = EXTEST_PULSE;
+flush;
+cycle 1000;
+
+## Now generate the compares
+label "check_pads";
+pass itpp "vector: DIFF_OUTPUT_PIN_N(Z) DIFF_OUTPUT_PIN_P(Z) AC_HSIO_PIN_A_TXP(L) AC_HSIO_PIN_A_TXN(H) AC_HSIO_PIN_A_RXN(Z) AC_HSIO_PIN_A_RXP(Z) DIFF_OUTPUT_PIN_A_P(Z) DIFF_OUTPUT_PIN_A_P(Z) DIFF_INPUT_PIN_A_N(X) DIFF_INPUT_PIN_A_P(X) DIFF_BIDIR_PIN_B_N(X) DIFF_BIDIR_PIN_B_P(X) DIFF_BIDIR_PIN_A_N(X) DIFF_BIDIR_PIN_A_P(X) INPUT_PIN_B(X) INPUT_PIN_A(X) BIDIR_PIN_B(X) BIDIR_PIN_A(X) ;";
+
+cycle 200;
+
+pass itpp "no_compress: stop;";
+pass itpp "rem: KKL TEST END";

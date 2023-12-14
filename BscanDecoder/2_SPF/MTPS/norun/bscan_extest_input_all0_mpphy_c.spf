@@ -1,0 +1,575 @@
+
+
+#SPF : $SPF_ROOT/bin/spf --testSeqFile bscan_extest_input_all0.spf --tapSpecFile /p/hdk/rtl/models/phdk73/ssnip_sles12/vip_spf_itpp_mtps/vip_spf_itpp_mtps-ssnip_sles12-latest/spf/bscan/collateral/mtps.bscan.tap.spfspec --itppFile bscan_extest_input_all0.itpp
+
+## BSCAN PROJECT BASED FORCE and REGISTER SETUP
+label "force_signal";
+comment rem  "force_signal pch_tb.pch.dsw_pwrok 1'b1" ;
+comment rem  "force_signal pch_tb.pch.pch_pwrok 1'b1" ;
+comment rem  "force_signal pch_tb.pch.rsmrstb 1'b1" ;
+comment rem  "force_signal pch_tb.bscan_mux_en 1'b1" ;
+label "write_NTIS_STAP_to_disable_dfx_pinmode";
+focus_tap NTIS_STAP;
+set TAPNTISWITCH_TESTMODESELCFG_CPU_Ovrd = 1'b0;
+flush;
+label "write_TAPCR";
+cycle 1;
+focus_tap cl_cltapc;
+set TAPCR->RST_AND_ISOLATION_EN = 'h1;
+set TAPCR->BSCANMODEOVR = 'h1;
+set TAPCR->CNVI_FUNC_BSCAN_EN = 'h1;
+set PRELOAD = 35'h7FFFFFFFF;
+set CLTCR3->BSCAN_MODE_BYPASS_DIS = 'h1;
+flush;
+pass itpp "rem: poll_signal pch_tb.pch.parcnv.parcnv_pwell_wrapper.cnv1.cnv_hip_wrapper_inst_0.cnv_hip_inst.u_solar.top_lgc_inst_0.dft_inst_0.fsm_finish 1" ;
+##add delay to allow dphy buffer ready
+cycle 1;
+
+focus_tap GPIOCOM1_STAP;
+#DIR_ESPI
+set DIR_ESPI0_FAM_MISC_OVRD->miscovren = 'h1;
+set DIR_ESPI0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#DMI #PWRBTNB_OUT
+set DMI_FAM_MISC_OVRD->miscovren = 'h1;
+set DMI_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_A
+set ESPI_FAM_MISC_OVRD->miscovren = 'h1;
+set ESPI_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_B
+set MISCB_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCB_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+focus_tap GPIOCOM2_STAP;
+#DSW #SLP_LANB #SLP_SUSB #GPD
+set DSW_FAM_MISC_OVRD->miscovren = 'h1;
+set DSW_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+focus_tap GPIOCOM3_STAP;
+#GPP_C
+set I2C3_FAM_MISC_OVRD->miscovren = 'h1;
+set I2C3_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set I2C4_FAM_MISC_OVRD->miscovren = 'h1;
+set I2C4_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set I2C5_FAM_MISC_OVRD->miscovren = 'h1;
+set I2C5_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SMBUS0_FAM_MISC_OVRD->miscovren = 'h1;
+set SMBUS0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML0_I2C2_FAM_MISC_OVRD->miscovren = 'h1;
+set SML0_I2C2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set UART012_FAM_MISC_OVRD->miscovren = 'h1;
+set UART012_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#SPI0
+set SPI_FAM_MISC_OVRD->miscovren = 'h1;
+set SPI_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_H
+set MISCH_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCH_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML2_FAM_MISC_OVRD->miscovren = 'h1;
+set SML2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML3_FAM_MISC_OVRD->miscovren = 'h1;
+set SML3_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML4_FAM_MISC_OVRD->miscovren = 'h1;
+set SML4_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+focus_tap GPIOCOM0_STAP;
+#GPP_D
+set I2S2_FAM_MISC_OVRD->miscovren = 'h1;
+set I2S2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set MISCD_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCD_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML0_FAM_MISC_OVRD->miscovren = 'h1;
+set SML0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set SML1_FAM_MISC_OVRD->miscovren = 'h1;
+set SML1_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set THC1_GSPI3_FAM_MISC_OVRD->miscovren = 'h1;
+set THC1_GSPI3_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_J
+set AZA_CPU_FAM_MISC_OVRD->miscovren = 'h1;
+set AZA_CPU_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set BPKI3C_FAM_MISC_OVRD->miscovren = 'h1;
+set BPKI3C_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set CNV_FAM_MISC_OVRD->miscovren = 'h1;
+set CNV_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set CNV_MFUART2_FAM_MISC_OVRD->miscovren = 'h1;
+set CNV_MFUART2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set MISCJ_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCJ_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_R
+set AZA_I2S0_FAM_MISC_OVRD->miscovren = 'h1;
+set AZA_I2S0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set AZA_I2S1_FAM_MISC_OVRD->miscovren = 'h1;
+set AZA_I2S1_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set GSPI2_FAM_MISC_OVRD->miscovren = 'h1;
+set GSPI2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+focus_tap GPIOCOM4_STAP;
+#GPP_E
+set MISCE_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCE_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set THC0_SPI1_FAM_MISC_OVRD->miscovren = 'h1;
+set THC0_SPI1_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_F
+set MISCF_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCF_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set VISA2_FAM_MISC_OVRD->miscovren = 'h1;
+set VISA2_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_K
+set GSX_FAM_MISC_OVRD->miscovren = 'h1;
+set GSX_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set MISCK_FAM_MISC_OVRD->miscovren = 'h1;
+set MISCK_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#GPP_S
+set SWND_FAM_MISC_OVRD->miscovren = 'h1;
+set SWND_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+
+#MISC_SPARE and MLK_RSTB
+set SYS_FAM_MISC_OVRD->miscovren = 'h1;
+set SYS_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+focus_tap GPIOCOM5_STAP;
+#GPP_I
+set GSPI0_FAM_MISC_OVRD->miscovren = 'h1;
+set GSPI0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set GSPI1_FAM_MISC_OVRD->miscovren = 'h1;
+set GSPI1_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set I2C0_FAM_MISC_OVRD->miscovren = 'h1;
+set I2C0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set I2C1_FAM_MISC_OVRD->miscovren = 'h1;
+set I2C1_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+set ISH_I2C0_FAM_MISC_OVRD->miscovren = 'h1;
+set ISH_I2C0_FAM_MISC_OVRD->hysctlovrval = 2'b01;
+flush;
+
+##Release signals before preloading bscan cells:
+label "Release_all_signal_force";
+cycle 1;
+pass itpp "vector: gpp_j_7_boothalt_b(Z) prdyb(Z) preqb(Z) trigger_in(Z) ;";
+pass itpp "vector: gpp_j_7_boothalt_b(X) prdyb(X) preqb(X) trigger_in(X) ;";
+cycle 50;
+
+label "Force";
+pass itpp "vector: usb31_1_rxp(0) usb31_2_rxp(0) usb31_3_rxp(0) usb31_4_rxp(0) usb31_5_rxp(0) usb31_6_rxp(0) usb31_7_rxp(0) usb31_8_rxp(0) usb31_9_rxp(0) usb31_10_rxp(0) pcie_24_rxp(0) pcie_23_rxp(0) pcie_22_rxp(0) pcie_21_rxp(0) dmi_4_rxp(0) dmi_5_rxp(0) dmi_6_rxp(0) dmi_7_rxp(0) dmi_0_rxp(0) dmi_1_rxp(0) dmi_2_rxp(0) dmi_3_rxp(0) pcie_1_rxp(0) pcie_2_rxp(0) pcie_3_lan_0a_rxp(0) pcie_4_rxp(0) pcie_5_rxp(0) pcie_6_rxp(0) pcie_7_lan_0b_rxp(0) pcie_8_rxp(0) pcie_9_tsn_0_rxp(0) pcie_10_tsn_1_rxp(0) pcie_11_rxp(0) pcie_12_rxp(0) pcie_17_sata_4_rxp(0) pcie_18_sata_5_rxp(0) pcie_19_sata_6_rxp(0) pcie_20_sata_7_rxp(0) pcie_13_sata_0_rxp(0) pcie_14_sata_1_rxp(0) pcie_15_sata_2_lan_0c_rxp(0) pcie_16_sata_3_rxp(0) usb31_1_rxn(1) usb31_2_rxn(1) usb31_3_rxn(1) usb31_4_rxn(1) usb31_5_rxn(1) usb31_6_rxn(1) usb31_7_rxn(1) usb31_8_rxn(1) usb31_9_rxn(1) usb31_10_rxn(1) pcie_24_rxn(1) pcie_23_rxn(1) pcie_22_rxn(1) pcie_21_rxn(1) dmi_4_rxn(1) dmi_5_rxn(1) dmi_6_rxn(1) dmi_7_rxn(1) dmi_0_rxn(1) dmi_1_rxn(1) dmi_2_rxn(1) dmi_3_rxn(1) pcie_1_rxn(1) pcie_2_rxn(1) pcie_3_lan_0a_rxn(1) pcie_4_rxn(1) pcie_5_rxn(1) pcie_6_rxn(1) pcie_7_lan_0b_rxn(1) pcie_8_rxn(1) pcie_9_tsn_0_rxn(1) pcie_10_tsn_1_rxn(1) pcie_11_rxn(1) pcie_12_rxn(1) pcie_17_sata_4_rxn(1) pcie_18_sata_5_rxn(1) pcie_19_sata_6_rxn(1) pcie_20_sata_7_rxn(1) pcie_13_sata_0_rxn(1) pcie_14_sata_1_rxn(1) pcie_15_sata_2_lan_0c_rxn(1) pcie_16_sata_3_rxn(1) usb2p_1(0) usb2n_1(0) usb2p_2(0) usb2n_2(0) usb2p_3(0) usb2n_3(0) usb2p_4(0) usb2n_4(0) usb2p_5(0) usb2n_5(0) usb2p_6(0) usb2n_6(0) usb2p_7(0) usb2n_7(0) usb2p_8(0) usb2n_8(0) usb2p_9(0) usb2n_9(0) usb2p_10(0) usb2n_10(0) usb2p_11(0) usb2n_11(0) usb2p_12(0) usb2n_12(0) usb2p_13(0) usb2n_13(0) usb2p_14(0) usb2n_14(0) gpp_b_0_pcie_lnk_down(0) gpp_b_1_ish_uart0_rtsb_gspi2_cs1b(0) gpp_b_2_ish_gp_8(0) gpp_b_3_cpu_gp_2(0) gpp_b_4_cpu_gp_3(0) gpp_b_5_sx_exit_holdoffb_ish_gp_6_ieh_fatal_err2b(0) gpp_b_6_clkout_48(0) gpp_b_7_ish_gp_7(0) gpp_b_8_ish_gp_0(0) gpp_b_9_ish_gp_1(0) gpp_b_10_ish_gp_2(0) gpp_b_11_i2s_mclk(0) gpp_b_12_slp_s0b(0) gpp_b_13_pltrstb(0) gpp_b_14(0) gpp_b_15_ish_gp_3(0) gpp_b_16_ish_gp_4(0) gpp_b_17_ish_gp_5(0) gpp_b_18_pmcalertb(0) gpp_b_19_fusa_diagtest_en(0) gpp_b_20_fusa_diagtest_mode(0) gpp_b_21_sml1alertb_pchhotb(0) gpp_a_0_espi_io_0(0) gpp_a_1_espi_io_1(0) gpp_a_2_espi_io_2_suswarnb_suspwrdnack(0) gpp_a_4_espi_cs0b(0) gpp_a_5_espi_clk(0) gpp_a_6_espi_resetb(0) gpp_a_7_espi_cs1b(0) gpp_a_8_espi_cs2b(0) gpp_a_9_espi_cs3b(0) gpp_a_10_espi_alert0b(0) gpp_a_11_espi_alert1b(0) gpp_a_12_espi_alert2b(0) gpp_a_13_espi_alert3b(0) pwrbtnb_out(0) dmi_clkreqb(0) dir_espi_io_0(0) dir_espi_io_1(0) dir_espi_io_2(0) dir_espi_io_3(0) dir_espi_csb(0) dir_espi_resetb(0) dir_espi_clk(0) dir_espi_rclk(0) dir_espi_alertb(0) spi0_io_2(0) spi0_io_3(0) spi0_mosi_io_0(0) spi0_miso_io_1(0) spi0_tpm_csb(0) spi0_flash_0_csb(0) spi0_flash_1_csb(0) spi0_clk(0) gpp_h_0(0) gpp_h_1_srcclkreqb_8(0) gpp_h_2_srcclkreqb_9(0) gpp_h_3_srcclkreqb_10(0) gpp_h_4_srcclkreqb_11(0) gpp_h_5_usb2_ocb_0(0) gpp_h_6_usb2_ocb_1(0) gpp_h_7_usb2_ocb_2_gmii_mdc_1(0) gpp_h_8_usb2_ocb_3_gmii_mdio_1(0) gpp_h_9_sml2clk(0) gpp_h_10_sml2data(0) gpp_h_11_sml2alertb(0) gpp_h_12_sml3clk(0) gpp_h_13_sml3data(0) gpp_h_14_sml3alertb(0) gpp_h_15_sml4clk(0) gpp_h_16_sml4data(0) gpp_h_17_sml4alertb(0) gpp_h_18_ish_i2c1_sda_smib(0) gpp_h_19_ish_i2c1_scl_nmib(0) gpp_c_0_smbclk(0) gpp_c_1_smbdata(0) gpp_c_2_smbalertb(0) gpp_c_3_ish_uart0_rxd_sml0bdata_i2c2_sda(0) gpp_c_4_ish_uart0_txd_sml0bclk_i2c2_scl(0) gpp_c_5_sml0alertb(0) gpp_c_6_ish_i2c2_sda_i2c3_sda(0) gpp_c_7_ish_i2c2_scl_i2c3_scl(0) gpp_c_8_uart0_rxd(0) gpp_c_9_uart0_txd(0) gpp_c_10_uart0_rtsb(0) gpp_c_11_uart0_ctsb(0) gpp_c_12_uart1_rxd_ish_uart1_rxd(0) gpp_c_13_uart1_txd_ish_uart1_txd(0) gpp_c_14_uart1_rtsb_ish_uart1_rtsb(0) gpp_c_15_uart1_ctsb_ish_uart1_ctsb(0) gpp_c_16_usb2_ocb_4_i2c4_sda(0) gpp_c_17_usb2_ocb_5_i2c4_scl(0) gpp_c_18_usb2_ocb_6_i2c5_sda(0) gpp_c_19_usb2_ocb_7_i2c5_scl(0) gpp_c_20_uart2_rxd_cnv_mfuart0_rxd(0) gpp_c_21_uart2_txd_cnv_mfuart0_txd(0) gpp_c_22_uart2_rtsb_cnv_mfuart0_rts_b(0) gpp_c_23_uart2_ctsb_cnv_mfuart0_cts_b(0) mlk_clk(0) mlk_data(0) gpp_s_0_sndw0_clk_rgmii_auxts_0(0) gpp_s_1_sndw0_data0_rgmii_int_0(0) gpp_s_2_sndw1_clk_dmic_clk_a_0_rgmii_reset_0_sndw0_data1(0) gpp_s_3_sndw1_data_dmic_data_0_rgmii_pps_0_sndw0_data2(0) gpp_s_4_sndw2_clk_dmic_clk_b_0_rgmii_auxts_1_sndw0_data3(0) gpp_s_5_sndw2_data_dmic_clk_b_1_rgmii_int_1(0) gpp_s_6_sndw3_clk_dmic_clk_a_1_rgmii_reset_1(0) gpp_s_7_sndw3_data_dmic_data_1_rgmii_pps_1(0) gpp_e_0_sataxpcie_0_satagp_0(0) gpp_e_1_sataxpcie_1_satagp_1(0) gpp_e_2_sataxpcie_2_satagp_2(0) gpp_e_3_cpu_gp_0(0) gpp_e_4_sata_devslp_0(0) gpp_e_5_sata_devslp_1(0) gpp_e_6_sata_devslp_2(0) gpp_e_7_cpu_gp_1(0) gpp_e_8_sata_ledb(0) gpp_e_9_srcclkreqb_12(0) gpp_e_10_srcclkreqb_13(0) gpp_e_11_ish_gp_9(0) gpp_e_12_ish_gp_10(0) gpp_e_13_thc0_spi1_csb(0) gpp_e_14_thc0_spi1_clk(0) gpp_e_15_thc0_spi1_io_1(0) gpp_e_16_thc0_spi1_io_0(0) gpp_e_17_thc0_spi1_io_2(0) gpp_e_18_thc0_spi1_io_3(0) gpp_e_19_thc0_spi1_rstb(0) gpp_e_20_thc0_spi1_intb(0) gpp_e_21_ish_uart0_ctsb_sml0balertb(0) gpp_k_0_gsxdout(0) gpp_k_1_gsxsload(0) gpp_k_2_gsxdin(0) gpp_k_3_gsxsresetb(0) gpp_k_4_gsxclk(0) gpp_k_5_adr_complete(0) gpp_k_8_core_vid_0(0) gpp_k_9_core_vid_1(0) mlk_rstb(0) gpp_f_0_sataxpcie_3_satagp_3(0) gpp_f_1_sataxpcie_4_satagp_4(0) gpp_f_2_sataxpcie_5_satagp_5(0) gpp_f_3_sataxpcie_6_satagp_6(0) gpp_f_4_sataxpcie_7_satagp_7(0) gpp_f_5_sata_devslp_3(0) gpp_f_6_sata_devslp_4(0) gpp_f_7_sata_devslp_5(0) gpp_f_8_sata_devslp_6(0) gpp_f_9_sata_devslp_7_dir_espi_smi(0) gpp_f_10_sata_sclock_dir_espi_nmi(0) gpp_f_11_sata_sload_dir_espi_irq(0) gpp_f_12_sata_sdataout1_dir_espi_wake(0) gpp_f_13_sata_sdataout0_dir_espi_sci(0) gpp_f_14(0) gpp_f_15(0) gpp_f_16(0) gpp_f_17(0) gpp_f_18(0) gpp_f_19_dnx_force_reload(0) gpp_f_20_gmii_mdc_0(0) gpp_f_21_gmii_mdio_0(0) gpp_f_22_ieh_corr_err0b(0) gpp_f_23_ieh_nonfatal_err1b(0) cnv_wr_d0p(0) cnv_wr_d0n(0) cnv_wr_d1p(0) cnv_wr_d1n(0) cnv_wr_clkp(0) cnv_wr_clkn(0) gpp_d_0_srcclkreqb_0(0) gpp_d_1_srcclkreqb_1(0) gpp_d_2_srcclkreqb_2(0) gpp_d_3_srcclkreqb_3(0) gpp_d_4_sml1clk(0) gpp_d_5_i2s2_sfrm_cnv_rf_reset_b_dmic_data_0(0) gpp_d_6_i2s2_txd_modem_clkreq_dmic_clk_b_0(0) gpp_d_7_i2s2_rxd_dmic_data_1(0) gpp_d_8_i2s2_sclk_dmic_clk_a_0(0) gpp_d_9_sml0clk(0) gpp_d_10_sml0data(0) gpp_d_11_srcclkreqb_4(0) gpp_d_12_srcclkreqb_5(0) gpp_d_13_srcclkreqb_6(0) gpp_d_14_srcclkreqb_7(0) gpp_d_15_sml1data(0) gpp_d_16_gspi3_cs0b_thc1_spi2_csb(0) gpp_d_17_gspi3_clk_thc1_spi2_clk(0) gpp_d_18_gspi3_miso_thc1_spi2_io_0(0) gpp_d_19_gspi3_mosi_thc1_spi2_io_1(0) gpp_d_20_uart3_rxd_thc1_spi2_io_2(0) gpp_d_21_uart3_txd_thc1_spi2_io_3(0) gpp_d_22_uart3_rtsb_thc1_spi2_rstb(0) gpp_d_23_uart3_ctsb_thc1_spi2_intb(0) gpp_r_0_hda_bclk_i2s0_sclk_hdacpu_bclk_dmic_clk_a_1(0) gpp_r_1_hda_sync_i2s0_sfrm_dmic_clk_b_1(0) gpp_r_2_hda_sdo_i2s0_txd_hdacpu_sdo(0) gpp_r_3_hda_sdi_0_i2s0_rxd_hdacpu_sdi(0) gpp_r_4_hda_rstb(0) gpp_r_5_hda_sdi_1_i2s1_rxd(0) gpp_r_6_i2s1_txd(0) gpp_r_7_i2s1_sfrm(0) gpp_r_8_i2s1_sclk(0) gpp_r_9_ish_spi_csb_gspi2_cs0b(0) gpp_r_10_ish_spi_clk_gspi2_clk(0) gpp_r_11_ish_spi_miso_gspi2_miso(0) gpp_r_12_ish_spi_mosi_gspi2_mosi(0) gpp_j_0_cnv_pa_blanking(0) gpp_j_1_cnv_bri_dt_uart0_rtsb(0) gpp_j_2_cnv_bri_rsp_uart0_rxd(0) gpp_j_3_cnv_rgi_dt_uart0_txd(0) gpp_j_4_cnv_rgi_rsp_uart0_ctsb(0) gpp_j_5_cnv_mfuart2_rxd(0) gpp_j_6_cnv_mfuart2_txd(0) gpp_j_7_boothalt_b(0) gpp_j_8_rtcclkout(0) gpp_j_9_bpki3c_sda(0) gpp_j_10_bpki3c_scl(0) gpp_j_11_dam(0) gpp_j_12_hdacpu_sdi(0) gpp_j_13_hdacpu_sdo(0) gpp_j_14_hdacpu_bclk(0) gpp_j_15_aux_pwrgd(0) gpd_4_slp_s3b(0) gpd_5_slp_s4b(0) gpd_6_slp_ab(0) gpd_7(0) gpd_8_susclk(0) gpd_9_slp_wlanb(0) gpd_10_slp_s5b(0) gpd_11_lanphypc(0) gpd_12(0) slp_lanb(0) slp_susb(0) gpp_i_0_gspi0_cs1b(0) gpp_i_1_gspi1_cs1b(0) gpp_i_2_i2c0_sda_i3c0_sda(0) gpp_i_3_i2c0_scl_i3c0_scl(0) gpp_i_4_i2c1_sda(0) gpp_i_5_i2c1_scl(0) gpp_i_6_gspi0_cs0b(0) gpp_i_7_gspi0_clk(0) gpp_i_8_gspi0_miso(0) gpp_i_9_gspi0_mosi(0) gpp_i_10_gspi1_cs0b(0) gpp_i_11_gspi1_clk_nfc_clk(0) gpp_i_12_gspi1_miso_nfc_clkreq(0) gpp_i_13_gspi1_mosi(0) gpp_i_14_ish_i2c0_sda_ish_i3c0_sda(0) gpp_i_15_ish_i2c0_scl_ish_i3c0_scl(0) gpp_i_16_ish_gp_11(0) prdyb(0) preqb(0) cpupwrgd(0) pm_spare0(0) pm_spare1(0) trigger_in(0) trigger_out(0) fbrk_out_n(0) ;";
+cycle 4;
+@set tap_incremental_mode off;
+
+pass itpp "no_compress: start;";
+## First set all control cells to be outputs (and PRELOAD value for cells opposite of how they're being forced)
+pass itpp "expandata: TCK, 32; ";
+focus_tap cl_cltapc;
+label "preload_bscan_cells";
+tap_raw_shift : 
+ir_tdi = SAMPLE_PRELOAD,
+dr_tdi = 'b11000000000000000000000000000000000000000000011101010101010101010101010101010101010101010101010101010100111001001001001001001001001001000111001001001001001001001001001001001000101111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111101011111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110110101001011111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111011100100100100100100100100100100100100100100100100100100100100010000001111110101111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111011101111101011111111111111111111111111111111111010111111111111111111111111111111111111111111111111111111111111110;
+flush;
+cycle 4250;
+
+#-----Extest1----------
+label "Extest1_Begins";
+tap_raw_shift : 
+ir_tdi = EXTEST,		
+dr_tdi = 'b11000000000000000000000000000000000000000000011101010101010101010101010101010101010101010101010101010100111001001001001001001001001001000111001001001001001001001001001001001000101111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111101011111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110110101001011111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111011100100100100100100100100100100100100100100100100100100100100010000001111110101111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111011101111101011111111111111111111111111111111111010111111111111111111111111111111111111111111111111111111111111110;
+flush;
+cycle 1000;
+
+label "Force";
+pass itpp "vector: usb31_1_rxp(0) usb31_2_rxp(0) usb31_3_rxp(0) usb31_4_rxp(0) usb31_5_rxp(0) usb31_6_rxp(0) usb31_7_rxp(0) usb31_8_rxp(0) usb31_9_rxp(0) usb31_10_rxp(0) pcie_24_rxp(0) pcie_23_rxp(0) pcie_22_rxp(0) pcie_21_rxp(0) dmi_4_rxp(0) dmi_5_rxp(0) dmi_6_rxp(0) dmi_7_rxp(0) dmi_0_rxp(0) dmi_1_rxp(0) dmi_2_rxp(0) dmi_3_rxp(0) pcie_1_rxp(0) pcie_2_rxp(0) pcie_3_lan_0a_rxp(0) pcie_4_rxp(0) pcie_5_rxp(0) pcie_6_rxp(0) pcie_7_lan_0b_rxp(0) pcie_8_rxp(0) pcie_9_tsn_0_rxp(0) pcie_10_tsn_1_rxp(0) pcie_11_rxp(0) pcie_12_rxp(0) pcie_17_sata_4_rxp(0) pcie_18_sata_5_rxp(0) pcie_19_sata_6_rxp(0) pcie_20_sata_7_rxp(0) pcie_13_sata_0_rxp(0) pcie_14_sata_1_rxp(0) pcie_15_sata_2_lan_0c_rxp(0) pcie_16_sata_3_rxp(0) usb31_1_rxn(1) usb31_2_rxn(1) usb31_3_rxn(1) usb31_4_rxn(1) usb31_5_rxn(1) usb31_6_rxn(1) usb31_7_rxn(1) usb31_8_rxn(1) usb31_9_rxn(1) usb31_10_rxn(1) pcie_24_rxn(1) pcie_23_rxn(1) pcie_22_rxn(1) pcie_21_rxn(1) dmi_4_rxn(1) dmi_5_rxn(1) dmi_6_rxn(1) dmi_7_rxn(1) dmi_0_rxn(1) dmi_1_rxn(1) dmi_2_rxn(1) dmi_3_rxn(1) pcie_1_rxn(1) pcie_2_rxn(1) pcie_3_lan_0a_rxn(1) pcie_4_rxn(1) pcie_5_rxn(1) pcie_6_rxn(1) pcie_7_lan_0b_rxn(1) pcie_8_rxn(1) pcie_9_tsn_0_rxn(1) pcie_10_tsn_1_rxn(1) pcie_11_rxn(1) pcie_12_rxn(1) pcie_17_sata_4_rxn(1) pcie_18_sata_5_rxn(1) pcie_19_sata_6_rxn(1) pcie_20_sata_7_rxn(1) pcie_13_sata_0_rxn(1) pcie_14_sata_1_rxn(1) pcie_15_sata_2_lan_0c_rxn(1) pcie_16_sata_3_rxn(1) usb2p_1(0) usb2n_1(0) usb2p_2(0) usb2n_2(0) usb2p_3(0) usb2n_3(0) usb2p_4(0) usb2n_4(0) usb2p_5(0) usb2n_5(0) usb2p_6(0) usb2n_6(0) usb2p_7(0) usb2n_7(0) usb2p_8(0) usb2n_8(0) usb2p_9(0) usb2n_9(0) usb2p_10(0) usb2n_10(0) usb2p_11(0) usb2n_11(0) usb2p_12(0) usb2n_12(0) usb2p_13(0) usb2n_13(0) usb2p_14(0) usb2n_14(0) gpp_b_0_pcie_lnk_down(0) gpp_b_1_ish_uart0_rtsb_gspi2_cs1b(0) gpp_b_2_ish_gp_8(0) gpp_b_3_cpu_gp_2(0) gpp_b_4_cpu_gp_3(0) gpp_b_5_sx_exit_holdoffb_ish_gp_6_ieh_fatal_err2b(0) gpp_b_6_clkout_48(0) gpp_b_7_ish_gp_7(0) gpp_b_8_ish_gp_0(0) gpp_b_9_ish_gp_1(0) gpp_b_10_ish_gp_2(0) gpp_b_11_i2s_mclk(0) gpp_b_12_slp_s0b(0) gpp_b_13_pltrstb(0) gpp_b_14(0) gpp_b_15_ish_gp_3(0) gpp_b_16_ish_gp_4(0) gpp_b_17_ish_gp_5(0) gpp_b_18_pmcalertb(0) gpp_b_19_fusa_diagtest_en(0) gpp_b_20_fusa_diagtest_mode(0) gpp_b_21_sml1alertb_pchhotb(0) gpp_a_0_espi_io_0(0) gpp_a_1_espi_io_1(0) gpp_a_2_espi_io_2_suswarnb_suspwrdnack(0) gpp_a_4_espi_cs0b(0) gpp_a_5_espi_clk(0) gpp_a_6_espi_resetb(0) gpp_a_7_espi_cs1b(0) gpp_a_8_espi_cs2b(0) gpp_a_9_espi_cs3b(0) gpp_a_10_espi_alert0b(0) gpp_a_11_espi_alert1b(0) gpp_a_12_espi_alert2b(0) gpp_a_13_espi_alert3b(0) pwrbtnb_out(0) dmi_clkreqb(0) dir_espi_io_0(0) dir_espi_io_1(0) dir_espi_io_2(0) dir_espi_io_3(0) dir_espi_csb(0) dir_espi_resetb(0) dir_espi_clk(0) dir_espi_rclk(0) dir_espi_alertb(0) spi0_io_2(0) spi0_io_3(0) spi0_mosi_io_0(0) spi0_miso_io_1(0) spi0_tpm_csb(0) spi0_flash_0_csb(0) spi0_flash_1_csb(0) spi0_clk(0) gpp_h_0(0) gpp_h_1_srcclkreqb_8(0) gpp_h_2_srcclkreqb_9(0) gpp_h_3_srcclkreqb_10(0) gpp_h_4_srcclkreqb_11(0) gpp_h_5_usb2_ocb_0(0) gpp_h_6_usb2_ocb_1(0) gpp_h_7_usb2_ocb_2_gmii_mdc_1(0) gpp_h_8_usb2_ocb_3_gmii_mdio_1(0) gpp_h_9_sml2clk(0) gpp_h_10_sml2data(0) gpp_h_11_sml2alertb(0) gpp_h_12_sml3clk(0) gpp_h_13_sml3data(0) gpp_h_14_sml3alertb(0) gpp_h_15_sml4clk(0) gpp_h_16_sml4data(0) gpp_h_17_sml4alertb(0) gpp_h_18_ish_i2c1_sda_smib(0) gpp_h_19_ish_i2c1_scl_nmib(0) gpp_c_0_smbclk(0) gpp_c_1_smbdata(0) gpp_c_2_smbalertb(0) gpp_c_3_ish_uart0_rxd_sml0bdata_i2c2_sda(0) gpp_c_4_ish_uart0_txd_sml0bclk_i2c2_scl(0) gpp_c_5_sml0alertb(0) gpp_c_6_ish_i2c2_sda_i2c3_sda(0) gpp_c_7_ish_i2c2_scl_i2c3_scl(0) gpp_c_8_uart0_rxd(0) gpp_c_9_uart0_txd(0) gpp_c_10_uart0_rtsb(0) gpp_c_11_uart0_ctsb(0) gpp_c_12_uart1_rxd_ish_uart1_rxd(0) gpp_c_13_uart1_txd_ish_uart1_txd(0) gpp_c_14_uart1_rtsb_ish_uart1_rtsb(0) gpp_c_15_uart1_ctsb_ish_uart1_ctsb(0) gpp_c_16_usb2_ocb_4_i2c4_sda(0) gpp_c_17_usb2_ocb_5_i2c4_scl(0) gpp_c_18_usb2_ocb_6_i2c5_sda(0) gpp_c_19_usb2_ocb_7_i2c5_scl(0) gpp_c_20_uart2_rxd_cnv_mfuart0_rxd(0) gpp_c_21_uart2_txd_cnv_mfuart0_txd(0) gpp_c_22_uart2_rtsb_cnv_mfuart0_rts_b(0) gpp_c_23_uart2_ctsb_cnv_mfuart0_cts_b(0) mlk_clk(0) mlk_data(0) gpp_s_0_sndw0_clk_rgmii_auxts_0(0) gpp_s_1_sndw0_data0_rgmii_int_0(0) gpp_s_2_sndw1_clk_dmic_clk_a_0_rgmii_reset_0_sndw0_data1(0) gpp_s_3_sndw1_data_dmic_data_0_rgmii_pps_0_sndw0_data2(0) gpp_s_4_sndw2_clk_dmic_clk_b_0_rgmii_auxts_1_sndw0_data3(0) gpp_s_5_sndw2_data_dmic_clk_b_1_rgmii_int_1(0) gpp_s_6_sndw3_clk_dmic_clk_a_1_rgmii_reset_1(0) gpp_s_7_sndw3_data_dmic_data_1_rgmii_pps_1(0) gpp_e_0_sataxpcie_0_satagp_0(0) gpp_e_1_sataxpcie_1_satagp_1(0) gpp_e_2_sataxpcie_2_satagp_2(0) gpp_e_3_cpu_gp_0(0) gpp_e_4_sata_devslp_0(0) gpp_e_5_sata_devslp_1(0) gpp_e_6_sata_devslp_2(0) gpp_e_7_cpu_gp_1(0) gpp_e_8_sata_ledb(0) gpp_e_9_srcclkreqb_12(0) gpp_e_10_srcclkreqb_13(0) gpp_e_11_ish_gp_9(0) gpp_e_12_ish_gp_10(0) gpp_e_13_thc0_spi1_csb(0) gpp_e_14_thc0_spi1_clk(0) gpp_e_15_thc0_spi1_io_1(0) gpp_e_16_thc0_spi1_io_0(0) gpp_e_17_thc0_spi1_io_2(0) gpp_e_18_thc0_spi1_io_3(0) gpp_e_19_thc0_spi1_rstb(0) gpp_e_20_thc0_spi1_intb(0) gpp_e_21_ish_uart0_ctsb_sml0balertb(0) gpp_k_0_gsxdout(0) gpp_k_1_gsxsload(0) gpp_k_2_gsxdin(0) gpp_k_3_gsxsresetb(0) gpp_k_4_gsxclk(0) gpp_k_5_adr_complete(0) gpp_k_8_core_vid_0(0) gpp_k_9_core_vid_1(0) mlk_rstb(0) gpp_f_0_sataxpcie_3_satagp_3(0) gpp_f_1_sataxpcie_4_satagp_4(0) gpp_f_2_sataxpcie_5_satagp_5(0) gpp_f_3_sataxpcie_6_satagp_6(0) gpp_f_4_sataxpcie_7_satagp_7(0) gpp_f_5_sata_devslp_3(0) gpp_f_6_sata_devslp_4(0) gpp_f_7_sata_devslp_5(0) gpp_f_8_sata_devslp_6(0) gpp_f_9_sata_devslp_7_dir_espi_smi(0) gpp_f_10_sata_sclock_dir_espi_nmi(0) gpp_f_11_sata_sload_dir_espi_irq(0) gpp_f_12_sata_sdataout1_dir_espi_wake(0) gpp_f_13_sata_sdataout0_dir_espi_sci(0) gpp_f_14(0) gpp_f_15(0) gpp_f_16(0) gpp_f_17(0) gpp_f_18(0) gpp_f_19_dnx_force_reload(0) gpp_f_20_gmii_mdc_0(0) gpp_f_21_gmii_mdio_0(0) gpp_f_22_ieh_corr_err0b(0) gpp_f_23_ieh_nonfatal_err1b(0) cnv_wr_d0p(0) cnv_wr_d0n(0) cnv_wr_d1p(0) cnv_wr_d1n(0) cnv_wr_clkp(0) cnv_wr_clkn(0) gpp_d_0_srcclkreqb_0(0) gpp_d_1_srcclkreqb_1(0) gpp_d_2_srcclkreqb_2(0) gpp_d_3_srcclkreqb_3(0) gpp_d_4_sml1clk(0) gpp_d_5_i2s2_sfrm_cnv_rf_reset_b_dmic_data_0(0) gpp_d_6_i2s2_txd_modem_clkreq_dmic_clk_b_0(0) gpp_d_7_i2s2_rxd_dmic_data_1(0) gpp_d_8_i2s2_sclk_dmic_clk_a_0(0) gpp_d_9_sml0clk(0) gpp_d_10_sml0data(0) gpp_d_11_srcclkreqb_4(0) gpp_d_12_srcclkreqb_5(0) gpp_d_13_srcclkreqb_6(0) gpp_d_14_srcclkreqb_7(0) gpp_d_15_sml1data(0) gpp_d_16_gspi3_cs0b_thc1_spi2_csb(0) gpp_d_17_gspi3_clk_thc1_spi2_clk(0) gpp_d_18_gspi3_miso_thc1_spi2_io_0(0) gpp_d_19_gspi3_mosi_thc1_spi2_io_1(0) gpp_d_20_uart3_rxd_thc1_spi2_io_2(0) gpp_d_21_uart3_txd_thc1_spi2_io_3(0) gpp_d_22_uart3_rtsb_thc1_spi2_rstb(0) gpp_d_23_uart3_ctsb_thc1_spi2_intb(0) gpp_r_0_hda_bclk_i2s0_sclk_hdacpu_bclk_dmic_clk_a_1(0) gpp_r_1_hda_sync_i2s0_sfrm_dmic_clk_b_1(0) gpp_r_2_hda_sdo_i2s0_txd_hdacpu_sdo(0) gpp_r_3_hda_sdi_0_i2s0_rxd_hdacpu_sdi(0) gpp_r_4_hda_rstb(0) gpp_r_5_hda_sdi_1_i2s1_rxd(0) gpp_r_6_i2s1_txd(0) gpp_r_7_i2s1_sfrm(0) gpp_r_8_i2s1_sclk(0) gpp_r_9_ish_spi_csb_gspi2_cs0b(0) gpp_r_10_ish_spi_clk_gspi2_clk(0) gpp_r_11_ish_spi_miso_gspi2_miso(0) gpp_r_12_ish_spi_mosi_gspi2_mosi(0) gpp_j_0_cnv_pa_blanking(0) gpp_j_1_cnv_bri_dt_uart0_rtsb(0) gpp_j_2_cnv_bri_rsp_uart0_rxd(0) gpp_j_3_cnv_rgi_dt_uart0_txd(0) gpp_j_4_cnv_rgi_rsp_uart0_ctsb(0) gpp_j_5_cnv_mfuart2_rxd(0) gpp_j_6_cnv_mfuart2_txd(0) gpp_j_7_boothalt_b(0) gpp_j_8_rtcclkout(0) gpp_j_9_bpki3c_sda(0) gpp_j_10_bpki3c_scl(0) gpp_j_11_dam(0) gpp_j_12_hdacpu_sdi(0) gpp_j_13_hdacpu_sdo(0) gpp_j_14_hdacpu_bclk(0) gpp_j_15_aux_pwrgd(0) gpd_4_slp_s3b(0) gpd_5_slp_s4b(0) gpd_6_slp_ab(0) gpd_7(0) gpd_8_susclk(0) gpd_9_slp_wlanb(0) gpd_10_slp_s5b(0) gpd_11_lanphypc(0) gpd_12(0) slp_lanb(0) slp_susb(0) gpp_i_0_gspi0_cs1b(0) gpp_i_1_gspi1_cs1b(0) gpp_i_2_i2c0_sda_i3c0_sda(0) gpp_i_3_i2c0_scl_i3c0_scl(0) gpp_i_4_i2c1_sda(0) gpp_i_5_i2c1_scl(0) gpp_i_6_gspi0_cs0b(0) gpp_i_7_gspi0_clk(0) gpp_i_8_gspi0_miso(0) gpp_i_9_gspi0_mosi(0) gpp_i_10_gspi1_cs0b(0) gpp_i_11_gspi1_clk_nfc_clk(0) gpp_i_12_gspi1_miso_nfc_clkreq(0) gpp_i_13_gspi1_mosi(0) gpp_i_14_ish_i2c0_sda_ish_i3c0_sda(0) gpp_i_15_ish_i2c0_scl_ish_i3c0_scl(0) gpp_i_16_ish_gp_11(0) prdyb(0) preqb(0) cpupwrgd(0) pm_spare1(0) trigger_in(0) trigger_out(0) fbrk_out_n(0) ;";
+#pm_spare0(0)
+cycle 4;
+
+#-----Extest2----------
+label "Extest2_Begins";
+pass itpp "label:Pin_usb2p_01@812;";
+pass itpp "label:Pin_usb2n_01@810;";
+pass itpp "label:Pin_usb2p_02@808;";
+pass itpp "label:Pin_usb2n_02@806;";
+pass itpp "label:Pin_usb2p_03@804;";
+pass itpp "label:Pin_usb2n_03@802;";
+pass itpp "label:Pin_usb2p_04@800;";
+pass itpp "label:Pin_usb2n_04@798;";
+pass itpp "label:Pin_usb2p_05@796;";
+pass itpp "label:Pin_usb2n_05@794;";
+pass itpp "label:Pin_usb2p_06@792;";
+pass itpp "label:Pin_usb2n_06@790;";
+pass itpp "label:Pin_usb2p_07@788;";
+pass itpp "label:Pin_usb2n_07@786;";
+pass itpp "label:Pin_usb2p_08@784;";
+pass itpp "label:Pin_usb2n_08@782;";
+pass itpp "label:Pin_usb2p_09@780;";
+pass itpp "label:Pin_usb2n_09@778;";
+pass itpp "label:Pin_usb2p_10@776;";
+pass itpp "label:Pin_usb2n_10@774;";
+pass itpp "label:Pin_usb2p_11@772;";
+pass itpp "label:Pin_usb2n_11@770;";
+pass itpp "label:Pin_usb2p_12@768;";
+pass itpp "label:Pin_usb2n_12@766;";
+pass itpp "label:Pin_usb2p_13@764;";
+pass itpp "label:Pin_usb2n_13@762;";
+pass itpp "label:Pin_usb2p_14@760;";
+pass itpp "label:Pin_usb2n_14@758;";
+pass itpp "label:Pin_usb31_01_rxp@752;";
+pass itpp "label:Pin_usb31_01_rxn@751;";
+pass itpp "label:Pin_usb31_02_rxp@749;";
+pass itpp "label:Pin_usb31_02_rxn@748;";
+pass itpp "label:Pin_usb31_03_rxp@746;";
+pass itpp "label:Pin_usb31_03_rxn@745;";
+pass itpp "label:Pin_usb31_04_rxp@743;";
+pass itpp "label:Pin_usb31_04_rxn@742;";
+pass itpp "label:Pin_usb31_05_rxp@740;";
+pass itpp "label:Pin_usb31_05_rxn@739;";
+pass itpp "label:Pin_usb31_06_rxp@737;";
+pass itpp "label:Pin_usb31_06_rxn@736;";
+pass itpp "label:Pin_usb31_07_rxp@734;";
+pass itpp "label:Pin_usb31_07_rxn@733;";
+pass itpp "label:Pin_usb31_08_rxp@731;";
+pass itpp "label:Pin_usb31_08_rxn@730;";
+pass itpp "label:Pin_usb31_09_rxp@728;";
+pass itpp "label:Pin_usb31_09_rxn@727;";
+pass itpp "label:Pin_usb31_10_rxp@725;";
+pass itpp "label:Pin_usb31_10_rxn@724;";
+pass itpp "label:Pin_pcie_24_rxp@719;";
+pass itpp "label:Pin_pcie_24_rxn@718;";
+pass itpp "label:Pin_pcie_23_rxp@716;";
+pass itpp "label:Pin_pcie_23_rxn@715;";
+pass itpp "label:Pin_pcie_22_rxp@713;";
+pass itpp "label:Pin_pcie_22_rxn@712;";
+pass itpp "label:Pin_pcie_21_rxp@710;";
+pass itpp "label:Pin_pcie_21_rxn@709;";
+pass itpp "label:Pin_dmi_04_rxp@707;";
+pass itpp "label:Pin_dmi_04_rxn@706;";
+pass itpp "label:Pin_dmi_05_rxp@704;";
+pass itpp "label:Pin_dmi_05_rxn@703;";
+pass itpp "label:Pin_dmi_06_rxp@701;";
+pass itpp "label:Pin_dmi_06_rxn@700;";
+pass itpp "label:Pin_dmi_07_rxp@698;";
+pass itpp "label:Pin_dmi_07_rxn@697;";
+pass itpp "label:Pin_dmi_00_rxp@695;";
+pass itpp "label:Pin_dmi_00_rxn@694;";
+pass itpp "label:Pin_dmi_01_rxp@692;";
+pass itpp "label:Pin_dmi_01_rxn@691;";
+pass itpp "label:Pin_dmi_02_rxp@689;";
+pass itpp "label:Pin_dmi_02_rxn@688;";
+pass itpp "label:Pin_dmi_03_rxp@686;";
+pass itpp "label:Pin_dmi_03_rxn@685;";
+pass itpp "label:Pin_gpp_b_00_pcie_lnk_down@679;";
+pass itpp "label:Pin_gpp_b_01_ish_uart0_rtsb_gspi2_cs1b@677;";
+pass itpp "label:Pin_gpp_b_02_ish_gp_08@675;";
+pass itpp "label:Pin_gpp_b_03_cpu_gp_02@673;";
+pass itpp "label:Pin_gpp_b_04_cpu_gp_03@671;";
+pass itpp "label:Pin_gpp_b_05_sx_exit_holdoffb_ish_gp_06_ieh_fatal_err2b@669;";
+pass itpp "label:Pin_gpp_b_06_clkout_48@667;";
+pass itpp "label:Pin_gpp_b_07_ish_gp_07@665;";
+pass itpp "label:Pin_gpp_b_08_ish_gp_00@663;";
+pass itpp "label:Pin_gpp_b_09_ish_gp_01@661;";
+pass itpp "label:Pin_gpp_b_10_ish_gp_02@659;";
+pass itpp "label:Pin_gpp_b_11_i2s_mclk@657;";
+pass itpp "label:Pin_gpp_b_12_slp_s0b@655;";
+pass itpp "label:Pin_gpp_b_13_pltrstb@653;";
+pass itpp "label:Pin_gpp_b_14@651;";
+pass itpp "label:Pin_gpp_b_15_ish_gp_03@649;";
+pass itpp "label:Pin_gpp_b_16_ish_gp_04@647;";
+pass itpp "label:Pin_gpp_b_17_ish_gp_05@645;";
+pass itpp "label:Pin_gpp_b_18_pmcalertb@643;";
+pass itpp "label:Pin_gpp_b_19_fusa_diagtest_en@641;";
+pass itpp "label:Pin_gpp_b_20_fusa_diagtest_mode@639;";
+pass itpp "label:Pin_gpp_b_21_sml1alertb_pchhotb@637;";
+pass itpp "label:Pin_gpp_a_00_espi_io_00@635;";
+pass itpp "label:Pin_gpp_a_01_espi_io_01@633;";
+pass itpp "label:Pin_gpp_a_02_espi_io_02_suswarnb_suspwrdnack@631;";
+pass itpp "label:Pin_gpp_a_04_espi_cs0b@627;";
+pass itpp "label:Pin_gpp_a_05_espi_clk@625;";
+pass itpp "label:Pin_gpp_a_06_espi_resetb@623;";
+pass itpp "label:Pin_gpp_a_07_espi_cs1b@621;";
+pass itpp "label:Pin_gpp_a_08_espi_cs2b@619;";
+pass itpp "label:Pin_gpp_a_09_espi_cs3b@617;";
+pass itpp "label:Pin_gpp_a_10_espi_alert0b@615;";
+pass itpp "label:Pin_gpp_a_11_espi_alert1b@613;";
+pass itpp "label:Pin_gpp_a_12_espi_alert2b@611;";
+pass itpp "label:Pin_gpp_a_13_espi_alert3b@609;";
+pass itpp "label:Pin_pwrbtnb_out@607;";
+pass itpp "label:Pin_dmi_clkreqb@603;";
+pass itpp "label:Pin_dir_espi_io_00@601;";
+pass itpp "label:Pin_dir_espi_io_01@599;";
+pass itpp "label:Pin_dir_espi_io_02@597;";
+pass itpp "label:Pin_dir_espi_io_03@595;";
+pass itpp "label:Pin_dir_espi_csb@593;";
+pass itpp "label:Pin_dir_espi_resetb@591;";
+pass itpp "label:Pin_dir_espi_clk@589;";
+pass itpp "label:Pin_dir_espi_rclk@587;";
+pass itpp "label:Pin_dir_espi_alertb@585;";
+pass itpp "label:Pin_spi0_io_02@569;";
+pass itpp "label:Pin_spi0_io_03@567;";
+pass itpp "label:Pin_spi0_mosi_io_00@565;";
+pass itpp "label:Pin_spi0_miso_io_01@563;";
+pass itpp "label:Pin_spi0_tpm_csb@561;";
+pass itpp "label:Pin_spi0_flash_00_csb@559;";
+pass itpp "label:Pin_spi0_flash_01_csb@557;";
+pass itpp "label:Pin_spi0_clk@555;";
+pass itpp "label:Pin_gpp_h_00@553;";
+pass itpp "label:Pin_gpp_h_01_srcclkreqb_08@551;";
+pass itpp "label:Pin_gpp_h_02_srcclkreqb_09@549;";
+pass itpp "label:Pin_gpp_h_03_srcclkreqb_10@547;";
+pass itpp "label:Pin_gpp_h_04_srcclkreqb_11@545;";
+pass itpp "label:Pin_gpp_h_05_usb2_ocb_00@543;";
+pass itpp "label:Pin_gpp_h_06_usb2_ocb_01@541;";
+pass itpp "label:Pin_gpp_h_07_usb2_ocb_02_gmii_mdc_01@539;";
+pass itpp "label:Pin_gpp_h_08_usb2_ocb_03_gmii_mdio_01@537;";
+pass itpp "label:Pin_gpp_h_09_sml2clk@535;";
+pass itpp "label:Pin_gpp_h_10_sml2data@533;";
+pass itpp "label:Pin_gpp_h_11_sml2alertb@531;";
+pass itpp "label:Pin_gpp_h_12_sml3clk@529;";
+pass itpp "label:Pin_gpp_h_13_sml3data@527;";
+pass itpp "label:Pin_gpp_h_14_sml3alertb@525;";
+pass itpp "label:Pin_gpp_h_15_sml4clk@523;";
+pass itpp "label:Pin_gpp_h_16_sml4data@521;";
+pass itpp "label:Pin_gpp_h_17_sml4alertb@519;";
+pass itpp "label:Pin_gpp_h_18_ish_i2c1_sda_smib@517;";
+pass itpp "label:Pin_gpp_h_19_ish_i2c1_scl_nmib@515;";
+pass itpp "label:Pin_gpp_c_00_smbclk@513;";
+pass itpp "label:Pin_gpp_c_01_smbdata@511;";
+pass itpp "label:Pin_gpp_c_02_smbalertb@509;";
+pass itpp "label:Pin_gpp_c_03_ish_uart0_rxd_sml0bdata_i2c2_sda@507;";
+pass itpp "label:Pin_gpp_c_04_ish_uart0_txd_sml0bclk_i2c2_scl@505;";
+pass itpp "label:Pin_gpp_c_05_sml0alertb@503;";
+pass itpp "label:Pin_gpp_c_06_ish_i2c2_sda_i2c3_sda@501;";
+pass itpp "label:Pin_gpp_c_07_ish_i2c2_scl_i2c3_scl@499;";
+pass itpp "label:Pin_gpp_c_08_uart0_rxd@497;";
+pass itpp "label:Pin_gpp_c_09_uart0_txd@495;";
+pass itpp "label:Pin_gpp_c_10_uart0_rtsb@493;";
+pass itpp "label:Pin_gpp_c_11_uart0_ctsb@491;";
+pass itpp "label:Pin_gpp_c_12_uart1_rxd_ish_uart1_rxd@489;";
+pass itpp "label:Pin_gpp_c_13_uart1_txd_ish_uart1_txd@487;";
+pass itpp "label:Pin_gpp_c_14_uart1_rtsb_ish_uart1_rtsb@485;";
+pass itpp "label:Pin_gpp_c_15_uart1_ctsb_ish_uart1_ctsb@483;";
+pass itpp "label:Pin_gpp_c_16_usb2_ocb_04_i2c4_sda@481;";
+pass itpp "label:Pin_gpp_c_17_usb2_ocb_05_i2c4_scl@479;";
+pass itpp "label:Pin_gpp_c_18_usb2_ocb_06_i2c5_sda@477;";
+pass itpp "label:Pin_gpp_c_19_usb2_ocb_07_i2c5_scl@475;";
+pass itpp "label:Pin_gpp_c_20_uart2_rxd_cnv_mfuart0_rxd@473;";
+pass itpp "label:Pin_gpp_c_21_uart2_txd_cnv_mfuart0_txd@471;";
+pass itpp "label:Pin_gpp_c_22_uart2_rtsb_cnv_mfuart0_rts_b@469;";
+pass itpp "label:Pin_gpp_c_23_uart2_ctsb_cnv_mfuart0_cts_b@467;";
+pass itpp "label:Pin_mlk_clk@463;";
+pass itpp "label:Pin_mlk_data@461;";
+pass itpp "label:Pin_gpp_s_00_sndw0_clk_rgmii_auxts_00@447;";
+pass itpp "label:Pin_gpp_s_01_sndw0_data0_rgmii_int_00@445;";
+pass itpp "label:Pin_gpp_s_02_sndw1_clk_dmic_clk_a_00_rgmii_reset_00_sndw0_data1@443;";
+pass itpp "label:Pin_gpp_s_03_sndw1_data_dmic_data_00_rgmii_pps_00_sndw0_data2@441;";
+pass itpp "label:Pin_gpp_s_04_sndw2_clk_dmic_clk_b_00_rgmii_auxts_01_sndw0_data3@439;";
+pass itpp "label:Pin_gpp_s_05_sndw2_data_dmic_clk_b_01_rgmii_int_01@437;";
+pass itpp "label:Pin_gpp_s_06_sndw3_clk_dmic_clk_a_01_rgmii_reset_01@435;";
+pass itpp "label:Pin_gpp_s_07_sndw3_data_dmic_data_01_rgmii_pps_01@433;";
+pass itpp "label:Pin_gpp_e_00_sataxpcie_00_satagp_00@431;";
+pass itpp "label:Pin_gpp_e_01_sataxpcie_01_satagp_01@429;";
+pass itpp "label:Pin_gpp_e_02_sataxpcie_02_satagp_02@427;";
+pass itpp "label:Pin_gpp_e_03_cpu_gp_00@425;";
+pass itpp "label:Pin_gpp_e_04_sata_devslp_00@423;";
+pass itpp "label:Pin_gpp_e_05_sata_devslp_01@421;";
+pass itpp "label:Pin_gpp_e_06_sata_devslp_02@419;";
+pass itpp "label:Pin_gpp_e_07_cpu_gp_01@417;";
+pass itpp "label:Pin_gpp_e_08_sata_ledb@415;";
+pass itpp "label:Pin_gpp_e_09_srcclkreqb_12@413;";
+pass itpp "label:Pin_gpp_e_10_srcclkreqb_13@411;";
+pass itpp "label:Pin_gpp_e_11_ish_gp_09@409;";
+pass itpp "label:Pin_gpp_e_12_ish_gp_10@407;";
+pass itpp "label:Pin_gpp_e_13_thc0_spi1_csb@405;";
+pass itpp "label:Pin_gpp_e_14_thc0_spi1_clk@403;";
+pass itpp "label:Pin_gpp_e_15_thc0_spi1_io_01@401;";
+pass itpp "label:Pin_gpp_e_16_thc0_spi1_io_00@399;";
+pass itpp "label:Pin_gpp_e_17_thc0_spi1_io_02@397;";
+pass itpp "label:Pin_gpp_e_18_thc0_spi1_io_03@395;";
+pass itpp "label:Pin_gpp_e_19_thc0_spi1_rstb@393;";
+pass itpp "label:Pin_gpp_e_20_thc0_spi1_intb@391;";
+pass itpp "label:Pin_gpp_e_21_ish_uart0_ctsb_sml0balertb@389;";
+pass itpp "label:Pin_gpp_k_00_gsxdout@387;";
+pass itpp "label:Pin_gpp_k_01_gsxsload@385;";
+pass itpp "label:Pin_gpp_k_02_gsxdin@383;";
+pass itpp "label:Pin_gpp_k_03_gsxsresetb@381;";
+pass itpp "label:Pin_gpp_k_04_gsxclk@379;";
+pass itpp "label:Pin_gpp_k_05_adr_complete@377;";
+pass itpp "label:Pin_gpp_k_08_core_vid_00@371;";
+pass itpp "label:Pin_gpp_k_09_core_vid_01@369;";
+pass itpp "label:Pin_mlk_rstb@361;";
+pass itpp "label:Pin_gpp_f_00_sataxpcie_03_satagp_03@359;";
+pass itpp "label:Pin_gpp_f_01_sataxpcie_04_satagp_04@357;";
+pass itpp "label:Pin_gpp_f_02_sataxpcie_05_satagp_05@355;";
+pass itpp "label:Pin_gpp_f_03_sataxpcie_06_satagp_06@353;";
+pass itpp "label:Pin_gpp_f_04_sataxpcie_07_satagp_07@351;";
+pass itpp "label:Pin_gpp_f_05_sata_devslp_03@349;";
+pass itpp "label:Pin_gpp_f_06_sata_devslp_04@347;";
+pass itpp "label:Pin_gpp_f_07_sata_devslp_05@345;";
+pass itpp "label:Pin_gpp_f_08_sata_devslp_06@343;";
+pass itpp "label:Pin_gpp_f_09_sata_devslp_07_dir_espi_smi@341;";
+pass itpp "label:Pin_gpp_f_10_sata_sclock_dir_espi_nmi@339;";
+pass itpp "label:Pin_gpp_f_11_sata_sload_dir_espi_irq@337;";
+pass itpp "label:Pin_gpp_f_12_sata_sdataout1_dir_espi_wake@335;";
+pass itpp "label:Pin_gpp_f_13_sata_sdataout0_dir_espi_sci@333;";
+pass itpp "label:Pin_gpp_f_14@331;";
+pass itpp "label:Pin_gpp_f_15@329;";
+pass itpp "label:Pin_gpp_f_16@327;";
+pass itpp "label:Pin_gpp_f_17@325;";
+pass itpp "label:Pin_gpp_f_18@323;";
+pass itpp "label:Pin_gpp_f_19_dnx_force_reload@321;";
+pass itpp "label:Pin_gpp_f_20_gmii_mdc_00@319;";
+pass itpp "label:Pin_gpp_f_21_gmii_mdio_00@317;";
+pass itpp "label:Pin_gpp_f_22_ieh_corr_err0b@315;";
+pass itpp "label:Pin_gpp_f_23_ieh_nonfatal_err1b@313;";
+pass itpp "label:Pin_pcie_01_rxp@307;";	
+pass itpp "label:Pin_pcie_01_rxn@306;";	
+pass itpp "label:Pin_pcie_02_rxp@304;";	
+pass itpp "label:Pin_pcie_02_rxn@303;";	
+pass itpp "label:Pin_pcie_03_lan_0a_rxp@301;";	
+pass itpp "label:Pin_pcie_03_lan_0a_rxn@300;";	
+pass itpp "label:Pin_pcie_04_rxp@298;";	
+pass itpp "label:Pin_pcie_04_rxn@297;";	
+pass itpp "label:Pin_pcie_05_rxp@295;";	
+pass itpp "label:Pin_pcie_05_rxn@294;";	
+pass itpp "label:Pin_pcie_06_rxp@292;";	
+pass itpp "label:Pin_pcie_06_rxn@291;";	
+pass itpp "label:Pin_pcie_07_lan_0b_rxp@289;";	
+pass itpp "label:Pin_pcie_07_lan_0b_rxn@288;";	
+pass itpp "label:Pin_pcie_08_rxp@286;";	
+pass itpp "label:Pin_pcie_08_rxn@285;";	
+pass itpp "label:Pin_pcie_09_tsn_00_rxp@283;";	
+pass itpp "label:Pin_pcie_09_tsn_00_rxn@282;";	
+pass itpp "label:Pin_pcie_10_tsn_01_rxp@280;";	
+pass itpp "label:Pin_pcie_10_tsn_01_rxn@279;";	
+pass itpp "label:Pin_pcie_11_rxp@277;";	
+pass itpp "label:Pin_pcie_11_rxn@276;";	
+pass itpp "label:Pin_pcie_12_rxp@274;";	
+pass itpp "label:Pin_pcie_12_rxn@273;";	
+pass itpp "label:Pin_pcie_17_sata_04_rxp@271;";	
+pass itpp "label:Pin_pcie_17_sata_04_rxn@270;";	
+pass itpp "label:Pin_pcie_18_sata_05_rxp@268;";	
+pass itpp "label:Pin_pcie_18_sata_05_rxn@267;";	
+pass itpp "label:Pin_pcie_19_sata_06_rxp@265;";	
+pass itpp "label:Pin_pcie_19_sata_06_rxn@264;";	
+pass itpp "label:Pin_pcie_20_sata_07_rxp@262;";	
+pass itpp "label:Pin_pcie_20_sata_07_rxn@261;";	
+pass itpp "label:Pin_pcie_13_sata_00_rxp@259;";	
+pass itpp "label:Pin_pcie_13_sata_00_rxn@258;";	
+pass itpp "label:Pin_pcie_14_sata_01_rxp@256;";	
+pass itpp "label:Pin_pcie_14_sata_01_rxn@255;";	
+pass itpp "label:Pin_pcie_15_sata_02_lan_0c_rxp@253;";	
+pass itpp "label:Pin_pcie_15_sata_02_lan_0c_rxn@252;";	
+pass itpp "label:Pin_pcie_16_sata_03_rxp@250;";	
+pass itpp "label:Pin_pcie_16_sata_03_rxn@249;";	
+pass itpp "label:Pin_cnv_wr_d0p@240;";
+pass itpp "label:Pin_cnv_wr_d0n@239;";
+pass itpp "label:Pin_cnv_wr_d1p@238;";
+pass itpp "label:Pin_cnv_wr_d1n@237;";
+pass itpp "label:Pin_cnv_wr_clkp@236;";
+pass itpp "label:Pin_cnv_wr_clkn@235;";
+pass itpp "label:Pin_gpp_d_00_srcclkreqb_00@223;";
+pass itpp "label:Pin_gpp_d_01_srcclkreqb_01@221;";
+pass itpp "label:Pin_gpp_d_02_srcclkreqb_02@219;";
+pass itpp "label:Pin_gpp_d_03_srcclkreqb_03@217;";
+pass itpp "label:Pin_gpp_d_04_sml1clk@215;";
+pass itpp "label:Pin_gpp_d_05_i2s2_sfrm_cnv_rf_reset_b_dmic_data_00@213;";
+pass itpp "label:Pin_gpp_d_06_i2s2_txd_modem_clkreq_dmic_clk_b_00@211;";
+pass itpp "label:Pin_gpp_d_07_i2s2_rxd_dmic_data_01@209;";
+pass itpp "label:Pin_gpp_d_08_i2s2_sclk_dmic_clk_a_00@207;";
+pass itpp "label:Pin_gpp_d_09_sml0clk@205;";
+pass itpp "label:Pin_gpp_d_10_sml0data@203;";
+pass itpp "label:Pin_gpp_d_11_srcclkreqb_04@201;";
+pass itpp "label:Pin_gpp_d_12_srcclkreqb_05@199;";
+pass itpp "label:Pin_gpp_d_13_srcclkreqb_06@197;";
+pass itpp "label:Pin_gpp_d_14_srcclkreqb_07@195;";
+pass itpp "label:Pin_gpp_d_15_sml1data@193;";
+pass itpp "label:Pin_gpp_d_16_gspi3_cs0b_thc1_spi2_csb@191;";
+pass itpp "label:Pin_gpp_d_17_gspi3_clk_thc1_spi2_clk@189;";
+pass itpp "label:Pin_gpp_d_18_gspi3_miso_thc1_spi2_io_00@187;";
+pass itpp "label:Pin_gpp_d_19_gspi3_mosi_thc1_spi2_io_01@185;";
+pass itpp "label:Pin_gpp_d_20_uart3_rxd_thc1_spi2_io_02@183;";
+pass itpp "label:Pin_gpp_d_21_uart3_txd_thc1_spi2_io_03@181;";
+pass itpp "label:Pin_gpp_d_22_uart3_rtsb_thc1_spi2_rstb@179;";
+pass itpp "label:Pin_gpp_d_23_uart3_ctsb_thc1_spi2_intb@177;";
+pass itpp "label:Pin_gpp_r_00_hda_bclk_i2s0_sclk_hdacpu_bclk_dmic_clk_a_01@175;";
+pass itpp "label:Pin_gpp_r_01_hda_sync_i2s0_sfrm_dmic_clk_b_01@173;";
+pass itpp "label:Pin_gpp_r_02_hda_sdo_i2s0_txd_hdacpu_sdo@171;";
+pass itpp "label:Pin_gpp_r_03_hda_sdi_00_i2s0_rxd_hdacpu_sdi@169;";
+pass itpp "label:Pin_gpp_r_04_hda_rstb@167;";
+pass itpp "label:Pin_gpp_r_05_hda_sdi_01_i2s1_rxd@165;";
+pass itpp "label:Pin_gpp_r_06_i2s1_txd@163;";
+pass itpp "label:Pin_gpp_r_07_i2s1_sfrm@161;";
+pass itpp "label:Pin_gpp_r_08_i2s1_sclk@159;";
+pass itpp "label:Pin_gpp_r_09_ish_spi_csb_gspi2_cs0b@157;";
+pass itpp "label:Pin_gpp_r_10_ish_spi_clk_gspi2_clk@155;";
+pass itpp "label:Pin_gpp_r_11_ish_spi_miso_gspi2_miso@153;";
+pass itpp "label:Pin_gpp_r_12_ish_spi_mosi_gspi2_mosi@151;";
+pass itpp "label:Pin_gpp_j_00_cnv_pa_blanking@149;";
+pass itpp "label:Pin_gpp_j_01_cnv_bri_dt_uart0_rtsb@147;";
+pass itpp "label:Pin_gpp_j_02_cnv_bri_rsp_uart0_rxd@145;";
+pass itpp "label:Pin_gpp_j_03_cnv_rgi_dt_uart0_txd@143;";
+pass itpp "label:Pin_gpp_j_04_cnv_rgi_rsp_uart0_ctsb@141;";
+pass itpp "label:Pin_gpp_j_05_cnv_mfuart2_rxd@139;";
+pass itpp "label:Pin_gpp_j_06_cnv_mfuart2_txd@137;";
+pass itpp "label:Pin_gpp_j_07_boothalt_b@135;";
+pass itpp "label:Pin_gpp_j_08_rtcclkout@133;";
+pass itpp "label:Pin_gpp_j_09_bpki3c_sda@131;";
+pass itpp "label:Pin_gpp_j_10_bpki3c_scl@129;";
+pass itpp "label:Pin_gpp_j_11_dam@127;";
+pass itpp "label:Pin_gpp_j_12_hdacpu_sdi@125;";
+pass itpp "label:Pin_gpp_j_13_hdacpu_sdo@123;";
+pass itpp "label:Pin_gpp_j_14_hdacpu_bclk@121;";
+pass itpp "label:Pin_gpp_j_15_aux_pwrgd@119;";
+pass itpp "label:Pin_gpd_04_slp_s3b@91;";
+pass itpp "label:Pin_gpd_05_slp_s4b@89;";
+pass itpp "label:Pin_gpd_06_slp_ab@87;";
+pass itpp "label:Pin_gpd_07@85;";
+pass itpp "label:Pin_gpd_08_susclk@83;";
+pass itpp "label:Pin_gpd_09_slp_wlanb@81;";
+pass itpp "label:Pin_gpd_10_slp_s5b@79;";
+pass itpp "label:Pin_gpd_11_lanphypc@77;";
+pass itpp "label:Pin_gpd_12@75;";
+pass itpp "label:Pin_slp_lanb@73;";
+pass itpp "label:Pin_slp_susb@71;";
+pass itpp "label:Pin_gpp_i_00_gspi0_cs1b@52;";
+pass itpp "label:Pin_gpp_i_01_gspi1_cs1b@50;";
+pass itpp "label:Pin_gpp_i_02_i2c0_sda_i3c0_sda@48;";
+pass itpp "label:Pin_gpp_i_03_i2c0_scl_i3c0_scl@46;";
+pass itpp "label:Pin_gpp_i_04_i2c1_sda@44;";
+pass itpp "label:Pin_gpp_i_05_i2c1_scl@42;";
+pass itpp "label:Pin_gpp_i_06_gspi0_cs0b@40;";
+pass itpp "label:Pin_gpp_i_07_gspi0_clk@38;";
+pass itpp "label:Pin_gpp_i_08_gspi0_miso@36;";
+pass itpp "label:Pin_gpp_i_09_gspi0_mosi@34;";
+pass itpp "label:Pin_gpp_i_10_gspi1_cs0b@32;";
+pass itpp "label:Pin_gpp_i_11_gspi1_clk_nfc_clk@30;";
+pass itpp "label:Pin_gpp_i_12_gspi1_miso_nfc_clkreq@28;";
+pass itpp "label:Pin_gpp_i_13_gspi1_mosi@26;";
+pass itpp "label:Pin_gpp_i_14_ish_i2c0_sda_ish_i3c0_sda@24;";
+pass itpp "label:Pin_gpp_i_15_ish_i2c0_scl_ish_i3c0_scl@22;";
+pass itpp "label:Pin_gpp_i_16_ish_gp_11@20;";
+pass itpp "label:Pin_prdyb@18;";
+pass itpp "label:Pin_preqb@16;";
+pass itpp "label:Pin_cpupwrgd@14;";
+pass itpp "label:Pin_pm_spare0@12;";
+pass itpp "label:Pin_pm_spare1@10;";
+pass itpp "label:Pin_trigger_in@6;";
+pass itpp "label:Pin_trigger_out@4;";
+pass itpp "label:Pin_fbrk_out_n@2;";
+
+tap_raw_shift : 
+ir_tdi = EXTEST,		
+dr_tdi = 'b11000000000000000000000000000000000000000000011101010101010101010101010101010101010101010101010101010100111001001001001001001001001001000111001001001001001001001001001001001000101111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111101011111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110110101001011111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111011100100100100100100100100100100100100100100100100100100100100010000001111110101111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111011101111101011111111111111111111111111111111111010111111111111111111111111111111111111111111111111111111111111110,
+dr_tdo = 'bXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0XXXXX01X01X01X01X01X01X01X01X01X01XXXX01X01X01X01X01X01X01X01X01X01X01X01XXXXX0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0XXX0X0X0X0X0X0X0X0X0X0X0XXX0X0X0X0X0X0X0X0X0X0XXXXXXXXXXXXXXX0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0XXX0X0XXXXXXXXXXXXX0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0XXXXX0X0XXXXXXX0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0XXXXX01X01X01X01X01X01X01X01X01X01X01X01X01X01X01X01X01X01X01X01XXXXXXXX000000XXXXXXXXXXX0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0XXXXXXXXXXXXXXXXXXXXXXXXXXX0X0X0X0X0X0X0X0X0X0X0XXXXXXXXXXXXXXXXXX0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0X0XXXXX0X0XX;
+flush;
+cycle 50;
+pass itpp "no_compress: stop;";
+pass itpp "rem: KKL TEST END";
+

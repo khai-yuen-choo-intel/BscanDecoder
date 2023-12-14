@@ -1,0 +1,994 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DCLeakage_config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GEN_DCLeakage_tt.xsd">
+<config_set name = "[user input]" config_pingroup="[user input]">
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>CLKOUT_SRC_N_12</pin>
+		<pin>CLKOUT_SRC_N_13</pin>
+		<pin>CLKOUT_SRC_N_11</pin>
+		<pin>CLKOUT_SRC_N_10</pin>
+		<pin>CLKOUT_SRC_N_8</pin>
+		<pin>CLKOUT_SRC_N_9</pin>
+		<pin>CLKOUT_SRC_N_6</pin>
+		<pin>CLKOUT_SRC_N_7</pin>
+		<pin>CLKOUT_SRC_N_4</pin>
+		<pin>CLKOUT_SRC_N_5</pin>
+		<pin>CLKOUT_SRC_N_3</pin>
+		<pin>CLKOUT_SRC_N_2</pin>
+		<pin>CLKOUT_SRC_N_0</pin>
+		<pin>CLKOUT_SRC_N_1</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>CLKOUT_SRC_P_12</pin>
+		<pin>CLKOUT_SRC_P_13</pin>
+		<pin>CLKOUT_SRC_P_11</pin>
+		<pin>CLKOUT_SRC_P_10</pin>
+		<pin>CLKOUT_SRC_P_8</pin>
+		<pin>CLKOUT_SRC_P_9</pin>
+		<pin>CLKOUT_SRC_P_6</pin>
+		<pin>CLKOUT_SRC_P_7</pin>
+		<pin>CLKOUT_SRC_P_4</pin>
+		<pin>CLKOUT_SRC_P_5</pin>
+		<pin>CLKOUT_SRC_P_3</pin>
+		<pin>CLKOUT_SRC_P_2</pin>
+		<pin>CLKOUT_SRC_P_0</pin>
+		<pin>CLKOUT_SRC_P_1</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>CNV_WR_CLKN</pin>
+		<pin>CNV_WR_CLKP</pin>
+		<pin>CNV_WR_D1N</pin>
+		<pin>CNV_WR_D1P</pin>
+		<pin>CNV_WR_D0N</pin>
+		<pin>CNV_WR_D0P</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>CNV_WT_CLKP</pin>
+		<pin>CNV_WT_CLKN</pin>
+		<pin>CNV_WT_D1P</pin>
+		<pin>CNV_WT_D1N</pin>
+		<pin>CNV_WT_D0P</pin>
+		<pin>CNV_WT_D0N</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>CPUPWRGD</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>CRASHLOG_TRIG_N</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>DIR_ESPI_ALERTB</pin>
+		<pin>DIR_ESPI_RCLK</pin>
+		<pin>DIR_ESPI_CLK</pin>
+		<pin>DIR_ESPI_RESETB</pin>
+		<pin>DIR_ESPI_CSB</pin>
+		<pin>DIR_ESPI_IO_3</pin>
+		<pin>DIR_ESPI_IO_2</pin>
+		<pin>DIR_ESPI_IO_1</pin>
+		<pin>DIR_ESPI_IO_0</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>DMI_CLKREQB</pin>
+		<pin>DMI_PERSTB</pin>
+		<pin>DMI_3_RXN</pin>
+		<pin>DMI_3_RXP</pin>
+		<pin>DMI_3_TXP</pin>
+		<pin>DMI_3_TXN</pin>
+		<pin>DMI_2_RXN</pin>
+		<pin>DMI_2_RXP</pin>
+		<pin>DMI_2_TXP</pin>
+		<pin>DMI_2_TXN</pin>
+		<pin>DMI_1_RXN</pin>
+		<pin>DMI_1_RXP</pin>
+		<pin>DMI_1_TXP</pin>
+		<pin>DMI_1_TXN</pin>
+		<pin>DMI_0_RXN</pin>
+		<pin>DMI_0_RXP</pin>
+		<pin>DMI_0_TXP</pin>
+		<pin>DMI_0_TXN</pin>
+		<pin>DMI_7_RXN</pin>
+		<pin>DMI_7_RXP</pin>
+		<pin>DMI_7_TXP</pin>
+		<pin>DMI_7_TXN</pin>
+		<pin>DMI_6_RXN</pin>
+		<pin>DMI_6_RXP</pin>
+		<pin>DMI_6_TXP</pin>
+		<pin>DMI_6_TXN</pin>
+		<pin>DMI_5_RXN</pin>
+		<pin>DMI_5_RXP</pin>
+		<pin>DMI_5_TXP</pin>
+		<pin>DMI_5_TXN</pin>
+		<pin>DMI_4_RXN</pin>
+		<pin>DMI_4_RXP</pin>
+		<pin>DMI_4_TXP</pin>
+		<pin>DMI_4_TXN</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>DSW_SPARE</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>FBRK_OUT_N</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPD_12</pin>
+		<pin>GPD_11_LANPHYPC</pin>
+		<pin>GPD_10_SLP_S5B</pin>
+		<pin>GPD_9_SLP_WLANB</pin>
+		<pin>GPD_8_SUSCLK</pin>
+		<pin>GPD_7</pin>
+		<pin>GPD_6_SLP_AB</pin>
+		<pin>GPD_5_SLP_S4B</pin>
+		<pin>GPD_4_SLP_S3B</pin>
+		<pin>GPD_3_PWRBTNB</pin>
+		<pin>GPD_2_LAN_WAKEB</pin>
+		<pin>GPD_1_ACPRESENT</pin>
+		<pin>GPD_0_BATLOWB</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_A_13_ESPI_ALERT3B</pin>
+		<pin>GPP_A_12_ESPI_ALERT2B</pin>
+		<pin>GPP_A_11_ESPI_ALERT1B</pin>
+		<pin>GPP_A_10_ESPI_ALERT0B</pin>
+		<pin>GPP_A_9_ESPI_CS3B</pin>
+		<pin>GPP_A_8_ESPI_CS2B</pin>
+		<pin>GPP_A_7_ESPI_CS1B</pin>
+		<pin>GPP_A_6_ESPI_RESETB</pin>
+		<pin>GPP_A_5_ESPI_CLK</pin>
+		<pin>GPP_A_4_ESPI_CS0B</pin>
+		<pin>GPP_A_3_ESPI_IO_3_SUSACKB</pin>
+		<pin>GPP_A_2_ESPI_IO_2_SUSWARNB_SUSPWRDNACK</pin>
+		<pin>GPP_A_1_ESPI_IO_1</pin>
+		<pin>GPP_A_0_ESPI_IO_0</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_B_21_SML1ALERTB_PCHHOTB</pin>
+		<pin>GPP_B_20_FUSA_DIAGTEST_MODE</pin>
+		<pin>GPP_B_19_FUSA_DIAGTEST_EN</pin>
+		<pin>GPP_B_18_PMCALERTB</pin>
+		<pin>GPP_B_17_ISH_GP_5</pin>
+		<pin>GPP_B_16_ISH_GP_4</pin>
+		<pin>GPP_B_15_ISH_GP_3</pin>
+		<pin>GPP_B_14</pin>
+		<pin>GPP_B_13_PLTRSTB</pin>
+		<pin>GPP_B_12_SLP_S0B</pin>
+		<pin>GPP_B_11_I2S_MCLK</pin>
+		<pin>GPP_B_10_ISH_GP_2</pin>
+		<pin>GPP_B_9_ISH_GP_1</pin>
+		<pin>GPP_B_8_ISH_GP_0</pin>
+		<pin>GPP_B_7_ISH_GP_7</pin>
+		<pin>GPP_B_6_CLKOUT_48</pin>
+		<pin>GPP_B_5_SX_EXIT_HOLDOFFB_ISH_GP_6_IEH_FATAL_ERR2B</pin>
+		<pin>GPP_B_4_CPU_GP_3</pin>
+		<pin>GPP_B_3_CPU_GP_2</pin>
+		<pin>GPP_B_2_ISH_GP_8</pin>
+		<pin>GPP_B_1_ISH_UART0_RTSB_GSPI2_CS1B</pin>
+		<pin>GPP_B_0_PCIE_LNK_DOWN</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_C_23_UART2_CTSB_CNV_MFUART0_CTS_B</pin>
+		<pin>GPP_C_22_UART2_RTSB_CNV_MFUART0_RTS_B</pin>
+		<pin>GPP_C_21_UART2_TXD_CNV_MFUART0_TXD</pin>
+		<pin>GPP_C_20_UART2_RXD_CNV_MFUART0_RXD</pin>
+		<pin>GPP_C_19_USB2_OCB_7_I2C5_SCL</pin>
+		<pin>GPP_C_18_USB2_OCB_6_I2C5_SDA</pin>
+		<pin>GPP_C_17_USB2_OCB_5_I2C4_SCL</pin>
+		<pin>GPP_C_16_USB2_OCB_4_I2C4_SDA</pin>
+		<pin>GPP_C_15_UART1_CTSB_ISH_UART1_CTSB</pin>
+		<pin>GPP_C_14_UART1_RTSB_ISH_UART1_RTSB</pin>
+		<pin>GPP_C_13_UART1_TXD_ISH_UART1_TXD</pin>
+		<pin>GPP_C_12_UART1_RXD_ISH_UART1_RXD</pin>
+		<pin>GPP_C_11_UART0_CTSB</pin>
+		<pin>GPP_C_10_UART0_RTSB</pin>
+		<pin>GPP_C_9_UART0_TXD</pin>
+		<pin>GPP_C_8_UART0_RXD</pin>
+		<pin>GPP_C_7_ISH_I2C2_SCL_I2C3_SCL</pin>
+		<pin>GPP_C_6_ISH_I2C2_SDA_I2C3_SDA</pin>
+		<pin>GPP_C_5_SML0ALERTB</pin>
+		<pin>GPP_C_4_ISH_UART0_TXD_SML0BCLK_I2C2_SCL</pin>
+		<pin>GPP_C_3_ISH_UART0_RXD_SML0BDATA_I2C2_SDA</pin>
+		<pin>GPP_C_2_SMBALERTB</pin>
+		<pin>GPP_C_1_SMBDATA</pin>
+		<pin>GPP_C_0_SMBCLK</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_D_23_UART3_CTSB_THC1_SPI2_INTB</pin>
+		<pin>GPP_D_22_UART3_RTSB_THC1_SPI2_RSTB</pin>
+		<pin>GPP_D_21_UART3_TXD_THC1_SPI2_IO_3</pin>
+		<pin>GPP_D_20_UART3_RXD_THC1_SPI2_IO_2</pin>
+		<pin>GPP_D_19_GSPI3_MOSI_THC1_SPI2_IO_1</pin>
+		<pin>GPP_D_18_GSPI3_MISO_THC1_SPI2_IO_0</pin>
+		<pin>GPP_D_17_GSPI3_CLK_THC1_SPI2_CLK</pin>
+		<pin>GPP_D_16_GSPI3_CS0B_THC1_SPI2_CSB</pin>
+		<pin>GPP_D_15_SML1DATA</pin>
+		<pin>GPP_D_14_SRCCLKREQB_7</pin>
+		<pin>GPP_D_13_SRCCLKREQB_6</pin>
+		<pin>GPP_D_12_SRCCLKREQB_5</pin>
+		<pin>GPP_D_11_SRCCLKREQB_4</pin>
+		<pin>GPP_D_10_SML0DATA</pin>
+		<pin>GPP_D_9_SML0CLK</pin>
+		<pin>GPP_D_8_I2S2_SCLK_DMIC_CLK_A_0</pin>
+		<pin>GPP_D_7_I2S2_RXD_DMIC_DATA_1</pin>
+		<pin>GPP_D_6_I2S2_TXD_MODEM_CLKREQ_DMIC_CLK_B_0</pin>
+		<pin>GPP_D_5_I2S2_SFRM_CNV_RF_RESET_B_DMIC_DATA_0</pin>
+		<pin>GPP_D_4_SML1CLK</pin>
+		<pin>GPP_D_3_SRCCLKREQB_3</pin>
+		<pin>GPP_D_2_SRCCLKREQB_2</pin>
+		<pin>GPP_D_1_SRCCLKREQB_1</pin>
+		<pin>GPP_D_0_SRCCLKREQB_0</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_E_21_ISH_UART0_CTSB_SML0BALERTB</pin>
+		<pin>GPP_E_20_THC0_SPI1_INTB</pin>
+		<pin>GPP_E_19_THC0_SPI1_RSTB</pin>
+		<pin>GPP_E_18_THC0_SPI1_IO_3</pin>
+		<pin>GPP_E_17_THC0_SPI1_IO_2</pin>
+		<pin>GPP_E_16_THC0_SPI1_IO_0</pin>
+		<pin>GPP_E_15_THC0_SPI1_IO_1</pin>
+		<pin>GPP_E_14_THC0_SPI1_CLK</pin>
+		<pin>GPP_E_13_THC0_SPI1_CSB</pin>
+		<pin>GPP_E_12_ISH_GP_10</pin>
+		<pin>GPP_E_11_ISH_GP_9</pin>
+		<pin>GPP_E_10_SRCCLKREQB_13</pin>
+		<pin>GPP_E_9_SRCCLKREQB_12</pin>
+		<pin>GPP_E_8_SATA_LEDB</pin>
+		<pin>GPP_E_7_CPU_GP_1</pin>
+		<pin>GPP_E_6_SATA_DEVSLP_2</pin>
+		<pin>GPP_E_5_SATA_DEVSLP_1</pin>
+		<pin>GPP_E_4_SATA_DEVSLP_0</pin>
+		<pin>GPP_E_3_CPU_GP_0</pin>
+		<pin>GPP_E_2_SATAXPCIE_2_SATAGP_2</pin>
+		<pin>GPP_E_1_SATAXPCIE_1_SATAGP_1</pin>
+		<pin>GPP_E_0_SATAXPCIE_0_SATAGP_0</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_F_23_IEH_NONFATAL_ERR1B</pin>
+		<pin>GPP_F_22_IEH_CORR_ERR0B</pin>
+		<pin>GPP_F_21_GMII_MDIO_0</pin>
+		<pin>GPP_F_20_GMII_MDC_0</pin>
+		<pin>GPP_F_19_DNX_FORCE_RELOAD</pin>
+		<pin>GPP_F_18</pin>
+		<pin>GPP_F_17</pin>
+		<pin>GPP_F_16</pin>
+		<pin>GPP_F_15</pin>
+		<pin>GPP_F_14</pin>
+		<pin>GPP_F_13_SATA_SDATAOUT0_DIR_ESPI_SCI</pin>
+		<pin>GPP_F_12_SATA_SDATAOUT1_DIR_ESPI_WAKE</pin>
+		<pin>GPP_F_11_SATA_SLOAD_DIR_ESPI_IRQ</pin>
+		<pin>GPP_F_10_SATA_SCLOCK_DIR_ESPI_NMI</pin>
+		<pin>GPP_F_9_SATA_DEVSLP_7_DIR_ESPI_SMI</pin>
+		<pin>GPP_F_8_SATA_DEVSLP_6</pin>
+		<pin>GPP_F_7_SATA_DEVSLP_5</pin>
+		<pin>GPP_F_6_SATA_DEVSLP_4</pin>
+		<pin>GPP_F_5_SATA_DEVSLP_3</pin>
+		<pin>GPP_F_4_SATAXPCIE_7_SATAGP_7</pin>
+		<pin>GPP_F_3_SATAXPCIE_6_SATAGP_6</pin>
+		<pin>GPP_F_2_SATAXPCIE_5_SATAGP_5</pin>
+		<pin>GPP_F_1_SATAXPCIE_4_SATAGP_4</pin>
+		<pin>GPP_F_0_SATAXPCIE_3_SATAGP_3</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_H_19_ISH_I2C1_SCL_NMIB</pin>
+		<pin>GPP_H_18_ISH_I2C1_SDA_SMIB</pin>
+		<pin>GPP_H_17_SML4ALERTB</pin>
+		<pin>GPP_H_16_SML4DATA</pin>
+		<pin>GPP_H_15_SML4CLK</pin>
+		<pin>GPP_H_14_SML3ALERTB</pin>
+		<pin>GPP_H_13_SML3DATA</pin>
+		<pin>GPP_H_12_SML3CLK</pin>
+		<pin>GPP_H_11_SML2ALERTB</pin>
+		<pin>GPP_H_10_SML2DATA</pin>
+		<pin>GPP_H_9_SML2CLK</pin>
+		<pin>GPP_H_8_USB2_OCB_3_GMII_MDIO_1</pin>
+		<pin>GPP_H_7_USB2_OCB_2_GMII_MDC_1</pin>
+		<pin>GPP_H_6_USB2_OCB_1</pin>
+		<pin>GPP_H_5_USB2_OCB_0</pin>
+		<pin>GPP_H_4_SRCCLKREQB_11</pin>
+		<pin>GPP_H_3_SRCCLKREQB_10</pin>
+		<pin>GPP_H_2_SRCCLKREQB_9</pin>
+		<pin>GPP_H_1_SRCCLKREQB_8</pin>
+		<pin>GPP_H_0</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_I_16_ISH_GP_11</pin>
+		<pin>GPP_I_15_ISH_I2C0_SCL_ISH_I3C0_SCL</pin>
+		<pin>GPP_I_14_ISH_I2C0_SDA_ISH_I3C0_SDA</pin>
+		<pin>GPP_I_13_GSPI1_MOSI</pin>
+		<pin>GPP_I_12_GSPI1_MISO_NFC_CLKREQ</pin>
+		<pin>GPP_I_11_GSPI1_CLK_NFC_CLK</pin>
+		<pin>GPP_I_10_GSPI1_CS0B</pin>
+		<pin>GPP_I_9_GSPI0_MOSI</pin>
+		<pin>GPP_I_8_GSPI0_MISO</pin>
+		<pin>GPP_I_7_GSPI0_CLK</pin>
+		<pin>GPP_I_6_GSPI0_CS0B</pin>
+		<pin>GPP_I_5_I2C1_SCL</pin>
+		<pin>GPP_I_4_I2C1_SDA</pin>
+		<pin>GPP_I_3_I2C0_SCL_I3C0_SCL</pin>
+		<pin>GPP_I_2_I2C0_SDA_I3C0_SDA</pin>
+		<pin>GPP_I_1_GSPI1_CS1B</pin>
+		<pin>GPP_I_0_GSPI0_CS1B</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_J_16_GLB_RST_WARN_B</pin>
+		<pin>GPP_J_15_AUX_PWRGD</pin>
+		<pin>GPP_J_14_HDACPU_BCLK</pin>
+		<pin>GPP_J_13_HDACPU_SDO</pin>
+		<pin>GPP_J_12_HDACPU_SDI</pin>
+		<pin>GPP_J_11_DAM</pin>
+		<pin>GPP_J_10_BPKI3C_SCL</pin>
+		<pin>GPP_J_9_BPKI3C_SDA</pin>
+		<pin>GPP_J_8_RTCCLKOUT</pin>
+		<pin>GPP_J_7_BOOTHALT_B</pin>
+		<pin>GPP_J_6_CNV_MFUART2_TXD</pin>
+		<pin>GPP_J_5_CNV_MFUART2_RXD</pin>
+		<pin>GPP_J_4_CNV_RGI_RSP_UART0_CTSB</pin>
+		<pin>GPP_J_3_CNV_RGI_DT_UART0_TXD</pin>
+		<pin>GPP_J_2_CNV_BRI_RSP_UART0_RXD</pin>
+		<pin>GPP_J_1_CNV_BRI_DT_UART0_RTSB</pin>
+		<pin>GPP_J_0_CNV_PA_BLANKING</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_K_10_FUSE_SORT_BUMP_2</pin>
+		<pin>GPP_K_9_CORE_VID_1</pin>
+		<pin>GPP_K_8_CORE_VID_0</pin>
+		<pin>GPP_K_7_FUSE_SORT_BUMP_1</pin>
+		<pin>GPP_K_6_FUSE_SORT_BUMP_0</pin>
+		<pin>GPP_K_5_ADR_COMPLETE</pin>
+		<pin>GPP_K_4_GSXCLK</pin>
+		<pin>GPP_K_3_GSXSRESETB</pin>
+		<pin>GPP_K_2_GSXDIN</pin>
+		<pin>GPP_K_1_GSXSLOAD</pin>
+		<pin>GPP_K_0_GSXDOUT</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_R_12_ISH_SPI_MOSI_GSPI2_MOSI</pin>
+		<pin>GPP_R_11_ISH_SPI_MISO_GSPI2_MISO</pin>
+		<pin>GPP_R_10_ISH_SPI_CLK_GSPI2_CLK</pin>
+		<pin>GPP_R_9_ISH_SPI_CSB_GSPI2_CS0B</pin>
+		<pin>GPP_R_8_I2S1_SCLK</pin>
+		<pin>GPP_R_7_I2S1_SFRM</pin>
+		<pin>GPP_R_6_I2S1_TXD</pin>
+		<pin>GPP_R_5_HDA_SDI_1_I2S1_RXD</pin>
+		<pin>GPP_R_4_HDA_RSTB</pin>
+		<pin>GPP_R_3_HDA_SDI_0_I2S0_RXD_HDACPU_SDI</pin>
+		<pin>GPP_R_2_HDA_SDO_I2S0_TXD_HDACPU_SDO</pin>
+		<pin>GPP_R_1_HDA_SYNC_I2S0_SFRM_DMIC_CLK_B_1</pin>
+		<pin>GPP_R_0_HDA_BCLK_I2S0_SCLK_HDACPU_BCLK_DMIC_CLK_A_1</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>GPP_S_7_SNDW3_DATA_DMIC_DATA_1_RGMII_PPS_1</pin>
+		<pin>GPP_S_6_SNDW3_CLK_DMIC_CLK_A_1_RGMII_RESET_1</pin>
+		<pin>GPP_S_5_SNDW2_DATA_DMIC_CLK_B_1_RGMII_INT_1</pin>
+		<pin>GPP_S_4_SNDW2_CLK_DMIC_CLK_B_0_RGMII_AUXTS_1_SNDW0_DATA3</pin>
+		<pin>GPP_S_3_SNDW1_DATA_DMIC_DATA_0_RGMII_PPS_0_SNDW0_DATA2</pin>
+		<pin>GPP_S_2_SNDW1_CLK_DMIC_CLK_A_0_RGMII_RESET_0_SNDW0_DATA1</pin>
+		<pin>GPP_S_1_SNDW0_DATA0_RGMII_INT_0</pin>
+		<pin>GPP_S_0_SNDW0_CLK_RGMII_AUXTS_0</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>INTRUDERB</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>MISC_SPARE</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>MLK_RSTB</pin>
+		<pin>MLK_RSTB_UNUSED</pin>
+		<pin>MLK_DATA</pin>
+		<pin>MLK_CLK</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>PCIE_16_SATA_3_RXN</pin>
+		<pin>PCIE_15_SATA_2_LAN_0C_RXN</pin>
+		<pin>PCIE_14_SATA_1_RXN</pin>
+		<pin>PCIE_13_SATA_0_RXN</pin>
+		<pin>PCIE_20_SATA_7_RXN</pin>
+		<pin>PCIE_19_SATA_6_RXN</pin>
+		<pin>PCIE_18_SATA_5_RXN</pin>
+		<pin>PCIE_17_SATA_4_RXN</pin>
+		<pin>PCIE_12_RXN</pin>
+		<pin>PCIE_11_RXN</pin>
+		<pin>PCIE_10_TSN_1_RXN</pin>
+		<pin>PCIE_9_TSN_0_RXN</pin>
+		<pin>PCIE_8_RXN</pin>
+		<pin>PCIE_7_LAN_0B_RXN</pin>
+		<pin>PCIE_6_RXN</pin>
+		<pin>PCIE_5_RXN</pin>
+		<pin>PCIE_4_RXN</pin>
+		<pin>PCIE_3_LAN_0A_RXN</pin>
+		<pin>PCIE_2_RXN</pin>
+		<pin>PCIE_1_RXN</pin>
+		<pin>PCIE_21_RXN</pin>
+		<pin>PCIE_22_RXN</pin>
+		<pin>PCIE_23_RXN</pin>
+		<pin>PCIE_24_RXN</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>PCIE_16_SATA_3_RXP</pin>
+		<pin>PCIE_15_SATA_2_LAN_0C_RXP</pin>
+		<pin>PCIE_14_SATA_1_RXP</pin>
+		<pin>PCIE_13_SATA_0_RXP</pin>
+		<pin>PCIE_20_SATA_7_RXP</pin>
+		<pin>PCIE_19_SATA_6_RXP</pin>
+		<pin>PCIE_18_SATA_5_RXP</pin>
+		<pin>PCIE_17_SATA_4_RXP</pin>
+		<pin>PCIE_12_RXP</pin>
+		<pin>PCIE_11_RXP</pin>
+		<pin>PCIE_10_TSN_1_RXP</pin>
+		<pin>PCIE_9_TSN_0_RXP</pin>
+		<pin>PCIE_8_RXP</pin>
+		<pin>PCIE_7_LAN_0B_RXP</pin>
+		<pin>PCIE_6_RXP</pin>
+		<pin>PCIE_5_RXP</pin>
+		<pin>PCIE_4_RXP</pin>
+		<pin>PCIE_3_LAN_0A_RXP</pin>
+		<pin>PCIE_2_RXP</pin>
+		<pin>PCIE_1_RXP</pin>
+		<pin>PCIE_21_RXP</pin>
+		<pin>PCIE_22_RXP</pin>
+		<pin>PCIE_23_RXP</pin>
+		<pin>PCIE_24_RXP</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>PCIE_16_SATA_3_TXN</pin>
+		<pin>PCIE_15_SATA_2_LAN_0C_TXN</pin>
+		<pin>PCIE_14_SATA_1_TXN</pin>
+		<pin>PCIE_13_SATA_0_TXN</pin>
+		<pin>PCIE_20_SATA_7_TXN</pin>
+		<pin>PCIE_19_SATA_6_TXN</pin>
+		<pin>PCIE_18_SATA_5_TXN</pin>
+		<pin>PCIE_17_SATA_4_TXN</pin>
+		<pin>PCIE_12_TXN</pin>
+		<pin>PCIE_11_TXN</pin>
+		<pin>PCIE_10_TSN_1_TXN</pin>
+		<pin>PCIE_9_TSN_0_TXN</pin>
+		<pin>PCIE_8_TXN</pin>
+		<pin>PCIE_7_LAN_0B_TXN</pin>
+		<pin>PCIE_6_TXN</pin>
+		<pin>PCIE_5_TXN</pin>
+		<pin>PCIE_4_TXN</pin>
+		<pin>PCIE_3_LAN_0A_TXN</pin>
+		<pin>PCIE_2_TXN</pin>
+		<pin>PCIE_1_TXN</pin>
+		<pin>PCIE_21_TXN</pin>
+		<pin>PCIE_22_TXN</pin>
+		<pin>PCIE_23_TXN</pin>
+		<pin>PCIE_24_TXN</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>PCIE_16_SATA_3_TXP</pin>
+		<pin>PCIE_15_SATA_2_LAN_0C_TXP</pin>
+		<pin>PCIE_14_SATA_1_TXP</pin>
+		<pin>PCIE_13_SATA_0_TXP</pin>
+		<pin>PCIE_20_SATA_7_TXP</pin>
+		<pin>PCIE_19_SATA_6_TXP</pin>
+		<pin>PCIE_18_SATA_5_TXP</pin>
+		<pin>PCIE_17_SATA_4_TXP</pin>
+		<pin>PCIE_12_TXP</pin>
+		<pin>PCIE_11_TXP</pin>
+		<pin>PCIE_10_TSN_1_TXP</pin>
+		<pin>PCIE_9_TSN_0_TXP</pin>
+		<pin>PCIE_8_TXP</pin>
+		<pin>PCIE_7_LAN_0B_TXP</pin>
+		<pin>PCIE_6_TXP</pin>
+		<pin>PCIE_5_TXP</pin>
+		<pin>PCIE_4_TXP</pin>
+		<pin>PCIE_3_LAN_0A_TXP</pin>
+		<pin>PCIE_2_TXP</pin>
+		<pin>PCIE_1_TXP</pin>
+		<pin>PCIE_21_TXP</pin>
+		<pin>PCIE_22_TXP</pin>
+		<pin>PCIE_23_TXP</pin>
+		<pin>PCIE_24_TXP</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>PM_SPARE1</pin>
+		<pin>PM_SPARE0</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>PRDYB</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>PREQB</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>PWRBTNB_OUT</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>RESET_SYNCB</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>RSMRSTB</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>RTESTB</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>SLP_SUSB</pin>
+		<pin>SLP_LANB</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>SPI0_CLK</pin>
+		<pin>SPI0_FLASH_1_CSB</pin>
+		<pin>SPI0_FLASH_0_CSB</pin>
+		<pin>SPI0_TPM_CSB</pin>
+		<pin>SPI0_MISO_IO_1</pin>
+		<pin>SPI0_MOSI_IO_0</pin>
+		<pin>SPI0_IO_3</pin>
+		<pin>SPI0_IO_2</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>SYS_RESETB</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>TRIGGER_OUT</pin>
+		<pin>TRIGGER_IN</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>USB2N_14</pin>
+		<pin>USB2N_13</pin>
+		<pin>USB2N_12</pin>
+		<pin>USB2N_11</pin>
+		<pin>USB2N_10</pin>
+		<pin>USB2N_9</pin>
+		<pin>USB2N_8</pin>
+		<pin>USB2N_7</pin>
+		<pin>USB2N_6</pin>
+		<pin>USB2N_5</pin>
+		<pin>USB2N_4</pin>
+		<pin>USB2N_3</pin>
+		<pin>USB2N_2</pin>
+		<pin>USB2N_1</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>USB2P_14</pin>
+		<pin>USB2P_13</pin>
+		<pin>USB2P_12</pin>
+		<pin>USB2P_11</pin>
+		<pin>USB2P_10</pin>
+		<pin>USB2P_9</pin>
+		<pin>USB2P_8</pin>
+		<pin>USB2P_7</pin>
+		<pin>USB2P_6</pin>
+		<pin>USB2P_5</pin>
+		<pin>USB2P_4</pin>
+		<pin>USB2P_3</pin>
+		<pin>USB2P_2</pin>
+		<pin>USB2P_1</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>USB31_10_RXN</pin>
+		<pin>USB31_9_RXN</pin>
+		<pin>USB31_8_RXN</pin>
+		<pin>USB31_7_RXN</pin>
+		<pin>USB31_6_RXN</pin>
+		<pin>USB31_5_RXN</pin>
+		<pin>USB31_4_RXN</pin>
+		<pin>USB31_3_RXN</pin>
+		<pin>USB31_2_RXN</pin>
+		<pin>USB31_1_RXN</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>USB31_10_RXP</pin>
+		<pin>USB31_9_RXP</pin>
+		<pin>USB31_8_RXP</pin>
+		<pin>USB31_7_RXP</pin>
+		<pin>USB31_6_RXP</pin>
+		<pin>USB31_5_RXP</pin>
+		<pin>USB31_4_RXP</pin>
+		<pin>USB31_3_RXP</pin>
+		<pin>USB31_2_RXP</pin>
+		<pin>USB31_1_RXP</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>USB31_10_TXN</pin>
+		<pin>USB31_9_TXN</pin>
+		<pin>USB31_8_TXN</pin>
+		<pin>USB31_7_TXN</pin>
+		<pin>USB31_6_TXN</pin>
+		<pin>USB31_5_TXN</pin>
+		<pin>USB31_4_TXN</pin>
+		<pin>USB31_3_TXN</pin>
+		<pin>USB31_2_TXN</pin>
+		<pin>USB31_1_TXN</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>USB31_10_TXP</pin>
+		<pin>USB31_9_TXP</pin>
+		<pin>USB31_8_TXP</pin>
+		<pin>USB31_7_TXP</pin>
+		<pin>USB31_6_TXP</pin>
+		<pin>USB31_5_TXP</pin>
+		<pin>USB31_4_TXP</pin>
+		<pin>USB31_3_TXP</pin>
+		<pin>USB31_2_TXP</pin>
+		<pin>USB31_1_TXP</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+	<measurement group="[user input]" measurement_pingroup="[user input]">
+		<setting>
+		<pin>WAKEB</pin>
+			<limit_high>[user input]</limit_high>
+			<limit_low>[user input]</limit_low>
+			<force_high_value type="double">[user input]</force_high_value>
+			<force_low_value type="double">0.0</force_low_value>
+			<measure_range>[user input]</measure_range>
+		</setting>
+	</measurement>
+
+</config_set>
+</DCLeakage_config>

@@ -1,0 +1,101 @@
+#SPF : $SPF_ROOT/bin/spf --testSeqFile bscan_EXTEST_PULSE_tx_rx_loopback_all0.spf --tapSpecFile /p/hdk/rtl/models/phdk73/ssnip_sles12/vip_spf_itpp_mtps/vip_spf_itpp_mtps-ssnip_sles12-latest/spf/bscan/collateral/mtps.bscan.tap.spfspec --itppFile bscan_EXTEST_PULSE_tx_rx_loopback_all0.itpp
+
+
+## BSCAN PROJECT BASED FORCE and REGISTER SETUP
+label "force_signal";
+comment rem  "force_signal pch_tb.pch.dsw_pwrok 1'b1" ;
+comment rem  "force_signal pch_tb.pch.pch_pwrok 1'b1" ;
+comment rem  "force_signal pch_tb.pch.rsmrstb 1'b1" ;
+comment rem  "force_signal pch_tb.bscan_mux_en 1'b1" ;
+label "write_NTIS_STAP_to_disable_dfx_pinmode";
+cycle 1;
+focus_tap NTIS_STAP;
+set TAPNTISWITCH_TESTMODESELCFG_CPU_Ovrd = 1'b0;
+flush;
+label "write_TAPCR";
+cycle 1;
+focus_tap cl_cltapc;
+set TAPCR->RST_AND_ISOLATION_EN = 'h1;
+set TAPCR->BSCANMODEOVR = 'h1;
+set TAPCR->CNVI_FUNC_BSCAN_EN = 'h1;
+set PRELOAD = 35'h7FFFFFFFF;
+set CLTCR3->BSCAN_MODE_BYPASS_DIS = 'h1;
+flush;
+pass itpp "rem: poll_signal pch_tb.pch.parcnv.parcnv_pwell_wrapper.cnv1.cnv_hip_wrapper_inst_0.cnv_hip_inst.u_solar.top_lgc_inst_0.dft_inst_0.fsm_finish 1" ;
+##add delay to allow dphy buffer ready
+cycle 1;
+
+#MPPHY
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP1RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP1RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP2RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP2RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP3RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP3RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP4RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_1->BSCANMP4RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP5RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP5RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP6RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP6RXLVL = 'b01101;
+
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP7RXBIGSWING = 1'h0;
+set BSCAN_MP_PHY_SUBSYSTEM_2->BSCANMP7RXLVL = 'b01101;
+flush;
+
+#USB3
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_1RXBIGSWING = 1'h0;
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_1RXLVL = 'b01101;
+
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_2RXBIGSWING = 1'h0;
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_2RXLVL = 'b01101;
+
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_3RXBIGSWING = 1'h0;
+set BSCAN_USB3_PHY_SUBSYSTEM->BSCANUSB3_3RXLVL = 'b01101;
+flush;
+
+##Release signals before preloading bscan cells
+label "Release_all_signal_force";
+cycle 1;
+pass itpp "vector: gpp_j_7_boothalt_b(Z) prdyb(Z) preqb(Z) trigger_in(Z) ;";
+pass itpp "vector: gpp_j_7_boothalt_b(X) prdyb(X) preqb(X) trigger_in(X) ;";
+cycle 50;
+
+@set tap_incremental_mode off;
+
+pass itpp "no_compress: start;";
+pass itpp "expandata: TCK, 32; ";
+focus_tap cl_cltapc;
+label "preload_bscan_cells";
+tap_raw_shift : ir_tdi = SAMPLE_PRELOAD,
+				dr_tdi = 'b11100100100100100100100100100100100100100100011010101010101010101010101010101010101010101010101010101010110000000000000000000000000000000110000000000000000000000000000000000000101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001011111111111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000110110101011111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011000000000000000000000000000000000000000000000000000000000000010000000000000101111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010101010101010000000000000000000000000000000000010111111111100000000000000000000000000000000000000000000000000000;
+flush;
+cycle 200;
+
+#-----Extest----------
+label "Extest_Begins";
+tap_raw_shift : ir_tdi = EXTEST_PULSE,
+				dr_tdi = 'b11100100100100100100100100100100100100100100011010101010101010101010101010101010101010101010101010101010110000000000000000000000000000000110000000000000000000000000000000000000101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001011111111111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000110110101011111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011000000000000000000000000000000000000000000000000000000000000010000000000000101111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010101010101010000000000000000000000000000000000010111111111100000000000000000000000000000000000000000000000000000;
+flush;
+cycle 1000;
+
+label "Extest_Begins2";
+tap_raw_shift : ir_tdi = EXTEST_PULSE;
+flush;
+cycle 1000;
+
+## Now generate the compares
+label "check_pads";
+pass itpp "vector: pcie_24_txp(X) pcie_23_txp(X) pcie_22_txp(X) pcie_21_txp(X) pcie_1_txp(X) pcie_2_txp(X) pcie_3_lan_0a_txp(X) pcie_4_txp(X) pcie_5_txp(X) pcie_6_txp(X) pcie_7_lan_0b_txp(X) pcie_8_txp(X) pcie_9_tsn_0_txp(X) pcie_10_tsn_1_txp(X) pcie_11_txp(X) pcie_12_txp(X) pcie_17_sata_4_txp(X) pcie_18_sata_5_txp(X) pcie_19_sata_6_txp(X) pcie_20_sata_7_txp(X) pcie_13_sata_0_txp(X) pcie_14_sata_1_txp(X) pcie_15_sata_2_lan_0c_txp(X) pcie_16_sata_3_txp(X) pcie_24_txn(X) pcie_23_txn(X) pcie_22_txn(X) pcie_21_txn(X) pcie_1_txn(X) pcie_2_txn(X) pcie_3_lan_0a_txn(X) pcie_4_txn(X) pcie_5_txn(X) pcie_6_txn(X) pcie_7_lan_0b_txn(X) pcie_8_txn(X) pcie_9_tsn_0_txn(X) pcie_10_tsn_1_txn(X) pcie_11_txn(X) pcie_12_txn(X) pcie_17_sata_4_txn(X) pcie_18_sata_5_txn(X) pcie_19_sata_6_txn(X) pcie_20_sata_7_txn(X) pcie_13_sata_0_txn(X) pcie_14_sata_1_txn(X) pcie_15_sata_2_lan_0c_txn(X) pcie_16_sata_3_txn(X) usb31_1_txp(X) usb31_2_txp(X) usb31_3_txp(X) usb31_4_txp(X) usb31_5_txp(X) usb31_6_txp(X) usb31_7_txp(X) usb31_8_txp(X) usb31_9_txp(X) usb31_10_txp(X) usb31_1_txn(X) usb31_2_txn(X) usb31_3_txn(X) usb31_4_txn(X) usb31_5_txn(X) usb31_6_txn(X) usb31_7_txn(X) usb31_8_txn(X) usb31_9_txn(X) usb31_10_txn(X) 64;";
+pass itpp "vector: pcie_24_txp(L) pcie_23_txp(L) pcie_22_txp(L) pcie_21_txp(L) pcie_1_txp(L) pcie_2_txp(L) pcie_3_lan_0a_txp(L) pcie_4_txp(L) pcie_5_txp(L) pcie_6_txp(L) pcie_7_lan_0b_txp(L) pcie_8_txp(L) pcie_9_tsn_0_txp(L) pcie_10_tsn_1_txp(L) pcie_11_txp(L) pcie_12_txp(L) pcie_17_sata_4_txp(L) pcie_18_sata_5_txp(L) pcie_19_sata_6_txp(L) pcie_20_sata_7_txp(L) pcie_13_sata_0_txp(L) pcie_14_sata_1_txp(L) pcie_15_sata_2_lan_0c_txp(L) pcie_16_sata_3_txp(L) pcie_24_txn(H) pcie_23_txn(H) pcie_22_txn(H) pcie_21_txn(H) pcie_1_txn(H) pcie_2_txn(H) pcie_3_lan_0a_txn(H) pcie_4_txn(H) pcie_5_txn(H) pcie_6_txn(H) pcie_7_lan_0b_txn(H) pcie_8_txn(H) pcie_9_tsn_0_txn(H) pcie_10_tsn_1_txn(H) pcie_11_txn(H) pcie_12_txn(H) pcie_17_sata_4_txn(H) pcie_18_sata_5_txn(H) pcie_19_sata_6_txn(H) pcie_20_sata_7_txn(H) pcie_13_sata_0_txn(H) pcie_14_sata_1_txn(H) pcie_15_sata_2_lan_0c_txn(H) pcie_16_sata_3_txn(H) usb31_1_txp(L) usb31_2_txp(L) usb31_3_txp(L) usb31_4_txp(L) usb31_5_txp(L) usb31_6_txp(L) usb31_7_txp(L) usb31_8_txp(L) usb31_9_txp(L) usb31_10_txp(L) usb31_1_txn(H) usb31_2_txn(H) usb31_3_txn(H) usb31_4_txn(H) usb31_5_txn(H) usb31_6_txn(H) usb31_7_txn(H) usb31_8_txn(H) usb31_9_txn(H) usb31_10_txn(H) ;";
+pass itpp "vector: pcie_24_txp(X) pcie_23_txp(X) pcie_22_txp(X) pcie_21_txp(X) pcie_1_txp(X) pcie_2_txp(X) pcie_3_lan_0a_txp(X) pcie_4_txp(X) pcie_5_txp(X) pcie_6_txp(X) pcie_7_lan_0b_txp(X) pcie_8_txp(X) pcie_9_tsn_0_txp(X) pcie_10_tsn_1_txp(X) pcie_11_txp(X) pcie_12_txp(X) pcie_17_sata_4_txp(X) pcie_18_sata_5_txp(X) pcie_19_sata_6_txp(X) pcie_20_sata_7_txp(X) pcie_13_sata_0_txp(X) pcie_14_sata_1_txp(X) pcie_15_sata_2_lan_0c_txp(X) pcie_16_sata_3_txp(X) pcie_24_txn(X) pcie_23_txn(X) pcie_22_txn(X) pcie_21_txn(X) pcie_1_txn(X) pcie_2_txn(X) pcie_3_lan_0a_txn(X) pcie_4_txn(X) pcie_5_txn(X) pcie_6_txn(X) pcie_7_lan_0b_txn(X) pcie_8_txn(X) pcie_9_tsn_0_txn(X) pcie_10_tsn_1_txn(X) pcie_11_txn(X) pcie_12_txn(X) pcie_17_sata_4_txn(X) pcie_18_sata_5_txn(X) pcie_19_sata_6_txn(X) pcie_20_sata_7_txn(X) pcie_13_sata_0_txn(X) pcie_14_sata_1_txn(X) pcie_15_sata_2_lan_0c_txn(X) pcie_16_sata_3_txn(X) usb31_1_txp(X) usb31_2_txp(X) usb31_3_txp(X) usb31_4_txp(X) usb31_5_txp(X) usb31_6_txp(X) usb31_7_txp(X) usb31_8_txp(X) usb31_9_txp(X) usb31_10_txp(X) usb31_1_txn(X) usb31_2_txn(X) usb31_3_txn(X) usb31_4_txn(X) usb31_5_txn(X) usb31_6_txn(X) usb31_7_txn(X) usb31_8_txn(X) usb31_9_txn(X) usb31_10_txn(X) 2;";
+
+cycle 200;
+
+pass itpp "no_compress: stop;";
+pass itpp "rem: KKL TEST END";
