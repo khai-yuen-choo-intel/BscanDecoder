@@ -22,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="label_insert.py" />
     <Compile Include="BscanDecoder.py" />
     <Compile Include="bsdlinterpreter.py">
       <SubType>Code</SubType>
@@ -29,15 +30,23 @@
     <Compile Include="bsdl_lib.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="chain_segment.py" />
+    <Compile Include="configjson.py" />
     <Compile Include="filesetup.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="bin2hex.py" />
+    <Compile Include="add_lib.py" />
+    <Compile Include="forcepeek_conversion.py" />
+    <Compile Include="lkg_file.py" />
+    <Compile Include="prod_decode.py" />
     <Compile Include="ruleschecker.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="spffield.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="derive_spf.py" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.10" />

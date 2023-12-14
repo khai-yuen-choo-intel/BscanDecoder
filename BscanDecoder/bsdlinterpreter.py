@@ -76,6 +76,72 @@ class BSDLInterpreter:
 
         return toggle_list
 
+    def getDifferentialPinDict(self):
+
+        differential_dict = {}
+
+        with open(self.bsdlfilepath, "r") as bsdlfile:
+            bsdlline = bsdlfile.readlines()
+            start_line =  None
+
+            for line_num, line in enumerate (bsdlline):
+                if 'PORT_GROUPING' in line:
+                    start_line = line_num + 1
+
+                if start_line != None:
+                    if ";" in line:
+                        end_line = line_num + 1
+                        break
+            
+            try:
+                differential_segment = bsdlline[start_line:end_line]
+            except:
+                print('No PORT_GROUPING segment in BSDL!!!!\n')
+                return {}
+
+            for line in differential_segment:
+
+                if "Differential_Voltage" in line:
+                    try:
+                        pin_info = removeSymbol(line[line.find("(") + 1:line.find(")") + 1])
+                        pin_P = pin_info.split(",")[0].strip()
+                        pin_N = pin_info.split(",")[1].strip()
+                        differential_dict[pin_P] = pin_N
+                        differential_dict[pin_N] = pin_P
+                    except:
+                        continue
+
+        return differential_dict
+
+    def getOpcodeDict(self):
+        opcode_Dict = {}
+
+        with open(self.bsdlfilepath, "r") as bsdlfile:
+            bsdlline = bsdlfile.readlines()
+            start_line =  None
+
+            for line_num, line in enumerate (bsdlline):
+                if 'INSTRUCTION_OPCODE' in line:
+                    start_line = line_num + 1
+
+                if start_line != None:
+                    if ";" in line:
+                        end_line = line_num + 1
+                        break
+            
+            try:
+                opcode_segment = bsdlline[start_line:end_line]
+            except:
+                print('No INSTRUCTION_OPCODE segment in BSDL!!!!\n')
+                return {}
+
+            for line in opcode_segment:
+                opcode = line[line.find("\"") + 1:line.find("(")].strip()
+                value = line[line.find("(") + 1:line.find(")")].strip()
+                opcode_Dict[opcode] = value 
+
+        return opcode_Dict
+
     def bsdl2ObjList(self):
 
         bsdlObjList = []
@@ -83,6 +149,8 @@ class BSDLInterpreter:
         ACIO_List = self.getACIOList()
 
         Toggle_List = self.getToggleList()
+
+        Differential_Dict = self.getDifferentialPinDict()
 
         with open(self.bsdlfilepath, "r") as bsdlfile:
             bsdlline = bsdlfile.readlines()
@@ -114,6 +182,7 @@ class BSDLInterpreter:
 
                 bsdlObj.cell = bsdlinfo[0].strip()
                 bsdlObj.port = bsdlinfo[1].strip()
+                
                 '''
                 for ACIO in ACIO_List:
                     if bsdlObj.port in ACIO:
@@ -140,9 +209,22 @@ class BSDLInterpreter:
                 except:
                     bsdlObj.rslt = ""
                 
-                bsdlObj.acio = True if bsdlObj.port in ACIO_List else False
 
-                bsdlObj.toggle = True if bsdlObj.port in Toggle_List else False
+                if bsdlObj.is_pin():
+
+                    bsdlObj.pinmap = bsdlinfo[1].strip()
+
+                    bsdlObj.channel = True
+
+                    bsdlObj.acio = True if bsdlObj.port in ACIO_List else False
+
+                    bsdlObj.toggle = True if bsdlObj.port in Toggle_List else False
+
+                    if bsdlObj.port in Differential_Dict:
+                        diffObj = bL.Bsdl.differentialPair()
+                        diffObj.port = Differential_Dict[bsdlObj.port]
+                        diffObj.pinmap = Differential_Dict[bsdlObj.port]
+                        bsdlObj.differential = diffObj
 
                 bsdlObjList.append(bsdlObj)
 
@@ -156,7 +238,7 @@ class BSDLInterpreter:
         bsdl_df = bsdl_df.fillna("")
         bsdl_dict = bsdl_df.to_dict()
 
-        bsdlheaderlist = ['num','port','cell','function','safe','disval','acio','toggle']
+        bsdlheaderlist = ['num','port','cell','function','safe','disval','rslt','acio','toggle']
         bsdlkeylist = bsdl_df.columns
 
         if not (set(bsdlheaderlist).issubset(set(bsdlkeylist))):
@@ -175,6 +257,16 @@ class BSDLInterpreter:
             bsdlObj.rslt = str(bsdl_dict['rslt'][i]).strip()
             bsdlObj.acio = True if str(bsdl_dict['acio'][i]).strip().lower() == 'true' else False
             bsdlObj.toggle = True if str(bsdl_dict['toggle'][i]).strip().lower() == 'true' else False
+
+            try:
+                diff_value = str(bsdl_dict['differential'][i]).strip()
+                if diff_value:
+                    bsdlObj.differential = bL.Bsdl.differentialPair()
+                    bsdlObj.differential.port = diff_value
+                    bsdlObj.differential.pinmap = diff_value
+            except:
+                continue
+
             bsdlObjList.append(bsdlObj)
 
         return bsdlObjList

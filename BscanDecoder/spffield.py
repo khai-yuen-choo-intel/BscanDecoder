@@ -10,10 +10,14 @@ class SpfField:
         self.function = function
         self.safe = safe
         self.acio = acio
+        self.toggle = None
+        self.pinmap = None
+        self.channel = None
+        self.socket = None
         self.write = write
         self.read = read
         self.rpt = rpt
-        self.pinmap = field
+
 
     def __repr__(self):
        return "Type:{}, Tap:{}, Reg:{}, Field:{}, Cell:{}, Function:{}, Write:{}, Read:{}\n".format(self.configurationType,self.focus_tap,self.register,self.field,self.cell,self.function,self.write,self.read)
@@ -73,6 +77,9 @@ class SpfField:
             return 1 if self.write != self.safe else 0
         return 0
 
+    def is_strobe(self):
+        return 1 if 'bsdlmapped' in self.configurationType and self.read in self.strobe_charlist else 0
+
     def is_bidirstrobe(self):
         if self.function == "bidir":
             return 1 if self.read in self.strobe_charlist else 0
@@ -109,6 +116,11 @@ class SpfField:
             return 1 if self.write == "0" else 0
         return 0
 
+    def is_vectorforceZ(self):
+        if self.configurationType == "vector":
+            return 1 if self.write == "Z" else 0
+        return 0
+
     def is_vectorstrobehigh(self):
         if self.configurationType == "vector":
             return 1 if self.write == "H" else 0
@@ -117,6 +129,11 @@ class SpfField:
     def is_vectorstrobelow(self):
         if self.configurationType == "vector":
             return 1 if self.write == "L" else 0
+        return 0
+
+    def is_vectorstrobeX(self):
+        if self.configurationType == "vector":
+            return 1 if self.write == "X" else 0
         return 0
 
     def is_vectorstroberptcountmorethan10(self):
@@ -137,3 +154,4 @@ class SpfField:
 
     def is_failtoprocess(self):
         return 1 if self.configurationType == "Fail-to-Process" else 0
+

@@ -1,8 +1,10 @@
 import os
 import shutil
 
-drive_path = "\\\\gar.corp.intel.com\\ec\\proj\\mdl\\pg\\intel\\engineering\\dev\\team_pgm_analog\\khaiyuen\\Tools\\Python\\BscanDecoder" 
+#drive_path = "\\\\gar.corp.intel.com\\ec\\proj\\mdl\\pg\\intel\\engineering\\dev\\team_pgm_analog\\khaiyuen\\Tools\\Python\\BscanDecoder" 
 workdir = os.getcwd()
+
+basicPath = ['1_COLLATERAL', '2_SPF', '3_ITPP']
 
 def getProductCode():
 
@@ -13,7 +15,6 @@ def getProductCode():
 
         prodcode_exist = False
         if confirmUserInput.lower() == 'y':
-            basicPath = ['COLLATERAL', 'SPF', 'ITPP']
             for path in basicPath:
                 if os.path.exists("{}\\{}\\{}".format(workdir,path,userInput)):
                     prodcode_exist = True
@@ -25,8 +26,6 @@ def getProductCode():
 
 def setupBasicFolder(prod):
 
-    basicPath = ['COLLATERAL', 'SPF', 'ITPP']
-
     print("\nCheck/Create Folder Structure:")
 
     for path in basicPath:
@@ -36,17 +35,39 @@ def setupBasicFolder(prod):
 
     print("\n")
 
+'''
 def copyBasicCollateral():
     
-    collateral_path = "{}\\{}".format(drive_path, 'COLLATERAL\\COMMON')
-    dest_path = "{}\\{}".format(workdir, 'COLLATERAL\\COMMON')
+    collateral_path = os.path.join(drive_path, basicPath[0], "COMMON")
+    dest_path = os.path.join(workdir, basicPath[0], "COMMON")
     if os.path.exists(collateral_path) and not os.path.exists(dest_path):
         shutil.copytree(collateral_path,dest_path)
         print('Folder ({}) copied to ({}) \n'.format(collateral_path, dest_path))
+'''
+
+def generateRuleFile():
+    rulesfile_path = os.path.join(workdir, basicPath[0], "COMMON", "rulesfile.csv")
+    if not os.path.exists(rulesfile_path):
+        testlist_Dict = {
+            "*input*":"1.1,1.2,1.3,1.4",
+            "*vix*":"1.1,1.2,1.3,1.4",
+            "*output*":"2.1,2.2,2.3,2.5",
+            "*vox*":"2.1,2.2,2.3",
+            "*toggle*":"3.1,2.2,2.4",
+            "*train*":"6.1,6.2,6.3",
+            "*pulse*":"6.1,6.2,6.3"
+            }
+
+        with open(rulesfile_path, "w") as rulesfile:
+            rulesfile.writelines('TEST_FILE,RULES_SET\n')
+            for key in testlist_Dict:
+                rulesfile.writelines('{},"{}"\n'.format(key,testlist_Dict[key]))
+
+        print("{} ---------------------------- CREATED".format(rulesfile_path))
 
 def getProductBSDL(prod):
 
-    bsdl_path = "{}\\COLLATERAL\\{}".format(workdir,prod)
+    bsdl_path = "{}\\{}\\{}".format(workdir,basicPath[0],prod)
 
     while(True):
         userInput = input('BSDL File Path: ')
@@ -81,7 +102,7 @@ def getProductSPF(prod):
         userInput = input('Upload SPF? (Y/N): ')
 
         if userInput.lower() == 'y':
-            destination_folder = "{}\\SPF\\{}".format(workdir,prod)
+            destination_folder = "{}\\{}\\{}".format(workdir,basicPath[1],prod)
         else:
             print('Upload SPF skipped.\n')
             break
@@ -114,7 +135,7 @@ def getProductITPP(prod):
         userInput = input('Upload ITPP? (Y/N): ')
 
         if userInput.lower() == 'y':
-            destination_folder = "{}\\ITPP\\{}".format(workdir,prod)
+            destination_folder = "{}\\{}\\{}".format(workdir,basicPath[2],prod)
         else:
             print('Upload ITPP skipped.\n')
             break
@@ -137,7 +158,8 @@ class FileSetup:
 
         setupBasicFolder(prodCode)
 
-        copyBasicCollateral()
+        #copyBasicCollateral()
+        generateRuleFile()
 
         getProductBSDL(prodCode)   
         
@@ -149,10 +171,9 @@ class FileSetup:
 
         prodlist = []
 
-        spfFolder = "{}\\SPF".format(workdir)
-        itppFolder = "{}\\ITPP".format(workdir)
+        spfFolder = "{}\\{}".format(workdir, basicPath[1])
+        itppFolder = "{}\\{}".format(workdir, basicPath[2])
 
-        basicPath = ['COLLATERAL', 'SPF', 'ITPP']
 
         while(True):
             

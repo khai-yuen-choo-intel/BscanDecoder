@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(
-    ['BscanDecoder.py'],
+    ['BscanDecoder\\BscanDecoder.py'],
     pathex=[],
     binaries=[],
     datas=[],
