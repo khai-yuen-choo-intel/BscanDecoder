@@ -46,8 +46,16 @@ def copyBasicCollateral():
 '''
 
 def generateRuleFile():
-    rulesfile_path = os.path.join(workdir, basicPath[0], "COMMON", "rulesfile.csv")
+    rulesfile_folder = os.path.join(workdir, basicPath[0], "COMMON")
+    if not os.path.exists(rulesfile_folder):
+        os.mkdir(rulesfile_folder)
+        print("{} ---------------------------- CREATED".format(rulesfile_folder))
+
+    rulesfile_path = os.path.join(rulesfile_folder, "rulesfile.csv")
     if not os.path.exists(rulesfile_path):
+
+        
+
         testlist_Dict = {
             "*input*":"1.1,1.2,1.3,1.4",
             "*vix*":"1.1,1.2,1.3,1.4",

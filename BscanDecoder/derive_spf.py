@@ -186,7 +186,8 @@ def derive_ss_spf(setupObj):
                     drtdi_list.reverse()
                     drtdo_list.reverse()
 
-                    start_bit = delayBit[segsel_index] + 1
+                    #start_bit = delayBit[segsel_index] + 1
+                    start_bit = shortChainBit[shortChainBit.index(segsel) - 1] + 1
                     end_bit = segsel
                     new_tdi = []
                     new_tdo = []
